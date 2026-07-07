@@ -20,13 +20,13 @@ struct WeeklySummaryCardView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .firstTextBaseline, spacing: 4) {
                         Text("\(daysCompleted)")
-                            .font(.system(size: 30, weight: .bold))
+                            .font(.bloo(30, weight: .bold))
                             .foregroundStyle(accentColor)
                         Text("/ 7 days")
-                            .font(.system(size: 16, weight: .medium))
+                            .font(.bloo(16, weight: .medium))
                     }
                     Text("completed")
-                        .font(.system(size: 13))
+                        .font(.bloo(13))
                         .foregroundStyle(.secondary)
                 }
 
@@ -41,10 +41,10 @@ struct WeeklySummaryCardView: View {
 
             HStack(alignment: .firstTextBaseline, spacing: 4) {
                 Text("+\(xpEarnedThisWeek)")
-                    .font(.system(size: 24, weight: .bold))
+                    .font(.bloo(24, weight: .bold))
                     .foregroundStyle(accentColor)
                 Text("XP earned!")
-                    .font(.system(size: 14))
+                    .font(.bloo(14))
                     .foregroundStyle(.secondary)
             }
 
@@ -76,12 +76,12 @@ struct WeeklySummaryCardView: View {
                     .frame(width: 22, height: 22)
                 if isDone {
                     Image(systemName: "checkmark")
-                        .font(.system(size: 10, weight: .bold))
+                        .font(.bloo(10, weight: .bold))
                         .foregroundStyle(.white)
                 }
             }
             Text(weekdayLabel(for: date))
-                .font(.system(size: 10))
+                .font(.bloo(10))
                 .foregroundStyle(.secondary)
         }
     }

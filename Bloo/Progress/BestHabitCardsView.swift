@@ -22,13 +22,13 @@ struct BestHabitCardsView: View {
     private func card(title: String, habitName: String, days: Int, valueColor: Color) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(title)
-                .font(.system(size: 13))
+                .font(.bloo(13))
                 .foregroundStyle(.secondary)
             Text(habitName)
-                .font(.system(size: 16, weight: .semibold))
+                .font(.bloo(16, weight: .semibold))
                 .lineLimit(1)
             Text("\(days) Day\(days == 1 ? "" : "s")")
-                .font(.system(size: 15, weight: .semibold))
+                .font(.bloo(15, weight: .semibold))
                 .foregroundStyle(valueColor)
         }
         .frame(maxWidth: .infinity, alignment: .leading)

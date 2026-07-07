@@ -23,9 +23,9 @@ struct ChooseBlooView: View {
             Spacer().frame(height: 60)
 
             Text("Choose your Bloo")
-                .font(.system(size: 32, weight: .semibold))
+                .font(.bloo(32, weight: .semibold))
             Text("Pick your companion. It'll grow with you.")
-                .font(.system(size: 17))
+                .font(.bloo(17))
                 .foregroundStyle(.secondary)
 
             LazyVGrid(columns: columns, spacing: 16) {

@@ -63,7 +63,7 @@ struct AddEditHabitView: View {
                     dismiss()
                 } label: {
                     Image(systemName: "arrow.left")
-                        .font(.system(size: 18, weight: .medium))
+                        .font(.bloo(18, weight: .medium))
                         .foregroundStyle(.black)
                         .padding(10)
                         .background(Color.white)
@@ -73,10 +73,10 @@ struct AddEditHabitView: View {
                 .padding(.top, 8)
 
                 Text(isNew ? "New Habit" : "Edit Habit")
-                    .font(.system(size: 30, weight: .semibold))
+                    .font(.bloo(30, weight: .semibold))
 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Habit name").font(.system(size: 14)).foregroundStyle(.secondary)
+                    Text("Habit name").font(.bloo(14)).foregroundStyle(.secondary)
                     TextField("", text: $name)
                         .padding(.vertical, 14)
                         .padding(.horizontal, 18)
@@ -84,14 +84,14 @@ struct AddEditHabitView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Repeat").font(.system(size: 14)).foregroundStyle(.secondary)
+                    Text("Repeat").font(.bloo(14)).foregroundStyle(.secondary)
                     WeekdayPickerView(selectedDays: $selectedDays)
                         .padding(16)
                         .blooFieldBackground()
                 }
 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Reminder").font(.system(size: 14)).foregroundStyle(.secondary)
+                    Text("Reminder").font(.bloo(14)).foregroundStyle(.secondary)
                     HStack {
                         Image(systemName: "bell")
                             .foregroundStyle(.secondary)
@@ -108,7 +108,7 @@ struct AddEditHabitView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Note (Optional)").font(.system(size: 14)).foregroundStyle(.secondary)
+                    Text("Note (Optional)").font(.bloo(14)).foregroundStyle(.secondary)
                     TextEditor(text: $note)
                         .frame(height: 100)
                         .padding(10)
@@ -119,7 +119,7 @@ struct AddEditHabitView: View {
                             }
                         }
                     Text("\(note.count)/\(noteCharacterLimit)")
-                        .font(.system(size: 12))
+                        .font(.bloo(12))
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
@@ -146,7 +146,7 @@ struct AddEditHabitView: View {
                         onDelete()
                         dismiss()
                     }
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.bloo(16, weight: .semibold))
                     .foregroundStyle(.red)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)

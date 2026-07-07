@@ -13,10 +13,10 @@ struct OnboardingWelcomeView: View {
             Spacer().frame(height: 60)
 
             Text("Something is hatching...")
-                .font(.system(size: 32, weight: .semibold))
+                .font(.bloo(32, weight: .semibold))
                 .foregroundStyle(.black)
             Text("Build habits. Watch it grow.")
-                .font(.system(size: 17))
+                .font(.bloo(17))
                 .foregroundStyle(.secondary)
 
             Spacer()

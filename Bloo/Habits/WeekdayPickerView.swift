@@ -42,12 +42,12 @@ struct WeekdayPickerView: View {
                                 .overlay {
                                     if isOn {
                                         Image(systemName: "checkmark")
-                                            .font(.system(size: 13, weight: .bold))
+                                            .font(.bloo(13, weight: .bold))
                                             .foregroundStyle(.white)
                                     }
                                 }
                             Text(shortLabel(for: day))
-                                .font(.system(size: 12))
+                                .font(.bloo(12))
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -58,7 +58,7 @@ struct WeekdayPickerView: View {
             HStack(spacing: 8) {
                 ForEach(Preset.allCases, id: \.self) { preset in
                     Button(preset.rawValue) { apply(preset) }
-                        .font(.system(size: 13, weight: .medium))
+                        .font(.bloo(13, weight: .medium))
                         .foregroundStyle(.black)
                         .padding(.vertical, 8)
                         .frame(maxWidth: .infinity)

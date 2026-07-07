@@ -29,7 +29,7 @@ struct GrowthCardView: View {
                 .frame(height: 6)
 
                 Text("\(displayName) is growing 🌱")
-                    .font(.system(size: 13))
+                    .font(.bloo(13))
                     .italic()
                     .foregroundStyle(.secondary)
             }

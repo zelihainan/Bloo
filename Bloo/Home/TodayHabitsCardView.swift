@@ -19,11 +19,11 @@ struct TodayHabitsCardView: View {
         VStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 16) {
                 Text("Today's habits")
-                    .font(.system(size: 20, weight: .semibold))
+                    .font(.bloo(20, weight: .semibold))
 
                 if habits.isEmpty {
                     Text("No habits scheduled for today.")
-                        .font(.system(size: 15))
+                        .font(.bloo(15))
                         .foregroundStyle(.secondary)
                         .padding(.vertical, 8)
                 } else {
@@ -44,7 +44,7 @@ struct TodayHabitsCardView: View {
 
             Button(action: onAddHabit) {
                 Label("Add a habit", systemImage: "plus.circle.fill")
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.bloo(15, weight: .semibold))
                     .foregroundStyle(.black)
                     .padding(.vertical, 10)
                     .padding(.horizontal, 18)
@@ -63,10 +63,10 @@ struct TodayHabitsCardView: View {
             } label: {
                 Image(systemName: completed ? "checkmark.square.fill" : "square")
                     .foregroundStyle(completed ? .green : .secondary)
-                    .font(.system(size: 20))
+                    .font(.bloo(20))
             }
             Text(habit.name)
-                .font(.system(size: 16))
+                .font(.bloo(16))
                 .strikethrough(completed)
                 .foregroundStyle(completed ? .secondary : .primary)
             Spacer()

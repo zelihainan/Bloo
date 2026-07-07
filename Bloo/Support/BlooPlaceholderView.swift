@@ -18,7 +18,7 @@ struct BlooPlaceholderView: View {
             Circle()
                 .fill(isLocked ? Color.gray.opacity(0.12) : color.opacity(0.18))
             Image(systemName: isLocked ? "lock.fill" : "pawprint.fill")
-                .font(.system(size: 28, weight: .medium))
+                .font(.bloo(28, weight: .medium))
                 .foregroundStyle(isLocked ? Color.gray.opacity(0.45) : color)
         }
     }
@@ -31,7 +31,7 @@ struct EggPlaceholderView: View {
         ZStack {
             Circle().fill(color.opacity(0.15))
             Image(systemName: "sparkles")
-                .font(.system(size: 44, weight: .medium))
+                .font(.bloo(44, weight: .medium))
                 .foregroundStyle(color)
         }
     }

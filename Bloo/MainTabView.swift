@@ -31,9 +31,9 @@ private struct PlaceholderTabView: View {
     var body: some View {
         VStack(spacing: 8) {
             Text(title)
-                .font(.system(size: 28, weight: .semibold))
+                .font(.bloo(28, weight: .semibold))
             Text("Coming soon")
-                .font(.system(size: 15))
+                .font(.bloo(15))
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

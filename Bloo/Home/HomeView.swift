@@ -95,14 +95,14 @@ struct HomeView: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(greeting)
-                    .font(.system(size: 30, weight: .semibold))
+                    .font(.bloo(30, weight: .semibold))
                 Text("Let's build great habits together.")
-                    .font(.system(size: 16))
+                    .font(.bloo(16))
                     .foregroundStyle(.secondary)
             }
             Spacer()
             Text("Day \(dayNumber)")
-                .font(.system(size: 13, weight: .medium))
+                .font(.bloo(13, weight: .medium))
                 .foregroundStyle(.secondary)
                 .padding(.vertical, 6)
                 .padding(.horizontal, 14)

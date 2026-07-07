@@ -67,9 +67,9 @@ struct ProgressScreenView: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Progress")
-                    .font(.system(size: 32, weight: .semibold))
+                    .font(.bloo(32, weight: .semibold))
                 Text("See how far \(displayName) has grown!")
-                    .font(.system(size: 15))
+                    .font(.bloo(15))
                     .foregroundStyle(.secondary)
             }
             Spacer()

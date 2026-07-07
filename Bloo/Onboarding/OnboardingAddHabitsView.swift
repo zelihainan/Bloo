@@ -33,9 +33,9 @@ struct OnboardingAddHabitsView: View {
             Spacer().frame(height: 60)
 
             Text("Your first habits")
-                .font(.system(size: 32, weight: .semibold))
+                .font(.bloo(32, weight: .semibold))
             Text("Start small. Bloo will remind you.")
-                .font(.system(size: 17))
+                .font(.bloo(17))
                 .foregroundStyle(.secondary)
 
             ScrollView {
@@ -53,7 +53,7 @@ struct OnboardingAddHabitsView: View {
                     presentedSheet = .new
                 } label: {
                     Label("Add a habit", systemImage: "plus.circle.fill")
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.bloo(15, weight: .semibold))
                         .foregroundStyle(.black)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 18)
@@ -96,7 +96,7 @@ struct OnboardingAddHabitsView: View {
             Image(systemName: "square")
                 .foregroundStyle(.secondary)
             Text(habit.name)
-                .font(.system(size: 16))
+                .font(.bloo(16))
             Spacer()
             Button {
                 presentedSheet = .edit(habit)

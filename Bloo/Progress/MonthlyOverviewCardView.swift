@@ -27,12 +27,12 @@ struct MonthlyOverviewCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Monthly overview")
-                .font(.system(size: 20, weight: .semibold))
+                .font(.bloo(20, weight: .semibold))
 
             HStack {
                 ForEach(weekdayHeaders.indices, id: \.self) { index in
                     Text(weekdayHeaders[index])
-                        .font(.system(size: 12))
+                        .font(.bloo(12))
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity)
                 }
@@ -71,7 +71,7 @@ struct MonthlyOverviewCardView: View {
         HStack(spacing: 6) {
             Circle().fill(color).frame(width: 8, height: 8)
             Text(label)
-                .font(.system(size: 11))
+                .font(.bloo(11))
                 .foregroundStyle(.secondary)
         }
     }

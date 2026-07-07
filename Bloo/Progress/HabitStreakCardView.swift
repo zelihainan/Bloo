@@ -21,17 +21,17 @@ struct HabitStreakCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Habit streak")
-                .font(.system(size: 20, weight: .semibold))
+                .font(.bloo(20, weight: .semibold))
 
             VStack(spacing: 14) {
                 ForEach(rows) { row in
                     VStack(alignment: .leading, spacing: 6) {
                         HStack {
                             Text(row.habit.name)
-                                .font(.system(size: 15))
+                                .font(.bloo(15))
                             Spacer()
                             Text("\(row.streak) Day\(row.streak == 1 ? "" : "s")")
-                                .font(.system(size: 13, weight: .medium))
+                                .font(.bloo(13, weight: .medium))
                                 .foregroundStyle(.secondary)
                         }
                         GeometryReader { proxy in

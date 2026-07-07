@@ -17,9 +17,9 @@ struct NameBlooView: View {
             Spacer().frame(height: 60)
 
             Text("What's your Bloo's name?")
-                .font(.system(size: 30, weight: .semibold))
+                .font(.bloo(30, weight: .semibold))
             Text("This name is just between you two.")
-                .font(.system(size: 17))
+                .font(.bloo(17))
                 .foregroundStyle(.secondary)
 
             Spacer()
@@ -31,7 +31,7 @@ struct NameBlooView: View {
             Spacer()
 
             TextField("Give it a name...", text: $name)
-                .font(.system(size: 17))
+                .font(.bloo(17))
                 .padding(.vertical, 16)
                 .padding(.horizontal, 20)
                 .blooFieldBackground()
