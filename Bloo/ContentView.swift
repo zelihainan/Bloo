@@ -2,60 +2,31 @@
 //  ContentView.swift
 //  Bloo
 //
-//  Created by Zeliha İnan on 7.07.2026.
-//
 
 import SwiftUI
 import SwiftData
 
+/// Temporary root view for verifying the model layer. Replaced by the onboarding/
+/// tab-bar flow in the next milestone.
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @Query(sort: \Bloo.speciesRawValue) private var bloos: [Bloo]
 
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+        NavigationStack {
+            List(bloos) { bloo in
+                HStack {
+                    Text(bloo.species.assetName)
+                    Spacer()
+                    Text(bloo.state.rawValue.capitalized)
+                        .foregroundStyle(.secondary)
                 }
             }
-        } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
+            .navigationTitle("Bloo")
         }
     }
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: Bloo.self, inMemory: true)
 }

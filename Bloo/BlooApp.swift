@@ -12,12 +12,18 @@ import SwiftData
 struct BlooApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Bloo.self,
+            Habit.self,
+            HabitCompletion.self,
+            DailyLog.self,
+            Badge.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
+            Bloo.bootstrapSpeciesIfNeeded(in: container.mainContext)
+            return container
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
