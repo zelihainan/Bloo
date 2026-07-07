@@ -20,8 +20,7 @@ struct RootView: View {
     var body: some View {
         Group {
             if hasCompletedOnboarding {
-                // Placeholder until the Home/Progress/Collections/Settings tab bar is built.
-                ContentView()
+                MainTabView()
             } else {
                 OnboardingContainerView()
             }

@@ -7,7 +7,7 @@ import Foundation
 
 /// The 8 achievements shown on the Collections screen. Display title/description
 /// strings are localized where the Collections UI is built (String Catalog).
-enum BadgeType: String, CaseIterable, Codable, Identifiable {
+enum BadgeType: String, CaseIterable, Codable, Identifiable, Hashable {
     case firstStep        // Complete your first habit
     case perfectDay        // Complete all habits in one day
     case sevenDayStreak    // Stay consistent for 7 days
