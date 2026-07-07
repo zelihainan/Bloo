@@ -5,15 +5,15 @@
 
 import SwiftUI
 
-/// Home / Progress / Collections / Settings tab bar. Only Home is built out so
-/// far — the other three are lightweight placeholders until their milestones.
+/// Home / Progress / Collections / Settings tab bar. Collections and Settings
+/// are still lightweight placeholders until their milestones.
 struct MainTabView: View {
     var body: some View {
         TabView {
             HomeView()
                 .tabItem { Label("Home", systemImage: "house.fill") }
 
-            PlaceholderTabView(title: "Progress")
+            ProgressScreenView()
                 .tabItem { Label("Progress", systemImage: "chart.bar.fill") }
 
             PlaceholderTabView(title: "Collections")

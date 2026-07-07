@@ -1,0 +1,43 @@
+//
+//  BestHabitCardsView.swift
+//  Bloo
+//
+
+import SwiftUI
+
+/// Side-by-side "Best habit" / "Needs attention" cards.
+struct BestHabitCardsView: View {
+    let bestHabit: Habit
+    let bestStreak: Int
+    let worstHabit: Habit
+    let worstStreak: Int
+
+    var body: some View {
+        HStack(spacing: 16) {
+            card(title: "Best habit", habitName: bestHabit.name, days: bestStreak, valueColor: .green)
+            card(title: "Needs attention", habitName: worstHabit.name, days: worstStreak, valueColor: .orange)
+        }
+    }
+
+    private func card(title: String, habitName: String, days: Int, valueColor: Color) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(title)
+                .font(.system(size: 13))
+                .foregroundStyle(.secondary)
+            Text(habitName)
+                .font(.system(size: 16, weight: .semibold))
+                .lineLimit(1)
+            Text("\(days) Day\(days == 1 ? "" : "s")")
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(valueColor)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(Color.white)
+        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous)
+                .stroke(BlooTheme.cardBorder, lineWidth: 1)
+        )
+    }
+}
