@@ -24,7 +24,7 @@ struct NameBlooView: View {
 
             Spacer()
 
-            BlooPlaceholderView(species: species)
+            BlooArtworkView(species: species, showsBackdrop: false)
                 .frame(width: 200, height: 200)
                 .frame(maxWidth: .infinity)
 

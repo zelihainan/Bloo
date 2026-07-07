@@ -36,7 +36,8 @@ struct ChooseBlooView: View {
                     Button {
                         selectedSpecies = bloo.species
                     } label: {
-                        BlooPlaceholderView(species: bloo.species, isLocked: !isUnlocked)
+                        BlooArtworkView(species: bloo.species, isLocked: !isUnlocked, showsBackdrop: false)
+                            .padding(12)
                             .aspectRatio(1, contentMode: .fit)
                             .background(Color.white)
                             .clipShape(RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous))

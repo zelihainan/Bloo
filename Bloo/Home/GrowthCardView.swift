@@ -14,7 +14,7 @@ struct GrowthCardView: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            BlooPlaceholderView(species: bloo.species)
+            BlooArtworkView(species: bloo.species)
                 .frame(width: 220, height: 220)
 
             VStack(alignment: .trailing, spacing: 6) {

@@ -74,7 +74,7 @@ struct ProgressScreenView: View {
             }
             Spacer()
             if let activeBloo {
-                BlooPlaceholderView(species: activeBloo.species)
+                BlooArtworkView(species: activeBloo.species, showsBackdrop: false)
                     .frame(width: 64, height: 64)
             }
         }
