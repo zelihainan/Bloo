@@ -5,8 +5,8 @@
 
 import SwiftUI
 
-/// Home / Progress / Collections / Settings tab bar. Collections and Settings
-/// are still lightweight placeholders until their milestones.
+/// Home / Progress / Collections / Settings tab bar. Settings is still a
+/// lightweight placeholder until its milestone.
 struct MainTabView: View {
     var body: some View {
         TabView {
@@ -16,7 +16,7 @@ struct MainTabView: View {
             ProgressScreenView()
                 .tabItem { Label("Progress", systemImage: "chart.bar.fill") }
 
-            PlaceholderTabView(title: "Collections")
+            CollectionsScreenView()
                 .tabItem { Label("Collections", systemImage: "square.grid.2x2.fill") }
 
             PlaceholderTabView(title: "Settings")

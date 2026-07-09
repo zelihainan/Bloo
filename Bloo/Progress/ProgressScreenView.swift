@@ -24,11 +24,6 @@ struct ProgressScreenView: View {
         CalendarWeek.datesInWeek(containing: Date())
     }
 
-    private var displayName: String {
-        guard let name = activeBloo?.customName, !name.isEmpty else { return "your Bloo" }
-        return name
-    }
-
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -68,7 +63,7 @@ struct ProgressScreenView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Progress")
                     .font(.bloo(32, weight: .semibold))
-                Text("See how far \(displayName) has grown!")
+                Text("See how far \(activeBloo?.displayName ?? "your Bloo") has grown!")
                     .font(.bloo(15))
                     .foregroundStyle(.secondary)
             }

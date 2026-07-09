@@ -10,7 +10,6 @@ struct GrowthCardView: View {
     let bloo: Bloo
 
     private var accentColor: Color { Color(hex: bloo.species.colorHex) }
-    private var displayName: String { bloo.customName?.isEmpty == false ? bloo.customName! : "Bloo" }
 
     var body: some View {
         VStack(spacing: 12) {
@@ -28,7 +27,7 @@ struct GrowthCardView: View {
                 }
                 .frame(height: 6)
 
-                Text("\(displayName) is growing 🌱")
+                Text("\(bloo.displayName) is growing 🌱")
                     .font(.bloo(13))
                     .italic()
                     .foregroundStyle(.secondary)

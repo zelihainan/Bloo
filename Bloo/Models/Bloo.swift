@@ -71,6 +71,11 @@ final class Bloo {
 
     var isCompleted: Bool { xp >= XPCalculator.completionThreshold }
 
+    var displayName: String {
+        guard let customName, !customName.isEmpty else { return "your Bloo" }
+        return customName
+    }
+
     /// 0...1 progress within the *current* evolution stage, for the growth bar on Home.
     var stageProgress: Double {
         guard let stage = evolutionStage else { return 1 }
