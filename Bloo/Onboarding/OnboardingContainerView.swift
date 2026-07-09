@@ -19,7 +19,7 @@ struct OnboardingContainerView: View {
     @State private var selectedSpecies: BlooSpecies?
     @State private var blooName: String = ""
 
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage(AppStorageKey.hasCompletedOnboarding) private var hasCompletedOnboarding = false
 
     var body: some View {
         Group {

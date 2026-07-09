@@ -13,6 +13,7 @@ struct OnboardingAddHabitsView: View {
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
 
     @State private var presentedSheet: SheetKind?
+    @AppStorage(AppStorageKey.dailyRemindersEnabled) private var dailyRemindersEnabled = true
 
     private static let maxHabitCount = 10
 
@@ -121,6 +122,7 @@ struct OnboardingAddHabitsView: View {
         )
         modelContext.insert(habit)
         try? modelContext.save()
+        rescheduleNotifications()
     }
 
     private func update(_ habit: Habit, with draft: HabitDraft) {
@@ -130,10 +132,16 @@ struct OnboardingAddHabitsView: View {
         habit.isReminderEnabled = draft.isReminderEnabled
         habit.reminderTime = draft.reminderTime
         try? modelContext.save()
+        rescheduleNotifications()
     }
 
     private func delete(_ habit: Habit) {
         modelContext.delete(habit)
         try? modelContext.save()
+        rescheduleNotifications()
+    }
+
+    private func rescheduleNotifications() {
+        NotificationScheduler.rescheduleAll(context: modelContext, dailyRemindersEnabled: dailyRemindersEnabled)
     }
 }

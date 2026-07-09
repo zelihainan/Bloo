@@ -9,7 +9,7 @@ import SwiftData
 /// Routes between onboarding and the main app, and publishes the active Bloo's
 /// color as the app-wide accent (`blooAccentColor`) for the rest of the tree.
 struct RootView: View {
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage(AppStorageKey.hasCompletedOnboarding) private var hasCompletedOnboarding = false
     @Query(filter: #Predicate<Bloo> { $0.stateRawValue == "active" }) private var activeBloos: [Bloo]
 
     private var accentColor: Color {

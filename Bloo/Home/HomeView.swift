@@ -13,6 +13,7 @@ struct HomeView: View {
 
     @State private var presentedSheet: SheetKind?
     @State private var newCompanionName: String = ""
+    @AppStorage(AppStorageKey.dailyRemindersEnabled) private var dailyRemindersEnabled = true
 
     private enum SheetKind: Identifiable {
         case newHabit
@@ -140,6 +141,7 @@ struct HomeView: View {
         )
         modelContext.insert(habit)
         try? modelContext.save()
+        rescheduleNotifications()
     }
 
     private func update(_ habit: Habit, with draft: HabitDraft) {
@@ -149,10 +151,16 @@ struct HomeView: View {
         habit.isReminderEnabled = draft.isReminderEnabled
         habit.reminderTime = draft.reminderTime
         try? modelContext.save()
+        rescheduleNotifications()
     }
 
     private func delete(_ habit: Habit) {
         modelContext.delete(habit)
         try? modelContext.save()
+        rescheduleNotifications()
+    }
+
+    private func rescheduleNotifications() {
+        NotificationScheduler.rescheduleAll(context: modelContext, dailyRemindersEnabled: dailyRemindersEnabled)
     }
 }

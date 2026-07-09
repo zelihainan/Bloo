@@ -46,7 +46,7 @@ struct WeekdayPickerView: View {
                                             .foregroundStyle(.white)
                                     }
                                 }
-                            Text(shortLabel(for: day))
+                            Text(day.shortLabel)
                                 .font(.bloo(12))
                                 .foregroundStyle(.secondary)
                         }
@@ -87,18 +87,6 @@ struct WeekdayPickerView: View {
         case .weekdays: selectedDays = Set(Weekday.weekdays)
         case .weekends: selectedDays = Set(Weekday.weekendDays)
         case .custom: break
-        }
-    }
-
-    private func shortLabel(for day: Weekday) -> String {
-        switch day {
-        case .monday: "Mon"
-        case .tuesday: "Tue"
-        case .wednesday: "Wed"
-        case .thursday: "Thu"
-        case .friday: "Fri"
-        case .saturday: "Sat"
-        case .sunday: "Sun"
         }
     }
 }

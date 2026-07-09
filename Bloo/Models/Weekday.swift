@@ -19,4 +19,21 @@ enum Weekday: Int, CaseIterable, Codable, Identifiable {
         let mapped = gregorianCalendarWeekday == 1 ? 7 : gregorianCalendarWeekday - 1
         self.init(rawValue: mapped)
     }
+
+    /// The inverse of `init(gregorianCalendarWeekday:)` — for `DateComponents.weekday`, which also uses 1 = Sunday ... 7 = Saturday.
+    var gregorianCalendarWeekday: Int {
+        rawValue == 7 ? 1 : rawValue + 1
+    }
+
+    var shortLabel: String {
+        switch self {
+        case .monday: "Mon"
+        case .tuesday: "Tue"
+        case .wednesday: "Wed"
+        case .thursday: "Thu"
+        case .friday: "Fri"
+        case .saturday: "Sat"
+        case .sunday: "Sun"
+        }
+    }
 }

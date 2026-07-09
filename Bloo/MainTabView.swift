@@ -5,8 +5,7 @@
 
 import SwiftUI
 
-/// Home / Progress / Collections / Settings tab bar. Settings is still a
-/// lightweight placeholder until its milestone.
+/// Home / Progress / Collections / Settings tab bar.
 struct MainTabView: View {
     var body: some View {
         TabView {
@@ -19,24 +18,8 @@ struct MainTabView: View {
             CollectionsScreenView()
                 .tabItem { Label("Collections", systemImage: "square.grid.2x2.fill") }
 
-            PlaceholderTabView(title: "Settings")
+            SettingsScreenView()
                 .tabItem { Label("Settings", systemImage: "gearshape.fill") }
         }
-    }
-}
-
-private struct PlaceholderTabView: View {
-    let title: String
-
-    var body: some View {
-        VStack(spacing: 8) {
-            Text(title)
-                .font(.bloo(28, weight: .semibold))
-            Text("Coming soon")
-                .font(.bloo(15))
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(BlooTheme.background)
     }
 }

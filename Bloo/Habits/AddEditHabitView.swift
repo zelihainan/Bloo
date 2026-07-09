@@ -27,8 +27,13 @@ struct AddEditHabitView: View {
     @State private var reminderTime: Date
     @State private var note: String
 
-    private static let defaultReminderTime = Calendar.current.date(from: DateComponents(hour: 9, minute: 0)) ?? Date()
     private let noteCharacterLimit = 120
+
+    private static func defaultReminderTime() -> Date {
+        let hour = UserDefaults.standard.object(forKey: AppStorageKey.defaultReminderHour) as? Int ?? 9
+        let minute = UserDefaults.standard.object(forKey: AppStorageKey.defaultReminderMinute) as? Int ?? 0
+        return Calendar.current.date(from: DateComponents(hour: hour, minute: minute)) ?? Date()
+    }
 
     init(mode: Mode, onSave: @escaping (HabitDraft) -> Void, onDelete: (() -> Void)? = nil) {
         self.mode = mode
@@ -39,7 +44,7 @@ struct AddEditHabitView: View {
             _name = State(initialValue: "")
             _selectedDays = State(initialValue: Set(Weekday.allCases))
             _isReminderEnabled = State(initialValue: false)
-            _reminderTime = State(initialValue: Self.defaultReminderTime)
+            _reminderTime = State(initialValue: Self.defaultReminderTime())
             _note = State(initialValue: "")
         case .edit(let habit):
             _name = State(initialValue: habit.name)
