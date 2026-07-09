@@ -28,6 +28,7 @@ struct ProgressScreenView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 header
+                    .frame(height: 117) // 40 (icon top) + 77 (icon height), tallest element in the header block
 
                 WeeklySummaryCardView(
                     weekDates: thisWeekDates,
@@ -35,44 +36,54 @@ struct ProgressScreenView: View {
                     xpEarnedThisWeek: xpEarnedThisWeek,
                     accentColor: accentColor
                 )
+                .padding(.horizontal, 20)
 
                 HabitActivityChartView(activity: weeklyActivity, accentColor: accentColor)
+                    .padding(.horizontal, 20)
 
                 if habits.count >= 2, let best = bestHabitRow, let worst = worstHabitRow {
                     BestHabitCardsView(
                         bestHabit: best.habit, bestStreak: best.streak,
                         worstHabit: worst.habit, worstStreak: worst.streak
                     )
+                    .padding(.horizontal, 20)
                 }
 
                 MonthlyOverviewCardView(weeks: CalendarWeek.recentWeeks(4, endingWith: Date()), state: state(for:))
+                    .padding(.horizontal, 20)
 
                 if !habitStreakRows.isEmpty {
                     HabitStreakCardView(rows: habitStreakRows, accentColor: accentColor)
+                        .padding(.horizontal, 20)
                 }
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 60)
             .padding(.bottom, 24)
         }
         .background(BlooTheme.background)
     }
 
     private var header: some View {
-        HStack(alignment: .top) {
-            VStack(alignment: .leading, spacing: 4) {
+        ZStack(alignment: .topLeading) {
+            VStack(alignment: .leading, spacing: 0) {
                 Text("Progress")
-                    .font(.bloo(32, weight: .semibold))
+                    .font(.bloo(28, weight: .semibold))
+                    .foregroundStyle(BlooTheme.primaryText)
+                Spacer().frame(height: 86 - 47.5 - 28)
                 Text("See how far \(activeBloo?.displayName ?? "your Bloo") has grown!")
-                    .font(.bloo(15))
-                    .foregroundStyle(.secondary)
+                    .font(.bloo(13))
+                    .foregroundStyle(BlooTheme.secondaryText)
             }
-            Spacer()
+            .padding(.leading, 52)
+            .padding(.top, 47.5)
+
             if let activeBloo {
                 BlooArtworkView(species: activeBloo.species, showsBackdrop: false)
-                    .frame(width: 64, height: 64)
+                    .frame(width: 77, height: 77)
+                    .padding(.leading, 279)
+                    .padding(.top, 40)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     // MARK: - Derived stats
