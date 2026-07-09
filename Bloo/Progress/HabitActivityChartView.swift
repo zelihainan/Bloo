@@ -23,26 +23,27 @@ struct HabitActivityChartView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Text("Habit activity")
-                    .font(.bloo(18, weight: .semibold))
-                    .foregroundStyle(BlooTheme.primaryText)
+                    .font(.bloo(13, weight: .medium))
+                    .foregroundStyle(BlooTheme.secondaryText)
                 Spacer()
                 Text("This week")
-                    .font(.bloo(13))
-                    .foregroundStyle(BlooTheme.secondaryText)
+                    .font(.bloo(9))
+                    .foregroundStyle(BlooTheme.tertiaryText)
             }
 
             Chart(activity) { day in
                 BarMark(
                     x: .value("Day", weekdayLabel(for: day.date)),
-                    y: .value("Completed", day.completedCount)
+                    y: .value("Completed", day.completedCount),
+                    width: .fixed(15)
                 )
                 .foregroundStyle(RateColorScale.color(forRate: day.completionRate, accent: accentColor))
                 .cornerRadius(4)
                 .annotation(position: .top) {
                     if day.completedCount > 0 {
                         Text("\(day.completedCount)")
-                            .font(.bloo(11))
-                            .foregroundStyle(BlooTheme.secondaryText)
+                            .font(.bloo(8))
+                            .foregroundStyle(BlooTheme.tertiaryText)
                     }
                 }
             }
@@ -50,17 +51,17 @@ struct HabitActivityChartView: View {
             .chartXAxis {
                 AxisMarks(values: .automatic) { _ in
                     AxisValueLabel()
-                        .font(.bloo(11))
-                        .foregroundStyle(.secondary)
+                        .font(.bloo(8, weight: .light))
+                        .foregroundStyle(BlooTheme.tertiaryText)
                 }
             }
             .frame(height: 160)
         }
         .padding(20)
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous)
+            RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous)
                 .stroke(BlooTheme.cardBorder, lineWidth: 1)
         )
     }

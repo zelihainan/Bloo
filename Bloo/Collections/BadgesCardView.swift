@@ -2,69 +2,76 @@
 //  BadgesCardView.swift
 //  Bloo
 //
+//  Values from the Figma REST API (node 16:15): outer card radius14 size(335,204);
+//  4x2 grid of 70x70 tiles (radius20, locked = #F5F5F5 fill instead of white);
+//  30x30 icon circle (radius18) per-badge pastel color with a literal emoji,
+//  title 7px medium #8A8278, 2-line description 5px medium #B0A898.
+//
 
 import SwiftUI
 
-/// "Badges" card: 4-column grid of all 8 achievements, locked ones grayed with a lock icon.
 struct BadgesCardView: View {
     let earnedTypes: Set<BadgeType>
 
-    @Environment(\.blooAccentColor) private var accentColor
-    private let columns = Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: 5), count: 4)
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 11) {
             Text("Badges")
-                .font(.bloo(20, weight: .semibold))
+                .font(.bloo(13, weight: .medium))
+                .foregroundStyle(BlooTheme.secondaryText)
 
-            LazyVGrid(columns: columns, spacing: 16) {
+            LazyVGrid(columns: columns, spacing: 6) {
                 ForEach(BadgeType.allCases) { type in
                     badgeTile(for: type)
                 }
             }
         }
-        .padding(20)
+        .padding(13)
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous)
+            RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous)
                 .stroke(BlooTheme.cardBorder, lineWidth: 1)
         )
     }
 
     private func badgeTile(for type: BadgeType) -> some View {
         let isEarned = earnedTypes.contains(type)
-        return VStack(spacing: 8) {
+        return VStack(spacing: 5) {
             ZStack {
                 Circle()
-                    .fill(isEarned ? accentColor.opacity(0.15) : Color.gray.opacity(0.1))
-                    .frame(width: 44, height: 44)
-                Image(systemName: isEarned ? type.iconSystemName : "lock.fill")
-                    .font(.bloo(16))
-                    .foregroundStyle(isEarned ? accentColor : Color.gray.opacity(0.5))
+                    .fill(isEarned ? Color(hex: type.circleColorHex) : Color.gray.opacity(0.12))
+                    .frame(width: 30, height: 30)
+                if isEarned {
+                    Text(type.emoji).font(.system(size: 15))
+                } else {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 11))
+                        .foregroundStyle(Color.gray.opacity(0.5))
+                }
             }
             Text(type.title)
-                .font(.bloo(11, weight: .semibold))
-                .foregroundStyle(isEarned ? .primary : .secondary)
+                .font(.bloo(7, weight: .medium))
+                .foregroundStyle(BlooTheme.secondaryText)
                 .multilineTextAlignment(.center)
                 .lineLimit(1)
-                .minimumScaleFactor(0.8)
+                .minimumScaleFactor(0.7)
             Text(type.badgeDescription)
-                .font(.bloo(9))
-                .foregroundStyle(.secondary)
+                .font(.bloo(5, weight: .medium))
+                .foregroundStyle(BlooTheme.tertiaryText)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 12)
-        .padding(.horizontal, 6)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous))
+        .frame(maxWidth: .infinity, minHeight: 70)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 4)
+        .background(isEarned ? Color.white : Color(hex: "#F5F5F5"))
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous)
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .stroke(BlooTheme.cardBorder, lineWidth: 1)
         )
-        .opacity(isEarned ? 1 : 0.7)
     }
 }

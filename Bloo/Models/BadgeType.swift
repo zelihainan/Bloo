@@ -32,6 +32,34 @@ enum BadgeType: String, CaseIterable, Codable, Identifiable, Hashable {
         }
     }
 
+    /// Figma uses literal emoji for these, not SF Symbols (node 16:15).
+    var emoji: String {
+        switch self {
+        case .firstStep: "🌱"
+        case .perfectDay: "✨"
+        case .sevenDayStreak: "🔥"
+        case .habitMaster: "💪"
+        case .thirtyDayStreak: "📅"
+        case .century: "💯"
+        case .hundredDayStreak: "🏆"
+        case .collector: "🐾"
+        }
+    }
+
+    /// The icon circle's background color when earned (Figma node 16:15).
+    var circleColorHex: String {
+        switch self {
+        case .firstStep: "#C9F1CA"
+        case .perfectDay: "#E1F5EE"
+        case .sevenDayStreak: "#FFF0F5"
+        case .habitMaster: "#E3F2FD"
+        case .thirtyDayStreak: "#E0F7FA"
+        case .century: "#DCD5FF"
+        case .hundredDayStreak: "#F3E5F5"
+        case .collector: "#FFC19B"
+        }
+    }
+
     var title: String {
         switch self {
         case .firstStep: "First Step"

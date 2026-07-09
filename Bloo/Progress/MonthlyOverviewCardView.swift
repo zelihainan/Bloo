@@ -2,6 +2,9 @@
 //  MonthlyOverviewCardView.swift
 //  Bloo
 //
+//  161x182 card (Figma node 10:239, Rectangle 65/99) — the bottom-left of
+//  Progress's 2x2 stat grid. Dots are 10px, weekday headers 8px Light, legend 5px.
+//
 
 import SwiftUI
 
@@ -29,55 +32,56 @@ struct MonthlyOverviewCardView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 10) {
             Text("Monthly overview")
-                .font(.bloo(18, weight: .semibold))
-                .foregroundStyle(BlooTheme.primaryText)
+                .font(.bloo(13, weight: .medium))
+                .foregroundStyle(BlooTheme.secondaryText)
 
-            HStack {
+            HStack(spacing: 0) {
                 ForEach(weekdayHeaders.indices, id: \.self) { index in
                     Text(weekdayHeaders[index])
-                        .font(.bloo(11))
-                        .foregroundStyle(BlooTheme.secondaryText)
+                        .font(.bloo(8, weight: .light))
+                        .foregroundStyle(BlooTheme.tertiaryText)
                         .frame(maxWidth: .infinity)
                 }
             }
 
-            VStack(spacing: 10) {
+            VStack(spacing: 5) {
                 ForEach(weeks, id: \.self) { week in
-                    HStack {
+                    HStack(spacing: 0) {
                         ForEach(week, id: \.self) { date in
                             Circle()
                                 .fill(color(for: state(date)))
-                                .frame(width: 12, height: 12)
+                                .frame(width: 10, height: 10)
                                 .frame(maxWidth: .infinity)
                         }
                     }
                 }
             }
 
-            HStack(spacing: 16) {
+            HStack(spacing: 6) {
                 legendItem(state: .completed, label: "Completed")
                 legendItem(state: .partial, label: "Partial")
                 legendItem(state: .noData, label: "No data")
             }
-            .padding(.top, 4)
+            .padding(.top, 2)
         }
-        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(13)
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous)
+            RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous)
                 .stroke(BlooTheme.cardBorder, lineWidth: 1)
         )
     }
 
     private func legendItem(state: DayCompletionState, label: String) -> some View {
-        HStack(spacing: 6) {
-            Circle().fill(color(for: state)).frame(width: 8, height: 8)
+        HStack(spacing: 3) {
+            Circle().fill(color(for: state)).frame(width: 5, height: 5)
             Text(label)
-                .font(.bloo(10))
-                .foregroundStyle(BlooTheme.secondaryText)
+                .font(.bloo(5, weight: .light))
+                .foregroundStyle(.black)
         }
     }
 }

@@ -49,13 +49,14 @@ struct ProgressScreenView: View {
                     .padding(.horizontal, 28)
                 }
 
-                MonthlyOverviewCardView(weeks: CalendarWeek.recentWeeks(4, endingWith: Date()), state: state(for:), accentColor: accentColor)
-                    .padding(.horizontal, 28)
+                HStack(spacing: 13) {
+                    MonthlyOverviewCardView(weeks: CalendarWeek.recentWeeks(4, endingWith: Date()), state: state(for:), accentColor: accentColor)
 
-                if !habitStreakRows.isEmpty {
-                    HabitStreakCardView(rows: habitStreakRows, accentColor: accentColor)
-                        .padding(.horizontal, 28)
+                    if !habitStreakRows.isEmpty {
+                        HabitStreakCardView(rows: habitStreakRows, accentColor: accentColor)
+                    }
                 }
+                .padding(.horizontal, 28)
             }
             .padding(.bottom, 24)
         }
@@ -66,7 +67,7 @@ struct ProgressScreenView: View {
         ZStack(alignment: .topLeading) {
             VStack(alignment: .leading, spacing: 0) {
                 Text("Progress")
-                    .font(.bloo(28, weight: .semibold))
+                    .font(.bloo(28))
                     .foregroundStyle(BlooTheme.primaryText)
                 Spacer().frame(height: 86 - 47.5 - 28)
                 Text("See how far \(activeBloo?.displayName ?? "your Bloo") has grown!")

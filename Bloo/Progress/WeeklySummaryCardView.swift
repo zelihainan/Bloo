@@ -2,9 +2,9 @@
 //  WeeklySummaryCardView.swift
 //  Bloo
 //
-//  Sizes/colors measured directly from Figma's Progress export: big numbers
-//  are 26px Bold in the accent color, day dots are 12px (accent/checked,
-//  #D9D9D9/unchecked), weekday labels 9px, "This week" label 11px.
+//  Values from the Figma REST API (node 10:239): big numbers are 20px Bold,
+//  "/ 7 days" is 10px BOLD (not medium), day dots are 10px, weekday labels are
+//  8px Light #B0A898, "This week" is 9px #B0A898.
 //
 
 import SwiftUI
@@ -24,14 +24,14 @@ struct WeeklySummaryCardView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .firstTextBaseline, spacing: 4) {
                         Text("\(daysCompleted)")
-                            .font(.bloo(26, weight: .bold))
+                            .font(.bloo(20, weight: .bold))
                             .foregroundStyle(accentColor)
                         Text("/ 7 days")
-                            .font(.bloo(14, weight: .medium))
-                            .foregroundStyle(BlooTheme.primaryText)
+                            .font(.bloo(10, weight: .bold))
+                            .foregroundStyle(BlooTheme.secondaryText)
                     }
                     Text("completed")
-                        .font(.bloo(13))
+                        .font(.bloo(9))
                         .foregroundStyle(BlooTheme.secondaryText)
                 }
 
@@ -39,9 +39,9 @@ struct WeeklySummaryCardView: View {
 
                 VStack(alignment: .trailing, spacing: 8) {
                     Text("This week")
-                        .font(.bloo(11))
-                        .foregroundStyle(BlooTheme.secondaryText)
-                    HStack(spacing: 10) {
+                        .font(.bloo(9))
+                        .foregroundStyle(BlooTheme.tertiaryText)
+                    HStack(spacing: 12) {
                         ForEach(weekDates, id: \.self) { date in
                             dayDot(for: date)
                         }
@@ -51,28 +51,28 @@ struct WeeklySummaryCardView: View {
 
             HStack(alignment: .firstTextBaseline, spacing: 4) {
                 Text("+\(xpEarnedThisWeek)")
-                    .font(.bloo(26, weight: .bold))
+                    .font(.bloo(20, weight: .bold))
                     .foregroundStyle(accentColor)
                 Text("XP earned!")
-                    .font(.bloo(13))
+                    .font(.bloo(9))
                     .foregroundStyle(BlooTheme.secondaryText)
             }
 
             GeometryReader { proxy in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(BlooTheme.cardBorder).frame(height: 6)
+                    Capsule().fill(BlooTheme.cardBorder).frame(height: 4)
                     Capsule()
                         .fill(accentColor)
-                        .frame(width: proxy.size.width * (Double(daysCompleted) / 7), height: 6)
+                        .frame(width: proxy.size.width * (Double(daysCompleted) / 7), height: 4)
                 }
             }
-            .frame(height: 6)
+            .frame(height: 4)
         }
         .padding(20)
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous)
+            RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous)
                 .stroke(BlooTheme.cardBorder, lineWidth: 1)
         )
     }
@@ -83,16 +83,16 @@ struct WeeklySummaryCardView: View {
             ZStack {
                 Circle()
                     .fill(isDone ? accentColor : RateColorScale.noData)
-                    .frame(width: 12, height: 12)
+                    .frame(width: 10, height: 10)
                 if isDone {
-                    Image(systemName: "checkmark")
-                        .font(.system(size: 6, weight: .bold))
+                    Text("✓")
+                        .font(.system(size: 6))
                         .foregroundStyle(.white)
                 }
             }
             Text(weekdayLabel(for: date))
-                .font(.bloo(9))
-                .foregroundStyle(BlooTheme.secondaryText)
+                .font(.bloo(8, weight: .light))
+                .foregroundStyle(BlooTheme.tertiaryText)
         }
     }
 

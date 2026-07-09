@@ -11,7 +11,11 @@ enum BlooTheme {
     static let background = Color(hex: "#FAFAF8")
     static let cardBorder = Color(hex: "#F0EDE8")
     static let primaryButtonBackground = Color(hex: "#1A1A1A")
+    /// Home's card radius (Figma node 5:109, "Today's habits").
     static let cardCornerRadius: CGFloat = 20
+    /// Progress/Collections/Settings' card radius (confirmed via the Figma REST
+    /// API on nodes 10:239, 16:15, 17:118 — genuinely different from Home's).
+    static let secondaryCardCornerRadius: CGFloat = 14
     static let buttonCornerRadius: CGFloat = 16
 
     /// Primary text/label color (Figma "Labels - Vibrant/Primary").

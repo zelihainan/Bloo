@@ -2,6 +2,10 @@
 //  NextUnlockBannerView.swift
 //  Bloo
 //
+//  Values from the Figma REST API (node 16:15): card radius14 size(335,64),
+//  55x55 portrait, title 13px semibold, subtitle 9px SEMIBOLD (not regular)
+//  #B0A898, progress bar height4 filled BLACK (not accent), 15x15 lock badge.
+//
 
 import SwiftUI
 
@@ -15,38 +19,42 @@ struct NextUnlockBannerView: View {
     private var progress: Double { activeBloo?.stageProgress ?? 0 }
 
     var body: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 13) {
             BlooArtworkView(species: nextLockedBloo.species, isLocked: true, showsBackdrop: false)
-                .frame(width: 56, height: 56)
+                .frame(width: 55, height: 55)
 
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text("Next unlock!")
-                    .font(.bloo(16, weight: .semibold))
+                    .font(.bloo(13, weight: .semibold))
+                    .foregroundStyle(BlooTheme.primaryText)
                 Text("Help \(activeBloo?.displayName ?? "your Bloo") finish growing to unlock")
-                    .font(.bloo(13))
-                    .foregroundStyle(.secondary)
+                    .font(.bloo(9, weight: .semibold))
+                    .foregroundStyle(BlooTheme.tertiaryText)
 
                 GeometryReader { proxy in
                     ZStack(alignment: .leading) {
-                        Capsule().fill(Color.gray.opacity(0.15))
+                        Capsule().fill(BlooTheme.cardBorder).frame(height: 4)
                         Capsule()
-                            .fill(Color.black)
-                            .frame(width: proxy.size.width * progress)
+                            .fill(BlooTheme.primaryText)
+                            .frame(width: proxy.size.width * progress, height: 4)
                     }
                 }
-                .frame(height: 6)
+                .frame(height: 4)
             }
 
-            Image(systemName: "lock.fill")
-                .foregroundStyle(.secondary)
+            ZStack {
+                Circle().fill(BlooTheme.cardBorder).frame(width: 15, height: 15)
+                Image(systemName: "lock.fill")
+                    .font(.system(size: 7))
+                    .foregroundStyle(BlooTheme.secondaryText)
+            }
         }
-        .padding(16)
+        .padding(13)
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous)
+            RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous)
                 .stroke(BlooTheme.cardBorder, lineWidth: 1)
         )
     }
 }
-

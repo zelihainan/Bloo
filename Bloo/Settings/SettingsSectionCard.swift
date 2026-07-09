@@ -2,6 +2,8 @@
 //  SettingsSectionCard.swift
 //  Bloo
 //
+//  Section label is 13px medium #8A8278; card radius14 (Figma node 17:118).
+//
 
 import SwiftUI
 
@@ -14,15 +16,15 @@ struct SettingsSectionCard<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .font(.bloo(14, weight: .medium))
-                .foregroundStyle(.secondary)
+                .font(.bloo(13, weight: .medium))
+                .foregroundStyle(BlooTheme.secondaryText)
                 .padding(.horizontal, 4)
 
             VStack(spacing: 0) { content }
                 .background(Color.white)
-                .clipShape(RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous)
+                    RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous)
                         .stroke(BlooTheme.cardBorder, lineWidth: 1)
                 )
         }

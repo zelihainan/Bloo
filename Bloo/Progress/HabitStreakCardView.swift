@@ -2,6 +2,10 @@
 //  HabitStreakCardView.swift
 //  Bloo
 //
+//  161x182 card (Figma node 10:239, Rectangle 66/99) — the bottom-right of
+//  Progress's 2x2 stat grid. Habit name 8px, day count 7px in the accent's
+//  darkened ("completed") tier, not plain accent; bar itself IS plain accent.
+//
 
 import SwiftUI
 
@@ -19,41 +23,43 @@ struct HabitStreakCardView: View {
     private var maxStreak: Int { max(rows.map(\.streak).max() ?? 0, 1) }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 12) {
             Text("Habit streak")
-                .font(.bloo(18, weight: .semibold))
-                .foregroundStyle(BlooTheme.primaryText)
+                .font(.bloo(13, weight: .medium))
+                .foregroundStyle(BlooTheme.secondaryText)
 
-            VStack(spacing: 14) {
+            VStack(spacing: 10) {
                 ForEach(rows) { row in
-                    VStack(alignment: .leading, spacing: 6) {
+                    VStack(alignment: .leading, spacing: 4) {
                         HStack {
                             Text(row.habit.name)
-                                .font(.bloo(14))
+                                .font(.bloo(8))
                                 .foregroundStyle(BlooTheme.primaryText)
+                                .lineLimit(1)
                             Spacer()
                             Text("\(row.streak) Day\(row.streak == 1 ? "" : "s")")
-                                .font(.bloo(13, weight: .medium))
-                                .foregroundStyle(accentColor)
+                                .font(.bloo(7))
+                                .foregroundStyle(accentColor.mixed(withBlack: 0.3))
                         }
                         GeometryReader { proxy in
                             ZStack(alignment: .leading) {
-                                Capsule().fill(Color.gray.opacity(0.12))
+                                Capsule().fill(BlooTheme.cardBorder)
                                 Capsule()
                                     .fill(accentColor)
                                     .frame(width: proxy.size.width * (Double(row.streak) / Double(maxStreak)))
                             }
                         }
-                        .frame(height: 6)
+                        .frame(height: 4)
                     }
                 }
             }
         }
-        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(13)
         .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous)
+            RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous)
                 .stroke(BlooTheme.cardBorder, lineWidth: 1)
         )
     }

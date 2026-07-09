@@ -2,6 +2,10 @@
 //  SettingsScreenView.swift
 //  Bloo
 //
+//  Values from the Figma REST API (node 17:118): title 28px regular, subtitle
+//  13px #8A8278; trailing values 6px #B0A898; divider #F8F5F0; toggle is a
+//  custom 36x20 track (MiniToggle), not the native ~51x31 UISwitch size.
+//
 
 import SwiftUI
 import SwiftData
@@ -46,64 +50,58 @@ struct SettingsScreenView: View {
                     SettingsRow(icon: "list.bullet.clipboard", title: "Manage habits", subtitle: "Add, edit or delete habits") {
                         showsManageHabits = true
                     }
-                    Divider().padding(.leading, 66)
+                    divider
                     SettingsRow(icon: "globe", title: "Language", trailing: {
-                        Text(appLanguage == "tr" ? "Türkçe" : "English")
-                            .font(.bloo(14))
-                            .foregroundStyle(.secondary)
+                        trailingValue(appLanguage == "tr" ? "Türkçe" : "English")
                     }) {
                         showsLanguagePicker = true
                     }
                 }
+                .padding(.horizontal, 28)
 
                 SettingsSectionCard(title: "Notifications") {
                     SettingsRow(icon: "bell", title: "Daily reminders", showsChevron: false, trailing: {
-                        Toggle("", isOn: $dailyRemindersEnabled)
-                            .labelsHidden()
-                            .tint(accentColor)
+                        MiniToggle(isOn: $dailyRemindersEnabled, tint: accentColor)
                             .onChange(of: dailyRemindersEnabled) { _, enabled in
                                 if enabled { NotificationScheduler.requestAuthorizationIfNeeded() }
                                 NotificationScheduler.rescheduleAll(context: modelContext, dailyRemindersEnabled: enabled)
                             }
                     })
-                    Divider().padding(.leading, 66)
-                    SettingsRow(icon: "clock", title: "Reminder time", subtitle: "Default time for new habits", trailing: {
-                        Text(defaultReminderTime, style: .time)
-                            .font(.bloo(14))
-                            .foregroundStyle(.secondary)
+                    divider
+                    SettingsRow(icon: "clock", title: "Reminder time", subtitle: "Set time for each habit", trailing: {
+                        trailingValue(defaultReminderTime.formatted(date: .omitted, time: .shortened))
                     }) {
                         showsReminderTimePicker = true
                     }
                 }
+                .padding(.horizontal, 28)
 
                 SettingsSectionCard(title: "Data") {
                     SettingsRow(icon: "square.and.arrow.down", title: "Export progress") {
                         exportedCSV = ProgressExporter.csv(habits: habits, dailyLogs: dailyLogs)
                     }
-                    Divider().padding(.leading, 66)
-                    SettingsRow(icon: "trash", title: "Clear all data", tint: .red) {
+                    divider
+                    SettingsRow(icon: "trash", title: "Clear all data") {
                         showsClearDataConfirmation = true
                     }
                 }
+                .padding(.horizontal, 28)
 
                 SettingsSectionCard(title: "About") {
                     SettingsRow(icon: "star", title: "Rate the app") {
                         requestReview()
                     }
-                    Divider().padding(.leading, 66)
+                    divider
                     SettingsRow(icon: "info.circle", title: "About") {
                         showsAbout = true
                     }
-                    Divider().padding(.leading, 66)
+                    divider
                     SettingsRow(icon: "number", title: "Version", showsChevron: false, trailing: {
-                        Text(versionString)
-                            .font(.bloo(14))
-                            .foregroundStyle(.secondary)
+                        trailingValue(versionString)
                     })
                 }
+                .padding(.horizontal, 28)
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 60)
             .padding(.bottom, 24)
         }
         .background(BlooTheme.background)
@@ -130,12 +128,28 @@ struct SettingsScreenView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Settings")
-                .font(.bloo(32, weight: .semibold))
+                .font(.bloo(28))
+                .foregroundStyle(BlooTheme.primaryText)
             Text("Manage your Bloos and habits")
-                .font(.bloo(15))
-                .foregroundStyle(.secondary)
+                .font(.bloo(13))
+                .foregroundStyle(BlooTheme.secondaryText)
         }
+        .padding(.leading, 52)
+        .padding(.top, 47.5)
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var divider: some View {
+        Rectangle()
+            .fill(Color(hex: "#F8F5F0"))
+            .frame(height: 1)
+            .padding(.leading, 49)
+    }
+
+    private func trailingValue(_ text: String) -> some View {
+        Text(text)
+            .font(.bloo(6))
+            .foregroundStyle(BlooTheme.tertiaryText)
     }
 
     private func requestReview() {

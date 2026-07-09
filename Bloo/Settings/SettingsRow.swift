@@ -2,6 +2,11 @@
 //  SettingsRow.swift
 //  Bloo
 //
+//  Values from the Figma REST API (node 17:118): icon circle 30x30 radius8
+//  (a rounded square, not a circle) filled with the dynamic accent pastel;
+//  icon 15x15; title 10px medium — in the SECONDARY color, not primary;
+//  subtitle/trailing value 6px #B0A898; chevron '›' 13px #C8BFB4.
+//
 
 import SwiftUI
 
@@ -24,35 +29,35 @@ struct SettingsRow<Trailing: View>: View {
         Button {
             action?()
         } label: {
-            HStack(spacing: 14) {
+            HStack(spacing: 7) {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(rowColor.opacity(0.12))
-                        .frame(width: 36, height: 36)
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(rowColor.mixed(withWhite: 0.92))
+                        .frame(width: 30, height: 30)
                     Image(systemName: icon)
-                        .font(.bloo(15))
+                        .font(.system(size: 12))
                         .foregroundStyle(rowColor)
                 }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
-                        .font(.bloo(15))
-                        .foregroundStyle(tint ?? .primary)
+                        .font(.bloo(10, weight: .medium))
+                        .foregroundStyle(tint ?? BlooTheme.secondaryText)
                     if let subtitle {
                         Text(subtitle)
-                            .font(.bloo(12))
-                            .foregroundStyle(.secondary)
+                            .font(.bloo(6))
+                            .foregroundStyle(BlooTheme.tertiaryText)
                     }
                 }
                 Spacer()
                 trailing()
                 if showsChevron {
                     Image(systemName: "chevron.right")
-                        .font(.bloo(12))
-                        .foregroundStyle(.secondary)
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(Color(hex: "#C8BFB4"))
                 }
             }
             .padding(.vertical, 12)
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 12)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
