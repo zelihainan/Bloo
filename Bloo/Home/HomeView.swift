@@ -47,14 +47,21 @@ struct HomeView: View {
         }
     }
 
+    private var accentColor: Color {
+        guard let activeBloo else { return BlooTheme.primaryButtonBackground }
+        return Color(hex: activeBloo.species.colorHex)
+    }
+
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                header
+            VStack(alignment: .leading, spacing: 0) {
+                HomeHeaderView(greeting: greeting, subtitle: "Let's build great habits together.", dayNumber: dayNumber, accentColor: accentColor)
 
                 if let activeBloo {
+                    Spacer().frame(height: 27)
                     GrowthCardView(bloo: activeBloo)
                         .frame(maxWidth: .infinity)
+                    Spacer().frame(height: 20)
                 }
 
                 TodayHabitsCardView(
@@ -66,8 +73,8 @@ struct HomeView: View {
                     onAddHabit: { presentedSheet = .newHabit }
                 )
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 60)
+            .padding(.horizontal, 20)
+            .padding(.top, 52)
             .padding(.bottom, 24)
         }
         .background(BlooTheme.background)
@@ -89,26 +96,6 @@ struct HomeView: View {
                 }
                 .interactiveDismissDisabled()
             }
-        }
-    }
-
-    private var header: some View {
-        HStack(alignment: .top) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(greeting)
-                    .font(.bloo(30, weight: .semibold))
-                Text("Let's build great habits together.")
-                    .font(.bloo(16))
-                    .foregroundStyle(.secondary)
-            }
-            Spacer()
-            Text("Day \(dayNumber)")
-                .font(.bloo(13, weight: .medium))
-                .foregroundStyle(.secondary)
-                .padding(.vertical, 6)
-                .padding(.horizontal, 14)
-                .background(Color.black.opacity(0.06))
-                .clipShape(Capsule())
         }
     }
 

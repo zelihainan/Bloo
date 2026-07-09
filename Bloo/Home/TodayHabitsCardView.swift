@@ -2,11 +2,13 @@
 //  TodayHabitsCardView.swift
 //  Bloo
 //
+//  Pixel values from Figma dev-mode (node 5:109): card padding, 33pt-tall
+//  habit pills with 16pt gaps, 18x18 checkboxes (radius 5, 1.5pt border), and
+//  the 151x43 "Add a habit" pill below the card.
+//
 
 import SwiftUI
 
-/// "Today's habits" card: the habits scheduled for today, with a tap-to-toggle
-/// checkbox and swipe-to-edit/delete, matching the Home mockup.
 struct TodayHabitsCardView: View {
     let habits: [Habit]
     let isCompleted: (Habit) -> Bool
@@ -15,26 +17,36 @@ struct TodayHabitsCardView: View {
     let onDelete: (Habit) -> Void
     let onAddHabit: () -> Void
 
+    @Environment(\.blooAccentColor) private var accentColor
+
     var body: some View {
         VStack(spacing: 12) {
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 0) {
                 Text("Today's habits")
-                    .font(.bloo(20, weight: .semibold))
+                    .font(.bloo(18, weight: .semibold))
+                    .foregroundStyle(BlooTheme.primaryText)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 13)
+
+                Spacer().frame(height: 11)
 
                 if habits.isEmpty {
                     Text("No habits scheduled for today.")
-                        .font(.bloo(15))
-                        .foregroundStyle(.secondary)
-                        .padding(.vertical, 8)
+                        .font(.bloo(13))
+                        .foregroundStyle(BlooTheme.secondaryText)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
                 } else {
-                    VStack(spacing: 12) {
+                    VStack(spacing: 16) {
                         ForEach(habits) { habit in
                             row(for: habit)
                         }
                     }
+                    .padding(.leading, 11)
+                    .padding(.trailing, 16)
+                    .padding(.bottom, 28)
                 }
             }
-            .padding(20)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous))
             .overlay(
@@ -42,38 +54,66 @@ struct TodayHabitsCardView: View {
                     .stroke(BlooTheme.cardBorder, lineWidth: 1)
             )
 
-            Button(action: onAddHabit) {
-                Label("Add a habit", systemImage: "plus.circle.fill")
-                    .font(.bloo(15, weight: .semibold))
-                    .foregroundStyle(.black)
-                    .padding(.vertical, 10)
-                    .padding(.horizontal, 18)
-                    .background(Color.black.opacity(0.06))
-                    .clipShape(Capsule())
-            }
-            .disabled(habits.count >= 10)
+            addHabitButton
         }
+    }
+
+    private var addHabitButton: some View {
+        Button(action: onAddHabit) {
+            HStack(spacing: 4) {
+                ZStack {
+                    Circle().fill(BlooTheme.primaryText).frame(width: 13, height: 13)
+                    Text("+")
+                        .font(.bloo(10, weight: .semibold))
+                        .foregroundStyle(Color(hex: "#D9D9D9"))
+                }
+                Text("Add a habit")
+                    .font(.bloo(13, weight: .semibold))
+                    .foregroundStyle(BlooTheme.primaryText)
+            }
+            .frame(width: 151, height: 43)
+            .background(BlooTheme.secondaryText.opacity(0.1))
+            .clipShape(Capsule())
+        }
+        .disabled(habits.count >= 10)
     }
 
     private func row(for habit: Habit) -> some View {
         let completed = isCompleted(habit)
-        return HStack(spacing: 12) {
+        return HStack(spacing: 10) {
             Button {
                 onToggle(habit)
             } label: {
-                Image(systemName: completed ? "checkmark.square.fill" : "square")
-                    .foregroundStyle(completed ? .green : .secondary)
-                    .font(.bloo(20))
+                RoundedRectangle(cornerRadius: 5, style: .continuous)
+                    .fill(completed ? accentColor : Color.white)
+                    .frame(width: 18, height: 18)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5, style: .continuous)
+                            .stroke(completed ? accentColor : BlooTheme.checkboxBorder, lineWidth: 1.5)
+                    )
+                    .overlay {
+                        if completed {
+                            Image(systemName: "checkmark")
+                                .font(.bloo(10, weight: .bold))
+                                .foregroundStyle(.white)
+                        }
+                    }
             }
-            Text(habit.name)
-                .font(.bloo(16))
-                .strikethrough(completed)
-                .foregroundStyle(completed ? .secondary : .primary)
-            Spacer()
+            .buttonStyle(.plain)
+
+            HStack {
+                Text(habit.name)
+                    .font(.bloo(13))
+                    .foregroundStyle(completed ? BlooTheme.secondaryText : BlooTheme.primaryText)
+                    .strikethrough(completed)
+                Spacer()
+            }
+            .frame(height: 33)
+            .padding(.horizontal, 16)
+            .background(Color.white)
+            .clipShape(Capsule())
+            .overlay(Capsule().stroke(BlooTheme.cardBorder, lineWidth: 1))
         }
-        .padding(.vertical, 14)
-        .padding(.horizontal, 18)
-        .blooFieldBackground()
         .swipeActions(edge: .trailing) {
             Button(role: .destructive) { onDelete(habit) } label: {
                 Label("Delete", systemImage: "trash")
