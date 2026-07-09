@@ -14,8 +14,8 @@ struct BestHabitCardsView: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            card(title: "Best habit", habitName: bestHabit.name, days: bestStreak, valueColor: .green)
-            card(title: "Needs attention", habitName: worstHabit.name, days: worstStreak, valueColor: .orange)
+            card(title: "Best habit", habitName: bestHabit.name, days: bestStreak, valueColor: BlooTheme.successColor)
+            card(title: "Needs attention", habitName: worstHabit.name, days: worstStreak, valueColor: BlooTheme.warningColor)
         }
     }
 
@@ -23,9 +23,10 @@ struct BestHabitCardsView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text(title)
                 .font(.bloo(13))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(BlooTheme.secondaryText)
             Text(habitName)
                 .font(.bloo(16, weight: .semibold))
+                .foregroundStyle(BlooTheme.primaryText)
                 .lineLimit(1)
             Text("\(days) Day\(days == 1 ? "" : "s")")
                 .font(.bloo(15, weight: .semibold))

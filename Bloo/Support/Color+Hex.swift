@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 extension Color {
     init(hex: String) {
@@ -30,5 +31,29 @@ extension Color {
         let b = Double(rgbValue & 0x0000FF)
         func mix(_ channel: Double) -> Double { (255 * (1 - fraction) + channel * fraction) / 255 }
         return Color(red: mix(r), green: mix(g), blue: mix(b))
+    }
+
+    /// Blends this color toward white/black — used for the completion-rate color
+    /// tiers on Progress (habit activity bars, monthly overview dots), measured
+    /// from Figma: 100% = accent mixed ~30% toward black, partial = accent mixed
+    /// ~55% toward white.
+    func mixed(withWhite fraction: Double) -> Color {
+        let (r, g, b) = components
+        return Color(red: r + (1 - r) * fraction, green: g + (1 - g) * fraction, blue: b + (1 - b) * fraction)
+    }
+
+    func mixed(withBlack fraction: Double) -> Color {
+        let (r, g, b) = components
+        return Color(red: r * (1 - fraction), green: g * (1 - fraction), blue: b * (1 - fraction))
+    }
+
+    private var components: (r: Double, g: Double, b: Double) {
+        let uiColor = UIColor(self)
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        uiColor.getRed(&r, green: &g, blue: &b, alpha: &a)
+        return (Double(r), Double(g), Double(b))
     }
 }

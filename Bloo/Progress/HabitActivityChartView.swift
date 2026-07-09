@@ -23,11 +23,12 @@ struct HabitActivityChartView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Text("Habit activity")
-                    .font(.bloo(20, weight: .semibold))
+                    .font(.bloo(18, weight: .semibold))
+                    .foregroundStyle(BlooTheme.primaryText)
                 Spacer()
                 Text("This week")
                     .font(.bloo(13))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(BlooTheme.secondaryText)
             }
 
             Chart(activity) { day in
@@ -35,13 +36,13 @@ struct HabitActivityChartView: View {
                     x: .value("Day", weekdayLabel(for: day.date)),
                     y: .value("Completed", day.completedCount)
                 )
-                .foregroundStyle(day.completionRate >= 1 ? accentColor : accentColor.opacity(0.45))
+                .foregroundStyle(RateColorScale.color(forRate: day.completionRate, accent: accentColor))
                 .cornerRadius(4)
                 .annotation(position: .top) {
                     if day.completedCount > 0 {
                         Text("\(day.completedCount)")
                             .font(.bloo(11))
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(BlooTheme.secondaryText)
                     }
                 }
             }

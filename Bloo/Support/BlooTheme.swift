@@ -26,6 +26,11 @@ enum BlooTheme {
     static let tabBarDivider = Color(hex: "#E2E2E2")
     /// Tab bar icon color (Figma "icon-default-default" — same for active/inactive; only the dot changes).
     static let tabIcon = Color(hex: "#1E1E1E")
+
+    /// Fixed semantic colors on Progress (not tied to the active species) —
+    /// "Best habit" and "Needs attention" use these regardless of accent.
+    static let successColor = Color(hex: "#5DCAA5")
+    static let warningColor = Color(hex: "#E8845A")
 }
 
 /// The active Bloo's species color, used for selection borders, progress bars,

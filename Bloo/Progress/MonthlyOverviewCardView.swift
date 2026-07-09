@@ -7,33 +7,38 @@ import SwiftUI
 
 enum DayCompletionState {
     case completed, partial, noData
-
-    var color: Color {
-        switch self {
-        case .completed: Color(hex: "#8A2846")
-        case .partial: Color(hex: "#E9A9BE")
-        case .noData: Color.gray.opacity(0.25)
-        }
-    }
 }
 
 /// Rolling 4-week dot grid (Mon...Sun columns), ending with the current week.
+/// Dot colors are derived from the active Bloo's accent — measured from Figma
+/// (axolotl #D4537E): completed = accent mixed ~30% toward black, partial =
+/// accent mixed ~55% toward white, no data = a fixed neutral (#D9D9D9).
 struct MonthlyOverviewCardView: View {
     let weeks: [[Date]]
     let state: (Date) -> DayCompletionState
+    let accentColor: Color
 
     private let weekdayHeaders = ["M", "T", "W", "T", "F", "S", "S"]
+
+    private func color(for state: DayCompletionState) -> Color {
+        switch state {
+        case .completed: accentColor.mixed(withBlack: 0.3)
+        case .partial: accentColor.mixed(withWhite: 0.55)
+        case .noData: RateColorScale.noData
+        }
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Monthly overview")
-                .font(.bloo(20, weight: .semibold))
+                .font(.bloo(18, weight: .semibold))
+                .foregroundStyle(BlooTheme.primaryText)
 
             HStack {
                 ForEach(weekdayHeaders.indices, id: \.self) { index in
                     Text(weekdayHeaders[index])
-                        .font(.bloo(12))
-                        .foregroundStyle(.secondary)
+                        .font(.bloo(11))
+                        .foregroundStyle(BlooTheme.secondaryText)
                         .frame(maxWidth: .infinity)
                 }
             }
@@ -43,8 +48,8 @@ struct MonthlyOverviewCardView: View {
                     HStack {
                         ForEach(week, id: \.self) { date in
                             Circle()
-                                .fill(state(date).color)
-                                .frame(width: 14, height: 14)
+                                .fill(color(for: state(date)))
+                                .frame(width: 12, height: 12)
                                 .frame(maxWidth: .infinity)
                         }
                     }
@@ -52,9 +57,9 @@ struct MonthlyOverviewCardView: View {
             }
 
             HStack(spacing: 16) {
-                legendItem(color: DayCompletionState.completed.color, label: "Completed")
-                legendItem(color: DayCompletionState.partial.color, label: "Partial")
-                legendItem(color: DayCompletionState.noData.color, label: "No data")
+                legendItem(state: .completed, label: "Completed")
+                legendItem(state: .partial, label: "Partial")
+                legendItem(state: .noData, label: "No data")
             }
             .padding(.top, 4)
         }
@@ -67,12 +72,12 @@ struct MonthlyOverviewCardView: View {
         )
     }
 
-    private func legendItem(color: Color, label: String) -> some View {
+    private func legendItem(state: DayCompletionState, label: String) -> some View {
         HStack(spacing: 6) {
-            Circle().fill(color).frame(width: 8, height: 8)
+            Circle().fill(color(for: state)).frame(width: 8, height: 8)
             Text(label)
-                .font(.bloo(11))
-                .foregroundStyle(.secondary)
+                .font(.bloo(10))
+                .foregroundStyle(BlooTheme.secondaryText)
         }
     }
 }

@@ -36,25 +36,25 @@ struct ProgressScreenView: View {
                     xpEarnedThisWeek: xpEarnedThisWeek,
                     accentColor: accentColor
                 )
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 28)
 
                 HabitActivityChartView(activity: weeklyActivity, accentColor: accentColor)
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 28)
 
                 if habits.count >= 2, let best = bestHabitRow, let worst = worstHabitRow {
                     BestHabitCardsView(
                         bestHabit: best.habit, bestStreak: best.streak,
                         worstHabit: worst.habit, worstStreak: worst.streak
                     )
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 28)
                 }
 
-                MonthlyOverviewCardView(weeks: CalendarWeek.recentWeeks(4, endingWith: Date()), state: state(for:))
-                    .padding(.horizontal, 20)
+                MonthlyOverviewCardView(weeks: CalendarWeek.recentWeeks(4, endingWith: Date()), state: state(for:), accentColor: accentColor)
+                    .padding(.horizontal, 28)
 
                 if !habitStreakRows.isEmpty {
                     HabitStreakCardView(rows: habitStreakRows, accentColor: accentColor)
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, 28)
                 }
             }
             .padding(.bottom, 24)
