@@ -49,11 +49,11 @@ struct SettingsRow<Trailing: View>: View {
                     .foregroundStyle(rowColor)
             }
             VStack(alignment: .leading, spacing: 2) {
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .font(.bloo(14, weight: .medium))
                     .foregroundStyle(tint ?? BlooTheme.secondaryText)
                 if let subtitle {
-                    Text(subtitle)
+                    Text(LocalizedStringKey(subtitle))
                         .font(.bloo(11))
                         .foregroundStyle(BlooTheme.tertiaryText)
                 }

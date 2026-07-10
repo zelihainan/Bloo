@@ -23,7 +23,7 @@ struct AboutView: View {
                 Text("Build habits. Watch it grow.")
                     .font(.bloo(15))
                     .foregroundStyle(.secondary)
-                Text("Version \(versionString)")
+                Text(String(format: NSLocalizedString("Version %@", comment: ""), versionString))
                     .font(.bloo(13))
                     .foregroundStyle(.secondary)
                 Spacer()

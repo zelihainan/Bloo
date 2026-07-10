@@ -10,6 +10,11 @@ import SwiftData
 
 @main
 struct BlooApp: App {
+    init() {
+        let languageCode = UserDefaults.standard.string(forKey: AppStorageKey.appLanguage) ?? "en"
+        LocalizationSwitcher.apply(languageCode: languageCode)
+    }
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Bloo.self,

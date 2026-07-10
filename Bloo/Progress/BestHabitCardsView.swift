@@ -24,7 +24,7 @@ struct BestHabitCardsView: View {
 
     private func card(title: String, habitName: String, days: Int, valueColor: Color) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(title)
+            Text(LocalizedStringKey(title))
                 .font(.bloo(12))
                 .foregroundStyle(BlooTheme.secondaryText)
             Text(habitName)

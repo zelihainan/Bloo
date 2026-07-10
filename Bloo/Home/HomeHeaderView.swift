@@ -18,16 +18,16 @@ struct HomeHeaderView: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             VStack(alignment: .leading, spacing: 0) {
-                Text(greeting)
+                Text(LocalizedStringKey(greeting))
                     .font(.bloo(22, weight: .medium))
                     .foregroundStyle(BlooTheme.primaryText)
-                Text(subtitle)
+                Text(LocalizedStringKey(subtitle))
                     .font(.bloo(13))
                     .foregroundStyle(BlooTheme.secondaryText)
             }
             .padding(.leading, 8)
 
-            Text("Day \(dayNumber)")
+            Text(String(format: NSLocalizedString("Day %d", comment: ""), dayNumber))
                 .font(.bloo(10, weight: .medium))
                 .foregroundStyle(BlooTheme.tertiaryText)
                 .frame(width: 54, height: 21)

@@ -79,7 +79,7 @@ struct MonthlyOverviewCardView: View {
     private func legendItem(state: DayCompletionState, label: String) -> some View {
         HStack(spacing: 5) {
             Circle().fill(color(for: state)).frame(width: 8, height: 8)
-            Text(label)
+            Text(LocalizedStringKey(label))
                 .font(.bloo(10))
                 .foregroundStyle(BlooTheme.secondaryText)
         }

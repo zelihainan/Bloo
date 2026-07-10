@@ -48,7 +48,7 @@ struct WeekdayPickerView: View {
                                             .foregroundStyle(.white)
                                     }
                                 }
-                            Text(day.shortLabel)
+                            Text(LocalizedStringKey(day.shortLabel))
                                 .font(.bloo(11))
                                 .foregroundStyle(.secondary)
                         }
@@ -59,7 +59,7 @@ struct WeekdayPickerView: View {
 
             LazyVGrid(columns: presetColumns, spacing: 10) {
                 ForEach(Preset.allCases, id: \.self) { preset in
-                    Button(preset.rawValue) { apply(preset) }
+                    Button(LocalizedStringKey(preset.rawValue)) { apply(preset) }
                         .font(.bloo(14, weight: .medium))
                         .foregroundStyle(.black)
                         .padding(.vertical, 12)

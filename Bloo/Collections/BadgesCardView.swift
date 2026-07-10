@@ -51,13 +51,13 @@ struct BadgesCardView: View {
                         .foregroundStyle(Color.gray.opacity(0.5))
                 }
             }
-            Text(type.title)
+            Text(LocalizedStringKey(type.title))
                 .font(.bloo(10, weight: .medium))
                 .foregroundStyle(BlooTheme.secondaryText)
                 .multilineTextAlignment(.center)
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
-            Text(type.badgeDescription)
+            Text(LocalizedStringKey(type.badgeDescription))
                 .font(.bloo(8, weight: .medium))
                 .foregroundStyle(BlooTheme.tertiaryText)
                 .multilineTextAlignment(.center)

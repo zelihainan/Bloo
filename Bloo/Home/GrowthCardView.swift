@@ -34,7 +34,7 @@ struct GrowthCardView: View {
                 }
                 .frame(width: 200)
 
-                Text("\(bloo.displayName) is growing 🌱")
+                Text(String(format: NSLocalizedString("%@ is growing 🌱", comment: ""), bloo.displayName))
                     .font(.bloo(13, italic: true))
                     .foregroundStyle(BlooTheme.secondaryText)
                     .frame(width: 200, alignment: .trailing)

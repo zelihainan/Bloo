@@ -63,7 +63,7 @@ struct AddEditHabitView: View {
         VStack(spacing: 0) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Text(isNew ? "New Habit" : "Edit Habit")
+                    Text(LocalizedStringKey(isNew ? "New Habit" : "Edit Habit"))
                         .font(.bloo(28, weight: .semibold))
                         .padding(.top, 12)
 

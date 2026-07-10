@@ -71,7 +71,7 @@ struct ManageHabitsView: View {
                     Text(habit.name)
                         .font(.bloo(16))
                         .foregroundStyle(.primary)
-                    Text(scheduleSummary(for: habit))
+                    Text(LocalizedStringKey(scheduleSummary(for: habit)))
                         .font(.bloo(12))
                         .foregroundStyle(.secondary)
                     if !habit.note.isEmpty {

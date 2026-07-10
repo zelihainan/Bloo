@@ -35,7 +35,7 @@ struct BloosGridCardView: View {
                     .font(.bloo(16, weight: .medium))
                     .foregroundStyle(BlooTheme.secondaryText)
                 Spacer()
-                Text("\(unlockedCount)/\(bloos.count) Unlocked")
+                Text(String(format: NSLocalizedString("%d/%d Unlocked", comment: ""), unlockedCount, bloos.count))
                     .font(.bloo(11))
                     .foregroundStyle(BlooTheme.secondaryText)
             }
@@ -89,7 +89,7 @@ struct BloosGridCardView: View {
             .buttonStyle(.plain)
             .disabled(!isSelectable)
 
-            Text(isActive ? "Active companion" : " ")
+            Text(isActive ? LocalizedStringKey("Active companion") : LocalizedStringKey(" "))
                 .font(.bloo(9))
                 .foregroundStyle(BlooTheme.secondaryText)
                 .lineLimit(1)

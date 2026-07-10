@@ -5,9 +5,6 @@
 
 import SwiftUI
 
-/// Stores the preferred language (`AppStorageKey.appLanguage`). Note: this only
-/// records the preference — translated copy for Turkish hasn't been added to the
-/// app's strings yet, so picking Türkçe won't change any screen text yet.
 struct LanguagePickerSheet: View {
     @Binding var selectedLanguage: String
     @Environment(\.dismiss) private var dismiss
