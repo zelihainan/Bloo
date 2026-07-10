@@ -46,17 +46,19 @@ enum BadgeType: String, CaseIterable, Codable, Identifiable, Hashable {
         }
     }
 
-    /// The icon circle's background color when earned (Figma node 16:15).
+    /// The icon circle's background color when earned. Bumped more vivid than the
+    /// original pale Figma pastels per user feedback — the washed-out tones made
+    /// earned badges hard to tell apart at a glance.
     var circleColorHex: String {
         switch self {
-        case .firstStep: "#C9F1CA"
-        case .perfectDay: "#E1F5EE"
-        case .sevenDayStreak: "#FFF0F5"
-        case .habitMaster: "#E3F2FD"
-        case .thirtyDayStreak: "#E0F7FA"
-        case .century: "#DCD5FF"
-        case .hundredDayStreak: "#F3E5F5"
-        case .collector: "#FFC19B"
+        case .firstStep: "#7ED957"
+        case .perfectDay: "#3DDC97"
+        case .sevenDayStreak: "#FF7A59"
+        case .habitMaster: "#4FA8FF"
+        case .thirtyDayStreak: "#22D3EE"
+        case .century: "#9B7CFF"
+        case .hundredDayStreak: "#FFB020"
+        case .collector: "#FF9F5A"
         }
     }
 

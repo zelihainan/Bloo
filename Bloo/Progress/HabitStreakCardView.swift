@@ -38,7 +38,7 @@ struct HabitStreakCardView: View {
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.8)
                             Spacer()
-                            Text("\(row.streak) Day\(row.streak == 1 ? "" : "s")")
+                            Text(dayCountLabel(row.streak))
                                 .font(.bloo(10, weight: .medium))
                                 .foregroundStyle(accentColor.mixed(withBlack: 0.3))
                                 .lineLimit(1)
@@ -65,5 +65,10 @@ struct HabitStreakCardView: View {
             RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous)
                 .stroke(BlooTheme.cardBorder, lineWidth: 1)
         )
+    }
+
+    private func dayCountLabel(_ days: Int) -> String {
+        let format = days == 1 ? NSLocalizedString("%d Day", comment: "") : NSLocalizedString("%d Days", comment: "")
+        return String(format: format, days)
     }
 }

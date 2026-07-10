@@ -15,10 +15,6 @@ struct GrowthCardView: View {
 
     var body: some View {
         VStack(spacing: 10) {
-            Text(bloo.displayName)
-                .font(.bloo(20, weight: .semibold))
-                .foregroundStyle(BlooTheme.primaryText)
-
             ZStack {
                 Circle()
                     .fill(backdropColor)
@@ -29,15 +25,15 @@ struct GrowthCardView: View {
 
             VStack(spacing: 6) {
                 ZStack(alignment: .leading) {
-                    Capsule().fill(BlooTheme.cardBorder).frame(height: 8)
-                    Capsule().fill(accentColor).frame(width: 200 * bloo.stageProgress, height: 8)
+                    Capsule().fill(BlooTheme.cardBorder).frame(height: 5)
+                    Capsule().fill(accentColor).frame(width: 260 * bloo.stageProgress, height: 5)
                 }
-                .frame(width: 200)
+                .frame(width: 260)
 
                 Text(String(format: NSLocalizedString("%@ is growing 🌱", comment: ""), bloo.displayName))
-                    .font(.bloo(13, italic: true))
+                    .font(.bloo(11, italic: true))
                     .foregroundStyle(BlooTheme.secondaryText)
-                    .frame(width: 200, alignment: .trailing)
+                    .frame(width: 260, alignment: .trailing)
             }
         }
     }

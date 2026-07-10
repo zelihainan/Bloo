@@ -16,12 +16,10 @@ extension Font {
         case .light, .ultraLight, .thin: "Light"
         default: "Regular"
         }
-        let name: String
-        if italic {
-            name = base == "Regular" ? "Poppins-Italic" : "Poppins-\(base)Italic"
-        } else {
-            name = "Poppins-\(base)"
-        }
+        // Only a Light-weight italic face is bundled (see Info.plist's UIAppFonts) —
+        // other weight+italic combinations don't exist as real font files and would
+        // silently fall back to the system font, so italic always uses that one face.
+        let name = italic ? "Poppins-LightItalic" : "Poppins-\(base)"
         return .custom(name, size: size)
     }
 }

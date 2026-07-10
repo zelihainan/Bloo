@@ -70,7 +70,7 @@ struct ProgressScreenView: View {
                     .font(.bloo(28))
                     .foregroundStyle(BlooTheme.primaryText)
                 Spacer().frame(height: 86 - 47.5 - 28)
-                Text("See how far \(activeBloo?.displayName ?? "your Bloo") has grown!")
+                Text(String(format: NSLocalizedString("See how far %@ has grown!", comment: ""), activeBloo?.displayName ?? "your Bloo"))
                     .font(.bloo(13))
                     .foregroundStyle(BlooTheme.secondaryText)
             }

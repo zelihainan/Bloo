@@ -28,9 +28,9 @@ struct HomeHeaderView: View {
             .padding(.leading, 8)
 
             Text(String(format: NSLocalizedString("Day %d", comment: ""), dayNumber))
-                .font(.bloo(10, weight: .medium))
+                .font(.bloo(12, weight: .medium))
                 .foregroundStyle(BlooTheme.tertiaryText)
-                .frame(width: 54, height: 21)
+                .frame(width: 62, height: 24)
                 .background(accentColor.opacity(0.1))
                 .clipShape(Capsule())
                 .frame(maxWidth: .infinity, alignment: .trailing)

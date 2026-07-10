@@ -58,7 +58,7 @@ struct BloosGridCardView: View {
     private func tile(for bloo: Bloo) -> some View {
         let isActive = bloo.state == .active
         let isLocked = bloo.state == .locked
-        let isSelectable = bloo.state == .unlocked
+        let isSelectable = !isLocked
         let accent = Color(hex: bloo.species.colorHex)
 
         return VStack(spacing: 4) {

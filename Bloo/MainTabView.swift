@@ -14,10 +14,10 @@ struct MainTabView: View {
                 .tabItem { Label("Home", systemImage: "house.fill") }
 
             ProgressScreenView()
-                .tabItem { Label("Progress", systemImage: "chart.bar.fill") }
+                .tabItem { Label("Progress", systemImage: "chart.line.uptrend.xyaxis") }
 
             CollectionsScreenView()
-                .tabItem { Label("Collections", systemImage: "square.grid.2x2.fill") }
+                .tabItem { Label("Collections", systemImage: "pawprint.fill") }
 
             SettingsScreenView()
                 .tabItem { Label("Settings", systemImage: "gearshape.fill") }

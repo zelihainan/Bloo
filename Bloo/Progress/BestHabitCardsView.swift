@@ -31,7 +31,7 @@ struct BestHabitCardsView: View {
                 .font(.bloo(15, weight: .medium))
                 .foregroundStyle(BlooTheme.primaryText)
                 .lineLimit(1)
-            Text("\(days) Day\(days == 1 ? "" : "s")")
+            Text(dayCountLabel(days))
                 .font(.bloo(14, weight: .medium))
                 .foregroundStyle(valueColor)
         }
@@ -43,5 +43,10 @@ struct BestHabitCardsView: View {
             RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous)
                 .stroke(BlooTheme.cardBorder, lineWidth: 1)
         )
+    }
+
+    private func dayCountLabel(_ days: Int) -> String {
+        let format = days == 1 ? NSLocalizedString("%d Day", comment: "") : NSLocalizedString("%d Days", comment: "")
+        return String(format: format, days)
     }
 }

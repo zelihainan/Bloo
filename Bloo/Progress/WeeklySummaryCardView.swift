@@ -12,6 +12,8 @@ struct WeeklySummaryCardView: View {
     let xpEarnedThisWeek: Int
     let accentColor: Color
 
+    @AppStorage(AppStorageKey.appLanguage) private var appLanguage = "en"
+
     private var daysCompleted: Int { perfectDays.count }
 
     var body: some View {
@@ -82,6 +84,7 @@ struct WeeklySummaryCardView: View {
 
     private func weekdayLabel(for date: Date) -> String {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: appLanguage)
         formatter.dateFormat = "EEE"
         return formatter.string(from: date)
     }

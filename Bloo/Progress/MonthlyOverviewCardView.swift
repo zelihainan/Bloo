@@ -21,7 +21,7 @@ struct MonthlyOverviewCardView: View {
     let state: (Date) -> DayCompletionState
     let accentColor: Color
 
-    private let weekdayHeaders = ["M", "T", "W", "T", "F", "S", "S"]
+    private let weekdayHeaders = Weekday.allCases.map(\.shortLabel)
 
     private func color(for state: DayCompletionState) -> Color {
         switch state {
@@ -39,7 +39,7 @@ struct MonthlyOverviewCardView: View {
 
             HStack(spacing: 0) {
                 ForEach(weekdayHeaders.indices, id: \.self) { index in
-                    Text(weekdayHeaders[index])
+                    Text(LocalizedStringKey(weekdayHeaders[index]))
                         .font(.bloo(10, weight: .medium))
                         .foregroundStyle(BlooTheme.tertiaryText)
                         .frame(maxWidth: .infinity)

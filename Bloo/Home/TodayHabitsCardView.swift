@@ -101,18 +101,29 @@ struct TodayHabitsCardView: View {
             }
             .buttonStyle(.plain)
 
-            HStack {
-                Text(habit.name)
-                    .font(.bloo(13))
-                    .foregroundStyle(completed ? BlooTheme.secondaryText : BlooTheme.primaryText)
-                    .strikethrough(completed)
-                Spacer()
+            Button {
+                onEdit(habit)
+            } label: {
+                HStack {
+                    Text(habit.name)
+                        .font(.bloo(13))
+                        .foregroundStyle(completed ? BlooTheme.secondaryText : BlooTheme.primaryText)
+                        .strikethrough(completed)
+                    Spacer()
+                    if !habit.note.isEmpty {
+                        Image(systemName: "note.text")
+                            .font(.system(size: 11))
+                            .foregroundStyle(BlooTheme.tertiaryText)
+                    }
+                }
+                .frame(height: 33)
+                .padding(.horizontal, 16)
+                .background(Color.white)
+                .clipShape(Capsule())
+                .overlay(Capsule().stroke(BlooTheme.cardBorder, lineWidth: 1))
+                .contentShape(Rectangle())
             }
-            .frame(height: 33)
-            .padding(.horizontal, 16)
-            .background(Color.white)
-            .clipShape(Capsule())
-            .overlay(Capsule().stroke(BlooTheme.cardBorder, lineWidth: 1))
+            .buttonStyle(.plain)
         }
         .swipeActions(edge: .trailing) {
             Button(role: .destructive) { onDelete(habit) } label: {
