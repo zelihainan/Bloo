@@ -12,6 +12,10 @@ import SwiftUI
 
 /// One row inside a `SettingsSectionCard`: icon, title, optional subtitle, optional
 /// trailing content (a toggle, a value label, ...), optional chevron, optional tap action.
+///
+/// When `action` is nil the row isn't wrapped in a Button at all — nesting an
+/// interactive `trailing` control (like a toggle) inside a disabled Button
+/// would disable that control too.
 struct SettingsRow<Trailing: View>: View {
     let icon: String
     let title: String
@@ -26,42 +30,45 @@ struct SettingsRow<Trailing: View>: View {
     private var rowColor: Color { tint ?? accentColor }
 
     var body: some View {
-        Button {
-            action?()
-        } label: {
-            HStack(spacing: 12) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(rowColor.mixed(withWhite: 0.92))
-                        .frame(width: 38, height: 38)
-                    Image(systemName: icon)
-                        .font(.system(size: 15))
-                        .foregroundStyle(rowColor)
-                }
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(title)
-                        .font(.bloo(14, weight: .medium))
-                        .foregroundStyle(tint ?? BlooTheme.secondaryText)
-                    if let subtitle {
-                        Text(subtitle)
-                            .font(.bloo(11))
-                            .foregroundStyle(BlooTheme.tertiaryText)
-                    }
-                }
-                Spacer()
-                trailing()
-                if showsChevron {
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(Color(hex: "#C8BFB4"))
+        if let action {
+            Button(action: action) { rowContent }
+                .buttonStyle(.plain)
+        } else {
+            rowContent
+        }
+    }
+
+    private var rowContent: some View {
+        HStack(spacing: 12) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .fill(rowColor.mixed(withWhite: 0.92))
+                    .frame(width: 38, height: 38)
+                Image(systemName: icon)
+                    .font(.system(size: 15))
+                    .foregroundStyle(rowColor)
+            }
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.bloo(14, weight: .medium))
+                    .foregroundStyle(tint ?? BlooTheme.secondaryText)
+                if let subtitle {
+                    Text(subtitle)
+                        .font(.bloo(11))
+                        .foregroundStyle(BlooTheme.tertiaryText)
                 }
             }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 12)
-            .contentShape(Rectangle())
+            Spacer()
+            trailing()
+            if showsChevron {
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundStyle(Color(hex: "#C8BFB4"))
+            }
         }
-        .buttonStyle(.plain)
-        .disabled(action == nil)
+        .padding(.vertical, 12)
+        .padding(.horizontal, 12)
+        .contentShape(Rectangle())
     }
 }
 

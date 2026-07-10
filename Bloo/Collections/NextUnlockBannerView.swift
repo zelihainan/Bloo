@@ -16,8 +16,6 @@ struct NextUnlockBannerView: View {
     let nextLockedBloo: Bloo
     let activeBloo: Bloo?
 
-    private var progress: Double { activeBloo?.stageProgress ?? 0 }
-
     var body: some View {
         HStack(spacing: 13) {
             BlooArtworkView(species: nextLockedBloo.species, isLocked: true, showsBackdrop: false)
@@ -31,16 +29,6 @@ struct NextUnlockBannerView: View {
                     .font(.bloo(11, weight: .medium))
                     .foregroundStyle(BlooTheme.tertiaryText)
                     .lineLimit(2)
-
-                GeometryReader { proxy in
-                    ZStack(alignment: .leading) {
-                        Capsule().fill(BlooTheme.cardBorder).frame(height: 4)
-                        Capsule()
-                            .fill(BlooTheme.primaryText)
-                            .frame(width: proxy.size.width * progress, height: 4)
-                    }
-                }
-                .frame(height: 4)
             }
 
             ZStack {

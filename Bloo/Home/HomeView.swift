@@ -11,21 +11,9 @@ struct HomeView: View {
     @Query(filter: #Predicate<Bloo> { $0.stateRawValue == "active" }) private var activeBloos: [Bloo]
     @Query(sort: \Habit.sortOrder) private var allHabits: [Habit]
 
-    @State private var presentedSheet: SheetKind?
+    @State private var presentedDestination: HabitDestination?
     @State private var newCompanionName: String = ""
     @AppStorage(AppStorageKey.dailyRemindersEnabled) private var dailyRemindersEnabled = true
-
-    private enum SheetKind: Identifiable {
-        case newHabit
-        case editHabit(Habit)
-
-        var id: String {
-            switch self {
-            case .newHabit: "new"
-            case .editHabit(let habit): habit.id.uuidString
-            }
-        }
-    }
 
     private var activeBloo: Bloo? { activeBloos.first }
 
@@ -53,48 +41,50 @@ struct HomeView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                HomeHeaderView(greeting: greeting, subtitle: "Let's build great habits together.", dayNumber: dayNumber, accentColor: accentColor)
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    HomeHeaderView(greeting: greeting, subtitle: "Let's build great habits together.", dayNumber: dayNumber, accentColor: accentColor)
 
+                    if let activeBloo {
+                        Spacer().frame(height: 27)
+                        GrowthCardView(bloo: activeBloo)
+                            .frame(maxWidth: .infinity)
+                        Spacer().frame(height: 20)
+                    }
+
+                    TodayHabitsCardView(
+                        habits: todaysHabits,
+                        isCompleted: isCompletedToday,
+                        onToggle: toggle,
+                        onEdit: { presentedDestination = .edit($0) },
+                        onDelete: delete,
+                        onAddHabit: { presentedDestination = .new }
+                    )
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 52)
+                .padding(.bottom, 24)
+            }
+            .background(BlooTheme.background)
+            .navigationDestination(item: $presentedDestination) { destination in
+                switch destination {
+                case .new:
+                    AddEditHabitView(mode: .new) { draft in save(draft: draft) }
+                case .edit(let habit):
+                    AddEditHabitView(mode: .edit(habit)) { draft in update(habit, with: draft) } onDelete: {
+                        delete(habit)
+                    }
+                }
+            }
+            .sheet(isPresented: unnamedCompanionBinding) {
                 if let activeBloo {
-                    Spacer().frame(height: 27)
-                    GrowthCardView(bloo: activeBloo)
-                        .frame(maxWidth: .infinity)
-                    Spacer().frame(height: 20)
+                    NameBlooView(species: activeBloo.species, name: $newCompanionName) {
+                        activeBloo.customName = newCompanionName.trimmingCharacters(in: .whitespacesAndNewlines)
+                        try? modelContext.save()
+                    }
+                    .interactiveDismissDisabled()
                 }
-
-                TodayHabitsCardView(
-                    habits: todaysHabits,
-                    isCompleted: isCompletedToday,
-                    onToggle: toggle,
-                    onEdit: { presentedSheet = .editHabit($0) },
-                    onDelete: delete,
-                    onAddHabit: { presentedSheet = .newHabit }
-                )
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 52)
-            .padding(.bottom, 24)
-        }
-        .background(BlooTheme.background)
-        .sheet(item: $presentedSheet) { sheet in
-            switch sheet {
-            case .newHabit:
-                AddEditHabitView(mode: .new) { draft in save(draft: draft) }
-            case .editHabit(let habit):
-                AddEditHabitView(mode: .edit(habit)) { draft in update(habit, with: draft) } onDelete: {
-                    delete(habit)
-                }
-            }
-        }
-        .sheet(isPresented: unnamedCompanionBinding) {
-            if let activeBloo {
-                NameBlooView(species: activeBloo.species, name: $newCompanionName) {
-                    activeBloo.customName = newCompanionName.trimmingCharacters(in: .whitespacesAndNewlines)
-                    try? modelContext.save()
-                }
-                .interactiveDismissDisabled()
             }
         }
     }

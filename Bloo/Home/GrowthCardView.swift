@@ -2,13 +2,11 @@
 //  GrowthCardView.swift
 //  Bloo
 //
-//  Pixel values below are taken directly from Figma dev-mode inspector
-//  (file a56NftgrLPHxVvl81NALmO, node 5:109 "05 - Home"), not estimated.
-//
 
 import SwiftUI
 
-/// The Bloo circle, its growth progress bar, and the "{name} is growing" caption.
+/// The Bloo's name, its circle portrait, growth progress bar, and the
+/// "{name} is growing" caption.
 struct GrowthCardView: View {
     let bloo: Bloo
 
@@ -16,7 +14,11 @@ struct GrowthCardView: View {
     private var backdropColor: Color { Color.pastel(hex: bloo.species.colorHex) }
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 10) {
+            Text(bloo.displayName)
+                .font(.bloo(20, weight: .semibold))
+                .foregroundStyle(BlooTheme.primaryText)
+
             ZStack {
                 Circle()
                     .fill(backdropColor)
@@ -25,20 +27,18 @@ struct GrowthCardView: View {
                     .frame(width: 190, height: 190)
             }
 
-            Spacer().frame(height: 20)
+            VStack(spacing: 6) {
+                ZStack(alignment: .leading) {
+                    Capsule().fill(BlooTheme.cardBorder).frame(height: 8)
+                    Capsule().fill(accentColor).frame(width: 200 * bloo.stageProgress, height: 8)
+                }
+                .frame(width: 200)
 
-            ZStack(alignment: .leading) {
-                Capsule().fill(BlooTheme.cardBorder).frame(width: 178, height: 4)
-                Capsule().fill(accentColor).frame(width: 178 * bloo.stageProgress, height: 4)
+                Text("\(bloo.displayName) is growing 🌱")
+                    .font(.bloo(13, italic: true))
+                    .foregroundStyle(BlooTheme.secondaryText)
+                    .frame(width: 200, alignment: .trailing)
             }
-            .frame(width: 178)
-
-            Spacer().frame(height: 3)
-
-            Text("\(bloo.displayName) is growing 🌱")
-                .font(.bloo(7, weight: .light, italic: true))
-                .foregroundStyle(BlooTheme.secondaryText)
-                .frame(width: 178, alignment: .trailing)
         }
     }
 }

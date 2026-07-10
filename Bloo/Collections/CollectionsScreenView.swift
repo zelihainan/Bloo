@@ -10,6 +10,7 @@ import SwiftUI
 import SwiftData
 
 struct CollectionsScreenView: View {
+    @Environment(\.modelContext) private var modelContext
     @Query private var bloos: [Bloo]
     @Query private var badges: [Badge]
 
@@ -28,7 +29,7 @@ struct CollectionsScreenView: View {
             VStack(alignment: .leading, spacing: 20) {
                 header
 
-                BloosGridCardView(bloos: bloos)
+                BloosGridCardView(bloos: bloos, onSelect: selectActive)
                     .padding(.horizontal, 28)
 
                 if let nextLockedBloo {
@@ -53,8 +54,22 @@ struct CollectionsScreenView: View {
                 .font(.bloo(13))
                 .foregroundStyle(BlooTheme.secondaryText)
         }
-        .padding(.leading, 52)
+        .padding(.leading, 28)
         .padding(.top, 47.5)
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// Switching the active companion from Collections: the previous active
+    /// Bloo pauses (keeps its XP, goes back to just "unlocked"), the tapped one
+    /// becomes active — which cascades everywhere else via the `state == "active"`
+    /// query (Home's portrait, the app-wide accent color, etc).
+    private func selectActive(_ bloo: Bloo) {
+        guard bloo.state == .unlocked else { return }
+        if let activeBloo, activeBloo.id != bloo.id {
+            activeBloo.state = .unlocked
+        }
+        bloo.state = .active
+        bloo.activatedAt = Date()
+        try? modelContext.save()
     }
 }

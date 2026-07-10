@@ -21,14 +21,11 @@ struct SettingsScreenView: View {
     @Query private var dailyLogs: [DailyLog]
 
     @AppStorage(AppStorageKey.dailyRemindersEnabled) private var dailyRemindersEnabled = true
-    @AppStorage(AppStorageKey.defaultReminderHour) private var defaultReminderHour = 9
-    @AppStorage(AppStorageKey.defaultReminderMinute) private var defaultReminderMinute = 0
     @AppStorage(AppStorageKey.appLanguage) private var appLanguage = "en"
     @AppStorage(AppStorageKey.hasCompletedOnboarding) private var hasCompletedOnboarding = true
 
     @State private var showsManageHabits = false
     @State private var showsLanguagePicker = false
-    @State private var showsReminderTimePicker = false
     @State private var showsAbout = false
     @State private var showsClearDataConfirmation = false
     @State private var exportedCSV: String?
@@ -37,91 +34,80 @@ struct SettingsScreenView: View {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
     }
 
-    private var defaultReminderTime: Date {
-        Calendar.current.date(from: DateComponents(hour: defaultReminderHour, minute: defaultReminderMinute)) ?? Date()
-    }
-
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                header
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    header
 
-                SettingsSectionCard(title: "Habits") {
-                    SettingsRow(icon: "list.bullet.clipboard", title: "Manage habits", subtitle: "Add, edit or delete habits") {
-                        showsManageHabits = true
+                    SettingsSectionCard(title: "Habits") {
+                        SettingsRow(icon: "list.bullet.clipboard", title: "Manage habits", subtitle: "Add, edit or delete habits") {
+                            showsManageHabits = true
+                        }
+                        divider
+                        SettingsRow(icon: "globe", title: "Language", trailing: {
+                            trailingValue(appLanguage == "tr" ? "Türkçe" : "English")
+                        }) {
+                            showsLanguagePicker = true
+                        }
                     }
-                    divider
-                    SettingsRow(icon: "globe", title: "Language", trailing: {
-                        trailingValue(appLanguage == "tr" ? "Türkçe" : "English")
-                    }) {
-                        showsLanguagePicker = true
-                    }
-                }
-                .padding(.horizontal, 28)
+                    .padding(.horizontal, 28)
 
-                SettingsSectionCard(title: "Notifications") {
-                    SettingsRow(icon: "bell", title: "Daily reminders", showsChevron: false, trailing: {
-                        MiniToggle(isOn: $dailyRemindersEnabled, tint: accentColor)
-                            .onChange(of: dailyRemindersEnabled) { _, enabled in
-                                if enabled { NotificationScheduler.requestAuthorizationIfNeeded() }
-                                NotificationScheduler.rescheduleAll(context: modelContext, dailyRemindersEnabled: enabled)
-                            }
-                    })
-                    divider
-                    SettingsRow(icon: "clock", title: "Reminder time", subtitle: "Set time for each habit", trailing: {
-                        trailingValue(defaultReminderTime.formatted(date: .omitted, time: .shortened))
-                    }) {
-                        showsReminderTimePicker = true
+                    SettingsSectionCard(title: "Notifications") {
+                        SettingsRow(icon: "bell", title: "Daily reminders", showsChevron: false, trailing: {
+                            MiniToggle(isOn: $dailyRemindersEnabled, tint: accentColor)
+                                .onChange(of: dailyRemindersEnabled) { _, enabled in
+                                    if enabled { NotificationScheduler.requestAuthorizationIfNeeded() }
+                                    NotificationScheduler.rescheduleAll(context: modelContext, dailyRemindersEnabled: enabled)
+                                }
+                        })
                     }
-                }
-                .padding(.horizontal, 28)
+                    .padding(.horizontal, 28)
 
-                SettingsSectionCard(title: "Data") {
-                    SettingsRow(icon: "square.and.arrow.down", title: "Export progress") {
-                        exportedCSV = ProgressExporter.csv(habits: habits, dailyLogs: dailyLogs)
+                    SettingsSectionCard(title: "Data") {
+                        SettingsRow(icon: "square.and.arrow.down", title: "Export progress") {
+                            exportedCSV = ProgressExporter.csv(habits: habits, dailyLogs: dailyLogs)
+                        }
+                        divider
+                        SettingsRow(icon: "trash", title: "Clear all data") {
+                            showsClearDataConfirmation = true
+                        }
                     }
-                    divider
-                    SettingsRow(icon: "trash", title: "Clear all data") {
-                        showsClearDataConfirmation = true
-                    }
-                }
-                .padding(.horizontal, 28)
+                    .padding(.horizontal, 28)
 
-                SettingsSectionCard(title: "About") {
-                    SettingsRow(icon: "star", title: "Rate the app") {
-                        requestReview()
+                    SettingsSectionCard(title: "About") {
+                        SettingsRow(icon: "star", title: "Rate the app") {
+                            requestReview()
+                        }
+                        divider
+                        SettingsRow(icon: "info.circle", title: "About") {
+                            showsAbout = true
+                        }
+                        divider
+                        SettingsRow(icon: "number", title: "Version", showsChevron: false, trailing: {
+                            trailingValue(versionString)
+                        })
                     }
-                    divider
-                    SettingsRow(icon: "info.circle", title: "About") {
-                        showsAbout = true
-                    }
-                    divider
-                    SettingsRow(icon: "number", title: "Version", showsChevron: false, trailing: {
-                        trailingValue(versionString)
-                    })
+                    .padding(.horizontal, 28)
                 }
-                .padding(.horizontal, 28)
+                .padding(.bottom, 24)
             }
-            .padding(.bottom, 24)
-        }
-        .background(BlooTheme.background)
-        .sheet(isPresented: $showsManageHabits) { ManageHabitsView() }
-        .sheet(isPresented: $showsLanguagePicker) { LanguagePickerSheet(selectedLanguage: $appLanguage) }
-        .sheet(isPresented: $showsReminderTimePicker) {
-            ReminderTimePickerSheet(hour: $defaultReminderHour, minute: $defaultReminderMinute)
-        }
-        .sheet(isPresented: $showsAbout) { AboutView() }
-        .sheet(item: Binding(
-            get: { exportedCSV.map(ShareableText.init) },
-            set: { newValue in exportedCSV = newValue?.text }
-        )) { item in
-            ShareSheet(activityItems: [item.text])
-        }
-        .alert("Clear all data?", isPresented: $showsClearDataConfirmation) {
-            Button("Cancel", role: .cancel) {}
-            Button("Clear", role: .destructive) { clearAllData() }
-        } message: {
-            Text("This deletes every habit, Bloo, and badge, and starts the app over from onboarding. This can't be undone.")
+            .background(BlooTheme.background)
+            .navigationDestination(isPresented: $showsManageHabits) { ManageHabitsView() }
+            .sheet(isPresented: $showsLanguagePicker) { LanguagePickerSheet(selectedLanguage: $appLanguage) }
+            .sheet(isPresented: $showsAbout) { AboutView() }
+            .sheet(item: Binding(
+                get: { exportedCSV.map(ShareableText.init) },
+                set: { newValue in exportedCSV = newValue?.text }
+            )) { item in
+                ShareSheet(activityItems: [item.text])
+            }
+            .alert("Clear all data?", isPresented: $showsClearDataConfirmation) {
+                Button("Cancel", role: .cancel) {}
+                Button("Clear", role: .destructive) { clearAllData() }
+            } message: {
+                Text("This deletes every habit, Bloo, and badge, and starts the app over from onboarding. This can't be undone.")
+            }
         }
     }
 
@@ -134,7 +120,7 @@ struct SettingsScreenView: View {
                 .font(.bloo(13))
                 .foregroundStyle(BlooTheme.secondaryText)
         }
-        .padding(.leading, 52)
+        .padding(.leading, 28)
         .padding(.top, 47.5)
         .frame(maxWidth: .infinity, alignment: .leading)
     }

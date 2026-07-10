@@ -27,8 +27,10 @@ struct WeekdayPickerView: View {
         }
     }
 
+    private let presetColumns = [GridItem(.flexible(), spacing: 10), GridItem(.flexible())]
+
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 20) {
             HStack(spacing: 0) {
                 ForEach(Weekday.allCases) { day in
                     let isOn = selectedDays.contains(day)
@@ -37,17 +39,17 @@ struct WeekdayPickerView: View {
                     } label: {
                         VStack(spacing: 6) {
                             Circle()
-                                .fill(isOn ? accentColor : Color.gray.opacity(0.15))
-                                .frame(width: 32, height: 32)
+                                .fill(isOn ? accentColor : Color.gray.opacity(0.12))
+                                .frame(width: 38, height: 38)
                                 .overlay {
                                     if isOn {
                                         Image(systemName: "checkmark")
-                                            .font(.bloo(13, weight: .bold))
+                                            .font(.bloo(14, weight: .bold))
                                             .foregroundStyle(.white)
                                     }
                                 }
                             Text(day.shortLabel)
-                                .font(.bloo(12))
+                                .font(.bloo(11))
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -55,17 +57,17 @@ struct WeekdayPickerView: View {
                 }
             }
 
-            HStack(spacing: 8) {
+            LazyVGrid(columns: presetColumns, spacing: 10) {
                 ForEach(Preset.allCases, id: \.self) { preset in
                     Button(preset.rawValue) { apply(preset) }
-                        .font(.bloo(13, weight: .medium))
+                        .font(.bloo(14, weight: .medium))
                         .foregroundStyle(.black)
-                        .padding(.vertical, 8)
+                        .padding(.vertical, 12)
                         .frame(maxWidth: .infinity)
-                        .background(Color.gray.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        .background(Color.gray.opacity(0.08))
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
                                 .stroke(activePreset == preset ? accentColor : .clear, lineWidth: 1.5)
                         )
                 }

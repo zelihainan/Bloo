@@ -20,7 +20,7 @@ struct HabitActivityChartView: View {
     let accentColor: Color
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text("Habit activity")
                     .font(.bloo(15, weight: .medium))
@@ -35,14 +35,14 @@ struct HabitActivityChartView: View {
                 BarMark(
                     x: .value("Day", weekdayLabel(for: day.date)),
                     y: .value("Completed", day.completedCount),
-                    width: .fixed(18)
+                    width: .fixed(16)
                 )
                 .foregroundStyle(RateColorScale.color(forRate: day.completionRate, accent: accentColor))
                 .cornerRadius(4)
                 .annotation(position: .top) {
                     if day.completedCount > 0 {
                         Text("\(day.completedCount)")
-                            .font(.bloo(11))
+                            .font(.bloo(10))
                             .foregroundStyle(BlooTheme.tertiaryText)
                     }
                 }
@@ -51,13 +51,13 @@ struct HabitActivityChartView: View {
             .chartXAxis {
                 AxisMarks(values: .automatic) { _ in
                     AxisValueLabel()
-                        .font(.bloo(11, weight: .medium))
+                        .font(.bloo(10, weight: .medium))
                         .foregroundStyle(BlooTheme.tertiaryText)
                 }
             }
-            .frame(height: 160)
+            .frame(height: 120)
         }
-        .padding(20)
+        .padding(16)
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous))
         .overlay(

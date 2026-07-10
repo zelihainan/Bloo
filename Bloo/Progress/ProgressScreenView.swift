@@ -49,7 +49,7 @@ struct ProgressScreenView: View {
                     .padding(.horizontal, 28)
                 }
 
-                HStack(spacing: 13) {
+                HStack(alignment: .top, spacing: 13) {
                     MonthlyOverviewCardView(weeks: CalendarWeek.recentWeeks(4, endingWith: Date()), state: state(for:), accentColor: accentColor)
 
                     if !habitStreakRows.isEmpty {
@@ -74,7 +74,7 @@ struct ProgressScreenView: View {
                     .font(.bloo(13))
                     .foregroundStyle(BlooTheme.secondaryText)
             }
-            .padding(.leading, 52)
+            .padding(.leading, 28)
             .padding(.top, 47.5)
 
             if let activeBloo {
@@ -115,7 +115,9 @@ struct ProgressScreenView: View {
     }
 
     private var habitStreakRows: [HabitStreakRow] {
-        habits.map { HabitStreakRow(habit: $0, streak: HabitStreakCalculator.currentStreak(for: $0)) }
+        habits
+            .map { HabitStreakRow(habit: $0, streak: HabitStreakCalculator.currentStreak(for: $0)) }
+            .sorted { $0.streak > $1.streak }
     }
 
     private var bestHabitRow: HabitStreakRow? {

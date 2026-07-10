@@ -61,10 +61,11 @@ struct BadgesCardView: View {
                 .font(.bloo(8, weight: .medium))
                 .foregroundStyle(BlooTheme.tertiaryText)
                 .multilineTextAlignment(.center)
-                .lineLimit(2)
+                .lineLimit(3)
+                .minimumScaleFactor(0.75)
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .frame(maxWidth: .infinity, minHeight: 92)
+        .frame(maxWidth: .infinity, minHeight: 100)
         .padding(.vertical, 10)
         .padding(.horizontal, 4)
         .background(isEarned ? Color.white : Color(hex: "#F5F5F5"))

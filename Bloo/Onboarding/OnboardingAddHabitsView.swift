@@ -77,16 +77,18 @@ struct OnboardingAddHabitsView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(BlooTheme.background)
         .sheet(item: $presentedSheet) { sheet in
-            switch sheet {
-            case .new:
-                AddEditHabitView(mode: .new) { draft in
-                    save(draft: draft, sortOrder: habits.count)
-                }
-            case .edit(let habit):
-                AddEditHabitView(mode: .edit(habit)) { draft in
-                    update(habit, with: draft)
-                } onDelete: {
-                    delete(habit)
+            NavigationStack {
+                switch sheet {
+                case .new:
+                    AddEditHabitView(mode: .new) { draft in
+                        save(draft: draft, sortOrder: habits.count)
+                    }
+                case .edit(let habit):
+                    AddEditHabitView(mode: .edit(habit)) { draft in
+                        update(habit, with: draft)
+                    } onDelete: {
+                        delete(habit)
+                    }
                 }
             }
         }
