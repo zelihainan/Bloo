@@ -23,11 +23,11 @@ struct HabitActivityChartView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Text("Habit activity")
-                    .font(.bloo(13, weight: .medium))
+                    .font(.bloo(15, weight: .medium))
                     .foregroundStyle(BlooTheme.secondaryText)
                 Spacer()
                 Text("This week")
-                    .font(.bloo(9))
+                    .font(.bloo(11))
                     .foregroundStyle(BlooTheme.tertiaryText)
             }
 
@@ -35,14 +35,14 @@ struct HabitActivityChartView: View {
                 BarMark(
                     x: .value("Day", weekdayLabel(for: day.date)),
                     y: .value("Completed", day.completedCount),
-                    width: .fixed(15)
+                    width: .fixed(18)
                 )
                 .foregroundStyle(RateColorScale.color(forRate: day.completionRate, accent: accentColor))
                 .cornerRadius(4)
                 .annotation(position: .top) {
                     if day.completedCount > 0 {
                         Text("\(day.completedCount)")
-                            .font(.bloo(8))
+                            .font(.bloo(11))
                             .foregroundStyle(BlooTheme.tertiaryText)
                     }
                 }
@@ -51,7 +51,7 @@ struct HabitActivityChartView: View {
             .chartXAxis {
                 AxisMarks(values: .automatic) { _ in
                     AxisValueLabel()
-                        .font(.bloo(8, weight: .light))
+                        .font(.bloo(11, weight: .medium))
                         .foregroundStyle(BlooTheme.tertiaryText)
                 }
             }

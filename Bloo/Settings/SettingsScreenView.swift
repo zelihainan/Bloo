@@ -143,12 +143,12 @@ struct SettingsScreenView: View {
         Rectangle()
             .fill(Color(hex: "#F8F5F0"))
             .frame(height: 1)
-            .padding(.leading, 49)
+            .padding(.leading, 62)
     }
 
     private func trailingValue(_ text: String) -> some View {
         Text(text)
-            .font(.bloo(6))
+            .font(.bloo(11))
             .foregroundStyle(BlooTheme.tertiaryText)
     }
 

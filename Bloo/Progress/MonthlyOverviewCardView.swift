@@ -34,32 +34,32 @@ struct MonthlyOverviewCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Monthly overview")
-                .font(.bloo(13, weight: .medium))
+                .font(.bloo(15, weight: .medium))
                 .foregroundStyle(BlooTheme.secondaryText)
 
             HStack(spacing: 0) {
                 ForEach(weekdayHeaders.indices, id: \.self) { index in
                     Text(weekdayHeaders[index])
-                        .font(.bloo(8, weight: .light))
+                        .font(.bloo(10, weight: .medium))
                         .foregroundStyle(BlooTheme.tertiaryText)
                         .frame(maxWidth: .infinity)
                 }
             }
 
-            VStack(spacing: 5) {
+            VStack(spacing: 6) {
                 ForEach(weeks, id: \.self) { week in
                     HStack(spacing: 0) {
                         ForEach(week, id: \.self) { date in
                             Circle()
                                 .fill(color(for: state(date)))
-                                .frame(width: 10, height: 10)
+                                .frame(width: 12, height: 12)
                                 .frame(maxWidth: .infinity)
                         }
                     }
                 }
             }
 
-            HStack(spacing: 6) {
+            VStack(alignment: .leading, spacing: 4) {
                 legendItem(state: .completed, label: "Completed")
                 legendItem(state: .partial, label: "Partial")
                 legendItem(state: .noData, label: "No data")
@@ -77,11 +77,11 @@ struct MonthlyOverviewCardView: View {
     }
 
     private func legendItem(state: DayCompletionState, label: String) -> some View {
-        HStack(spacing: 3) {
-            Circle().fill(color(for: state)).frame(width: 5, height: 5)
+        HStack(spacing: 5) {
+            Circle().fill(color(for: state)).frame(width: 8, height: 8)
             Text(label)
-                .font(.bloo(5, weight: .light))
-                .foregroundStyle(.black)
+                .font(.bloo(10))
+                .foregroundStyle(BlooTheme.secondaryText)
         }
     }
 }

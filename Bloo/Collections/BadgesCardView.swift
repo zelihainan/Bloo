@@ -18,7 +18,7 @@ struct BadgesCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 11) {
             Text("Badges")
-                .font(.bloo(13, weight: .medium))
+                .font(.bloo(16, weight: .medium))
                 .foregroundStyle(BlooTheme.secondaryText)
 
             LazyVGrid(columns: columns, spacing: 6) {
@@ -38,34 +38,34 @@ struct BadgesCardView: View {
 
     private func badgeTile(for type: BadgeType) -> some View {
         let isEarned = earnedTypes.contains(type)
-        return VStack(spacing: 5) {
+        return VStack(spacing: 6) {
             ZStack {
                 Circle()
                     .fill(isEarned ? Color(hex: type.circleColorHex) : Color.gray.opacity(0.12))
-                    .frame(width: 30, height: 30)
+                    .frame(width: 34, height: 34)
                 if isEarned {
-                    Text(type.emoji).font(.system(size: 15))
+                    Text(type.emoji).font(.system(size: 17))
                 } else {
                     Image(systemName: "lock.fill")
-                        .font(.system(size: 11))
+                        .font(.system(size: 12))
                         .foregroundStyle(Color.gray.opacity(0.5))
                 }
             }
             Text(type.title)
-                .font(.bloo(7, weight: .medium))
+                .font(.bloo(10, weight: .medium))
                 .foregroundStyle(BlooTheme.secondaryText)
                 .multilineTextAlignment(.center)
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
             Text(type.badgeDescription)
-                .font(.bloo(5, weight: .medium))
+                .font(.bloo(8, weight: .medium))
                 .foregroundStyle(BlooTheme.tertiaryText)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .frame(maxWidth: .infinity, minHeight: 70)
-        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity, minHeight: 92)
+        .padding(.vertical, 10)
         .padding(.horizontal, 4)
         .background(isEarned ? Color.white : Color(hex: "#F5F5F5"))
         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))

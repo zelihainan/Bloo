@@ -24,14 +24,14 @@ struct WeeklySummaryCardView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .firstTextBaseline, spacing: 4) {
                         Text("\(daysCompleted)")
-                            .font(.bloo(20, weight: .bold))
+                            .font(.bloo(26, weight: .bold))
                             .foregroundStyle(accentColor)
                         Text("/ 7 days")
-                            .font(.bloo(10, weight: .bold))
+                            .font(.bloo(14, weight: .bold))
                             .foregroundStyle(BlooTheme.secondaryText)
                     }
                     Text("completed")
-                        .font(.bloo(9))
+                        .font(.bloo(12))
                         .foregroundStyle(BlooTheme.secondaryText)
                 }
 
@@ -39,7 +39,7 @@ struct WeeklySummaryCardView: View {
 
                 VStack(alignment: .trailing, spacing: 8) {
                     Text("This week")
-                        .font(.bloo(9))
+                        .font(.bloo(11))
                         .foregroundStyle(BlooTheme.tertiaryText)
                     HStack(spacing: 12) {
                         ForEach(weekDates, id: \.self) { date in
@@ -51,10 +51,10 @@ struct WeeklySummaryCardView: View {
 
             HStack(alignment: .firstTextBaseline, spacing: 4) {
                 Text("+\(xpEarnedThisWeek)")
-                    .font(.bloo(20, weight: .bold))
+                    .font(.bloo(26, weight: .bold))
                     .foregroundStyle(accentColor)
                 Text("XP earned!")
-                    .font(.bloo(9))
+                    .font(.bloo(12))
                     .foregroundStyle(BlooTheme.secondaryText)
             }
 
@@ -83,15 +83,15 @@ struct WeeklySummaryCardView: View {
             ZStack {
                 Circle()
                     .fill(isDone ? accentColor : RateColorScale.noData)
-                    .frame(width: 10, height: 10)
+                    .frame(width: 16, height: 16)
                 if isDone {
                     Text("✓")
-                        .font(.system(size: 6))
+                        .font(.system(size: 9, weight: .bold))
                         .foregroundStyle(.white)
                 }
             }
             Text(weekdayLabel(for: date))
-                .font(.bloo(8, weight: .light))
+                .font(.bloo(10, weight: .medium))
                 .foregroundStyle(BlooTheme.tertiaryText)
         }
     }

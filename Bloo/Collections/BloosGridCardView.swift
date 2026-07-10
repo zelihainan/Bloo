@@ -28,11 +28,11 @@ struct BloosGridCardView: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text("Bloos")
-                    .font(.bloo(13, weight: .medium))
+                    .font(.bloo(16, weight: .medium))
                     .foregroundStyle(BlooTheme.secondaryText)
                 Spacer()
                 Text("\(unlockedCount)/\(bloos.count) Unlocked")
-                    .font(.bloo(7))
+                    .font(.bloo(11))
                     .foregroundStyle(BlooTheme.secondaryText)
             }
 
@@ -69,21 +69,21 @@ struct BloosGridCardView: View {
                 .overlay(alignment: .topTrailing) {
                     if isLocked {
                         ZStack {
-                            Circle().fill(BlooTheme.cardBorder).frame(width: 10, height: 10)
+                            Circle().fill(BlooTheme.cardBorder).frame(width: 14, height: 14)
                             Image(systemName: "lock.fill")
-                                .font(.system(size: 5))
+                                .font(.system(size: 7))
                                 .foregroundStyle(BlooTheme.secondaryText)
                         }
-                        .padding(6)
+                        .padding(5)
                     }
                 }
 
             if isActive {
                 Text("Active companion")
-                    .font(.bloo(5))
+                    .font(.bloo(8))
                     .foregroundStyle(BlooTheme.secondaryText)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.7)
+                    .minimumScaleFactor(0.6)
             }
         }
         .frame(width: 83)

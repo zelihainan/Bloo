@@ -25,14 +25,14 @@ struct BestHabitCardsView: View {
     private func card(title: String, habitName: String, days: Int, valueColor: Color) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
-                .font(.bloo(9))
+                .font(.bloo(12))
                 .foregroundStyle(BlooTheme.secondaryText)
             Text(habitName)
-                .font(.bloo(11))
+                .font(.bloo(15, weight: .medium))
                 .foregroundStyle(BlooTheme.primaryText)
                 .lineLimit(1)
             Text("\(days) Day\(days == 1 ? "" : "s")")
-                .font(.bloo(11))
+                .font(.bloo(14, weight: .medium))
                 .foregroundStyle(valueColor)
         }
         .frame(maxWidth: .infinity, minHeight: 90, alignment: .topLeading)

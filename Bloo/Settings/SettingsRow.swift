@@ -29,22 +29,22 @@ struct SettingsRow<Trailing: View>: View {
         Button {
             action?()
         } label: {
-            HStack(spacing: 7) {
+            HStack(spacing: 12) {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill(rowColor.mixed(withWhite: 0.92))
-                        .frame(width: 30, height: 30)
+                        .frame(width: 38, height: 38)
                     Image(systemName: icon)
-                        .font(.system(size: 12))
+                        .font(.system(size: 15))
                         .foregroundStyle(rowColor)
                 }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
-                        .font(.bloo(10, weight: .medium))
+                        .font(.bloo(14, weight: .medium))
                         .foregroundStyle(tint ?? BlooTheme.secondaryText)
                     if let subtitle {
                         Text(subtitle)
-                            .font(.bloo(6))
+                            .font(.bloo(11))
                             .foregroundStyle(BlooTheme.tertiaryText)
                     }
                 }
@@ -52,7 +52,7 @@ struct SettingsRow<Trailing: View>: View {
                 trailing()
                 if showsChevron {
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 11, weight: .medium))
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(Color(hex: "#C8BFB4"))
                 }
             }

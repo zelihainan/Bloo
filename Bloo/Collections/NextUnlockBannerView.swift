@@ -25,11 +25,12 @@ struct NextUnlockBannerView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text("Next unlock!")
-                    .font(.bloo(13, weight: .semibold))
+                    .font(.bloo(15, weight: .semibold))
                     .foregroundStyle(BlooTheme.primaryText)
                 Text("Help \(activeBloo?.displayName ?? "your Bloo") finish growing to unlock")
-                    .font(.bloo(9, weight: .semibold))
+                    .font(.bloo(11, weight: .medium))
                     .foregroundStyle(BlooTheme.tertiaryText)
+                    .lineLimit(2)
 
                 GeometryReader { proxy in
                     ZStack(alignment: .leading) {
