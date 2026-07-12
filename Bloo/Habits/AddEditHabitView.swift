@@ -128,16 +128,12 @@ struct AddEditHabitView: View {
                         dismiss()
                     } label: {
                         Text("Save Habit")
-                            .font(.bloo(14, weight: .semibold))
-                            .foregroundStyle(trimmedName.isEmpty || selectedDays.isEmpty ? BlooTheme.tertiaryText : BlooTheme.primaryText)
+                            .font(.bloo(15, weight: .semibold))
+                            .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                            .background(Color.white)
-                            .clipShape(RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous)
-                                    .stroke(trimmedName.isEmpty || selectedDays.isEmpty ? BlooTheme.cardBorder : BlooTheme.primaryText, lineWidth: 1)
-                            )
+                            .padding(.vertical, 14)
+                            .background(BlooTheme.secondaryText.opacity(trimmedName.isEmpty || selectedDays.isEmpty ? 0.4 : 1))
+                            .clipShape(Capsule())
                     }
                     .disabled(trimmedName.isEmpty || selectedDays.isEmpty)
 
@@ -145,15 +141,14 @@ struct AddEditHabitView: View {
                         Button("Delete Habit") {
                             showsDeleteConfirmation = true
                         }
-                        .font(.bloo(14, weight: .semibold))
+                        .font(.bloo(15))
                         .foregroundStyle(BlooTheme.secondaryText)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
+                        .padding(.vertical, 14)
                         .background(Color.white)
-                        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous))
+                        .clipShape(Capsule())
                         .overlay(
-                            RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous)
-                                .stroke(BlooTheme.cardBorder, lineWidth: 1)
+                            Capsule().stroke(BlooTheme.secondaryText, lineWidth: 0.5)
                         )
                     }
                 }
