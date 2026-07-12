@@ -8,13 +8,22 @@ import SwiftUI
 struct NameBlooView: View {
     let species: BlooSpecies
     @Binding var name: String
+    var onBack: (() -> Void)? = nil
     let onContinue: () -> Void
+
+    private let nameCharacterLimit = 24
 
     private var trimmedName: String { name.trimmingCharacters(in: .whitespacesAndNewlines) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Spacer().frame(height: 60)
+            if let onBack {
+                Spacer().frame(height: 12)
+                OnboardingBackButton(action: onBack)
+                Spacer().frame(height: 20)
+            } else {
+                Spacer().frame(height: 60)
+            }
 
             Text("What's your Bloo's name?")
                 .font(.bloo(30, weight: .semibold))
@@ -35,6 +44,11 @@ struct NameBlooView: View {
                 .padding(.vertical, 16)
                 .padding(.horizontal, 20)
                 .blooFieldBackground()
+                .onChange(of: name) { _, newValue in
+                    if newValue.count > nameCharacterLimit {
+                        name = String(newValue.prefix(nameCharacterLimit))
+                    }
+                }
 
             Spacer()
             Spacer()

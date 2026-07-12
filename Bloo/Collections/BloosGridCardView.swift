@@ -58,7 +58,7 @@ struct BloosGridCardView: View {
     private func tile(for bloo: Bloo) -> some View {
         let isActive = bloo.state == .active
         let isLocked = bloo.state == .locked
-        let isSelectable = !isLocked
+        let isCompleted = bloo.state == .completed
         let accent = Color(hex: bloo.species.colorHex)
 
         return VStack(spacing: 4) {
@@ -76,25 +76,39 @@ struct BloosGridCardView: View {
                     )
                     .overlay(alignment: .topTrailing) {
                         if isLocked {
-                            ZStack {
-                                Circle().fill(BlooTheme.cardBorder).frame(width: 16, height: 16)
-                                Image(systemName: "lock.fill")
-                                    .font(.system(size: 8))
-                                    .foregroundStyle(BlooTheme.secondaryText)
-                            }
-                            .padding(6)
+                            badge(systemImage: "lock.fill")
+                        } else if isCompleted {
+                            badge(systemImage: "trophy.fill", tint: .white, background: Color(hex: "#FFB020"))
                         }
                     }
             }
             .buttonStyle(.plain)
-            .disabled(!isSelectable)
+            .disabled(isLocked)
+            .accessibilityLabel(accessibilityLabel(isActive: isActive, isLocked: isLocked, isCompleted: isCompleted))
 
-            Text(isActive ? LocalizedStringKey("Active companion") : LocalizedStringKey(" "))
+            Text(isActive ? LocalizedStringKey("Active companion") : isCompleted ? LocalizedStringKey("Grown up") : LocalizedStringKey(" "))
                 .font(.bloo(9))
                 .foregroundStyle(BlooTheme.secondaryText)
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
         }
         .frame(width: tileSize)
+    }
+
+    private func accessibilityLabel(isActive: Bool, isLocked: Bool, isCompleted: Bool) -> Text {
+        if isLocked { Text("Locked") }
+        else if isActive { Text("Active companion") }
+        else if isCompleted { Text("Grown up") }
+        else { Text("Available") }
+    }
+
+    private func badge(systemImage: String, tint: Color = BlooTheme.secondaryText, background: Color = BlooTheme.cardBorder) -> some View {
+        ZStack {
+            Circle().fill(background).frame(width: 16, height: 16)
+            Image(systemName: systemImage)
+                .font(.system(size: 8))
+                .foregroundStyle(tint)
+        }
+        .padding(6)
     }
 }

@@ -16,6 +16,9 @@ final class Habit {
     var reminderTime: Date
     var createdAt: Date
     var sortOrder: Int
+    /// Paused instead of deleted — excluded from today's schedule, notifications,
+    /// and Progress stats, but keeps its completion history intact.
+    var isArchived: Bool = false
 
     @Relationship(deleteRule: .cascade, inverse: \HabitCompletion.habit)
     var completions: [HabitCompletion] = []
@@ -26,7 +29,8 @@ final class Habit {
         activeWeekdays: [Weekday] = Weekday.allCases,
         isReminderEnabled: Bool = false,
         reminderTime: Date = Calendar.current.date(from: DateComponents(hour: 9, minute: 0)) ?? Date(),
-        sortOrder: Int = 0
+        sortOrder: Int = 0,
+        isArchived: Bool = false
     ) {
         self.id = UUID()
         self.name = name
@@ -36,6 +40,7 @@ final class Habit {
         self.reminderTime = reminderTime
         self.createdAt = Date()
         self.sortOrder = sortOrder
+        self.isArchived = isArchived
     }
 
     var activeWeekdays: [Weekday] {

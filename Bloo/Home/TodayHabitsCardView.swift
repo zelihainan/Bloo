@@ -11,11 +11,16 @@ import SwiftUI
 
 struct TodayHabitsCardView: View {
     let habits: [Habit]
+    /// Total habits regardless of today's schedule — the 10-habit cap applies to
+    /// this, not to `habits.count` (which is just today's scheduled subset).
+    let totalHabitCount: Int
     let isCompleted: (Habit) -> Bool
     let onToggle: (Habit) -> Void
     let onEdit: (Habit) -> Void
     let onDelete: (Habit) -> Void
     let onAddHabit: () -> Void
+
+    private var isAtHabitLimit: Bool { totalHabitCount >= HabitStore.maxHabitCount }
 
     @Environment(\.blooAccentColor) private var accentColor
 
@@ -54,7 +59,14 @@ struct TodayHabitsCardView: View {
                     .stroke(BlooTheme.cardBorder, lineWidth: 1)
             )
 
-            addHabitButton
+            VStack(spacing: 6) {
+                addHabitButton
+                if isAtHabitLimit {
+                    Text(String(format: NSLocalizedString("You've reached the %d-habit limit", comment: ""), HabitStore.maxHabitCount))
+                        .font(.bloo(11))
+                        .foregroundStyle(BlooTheme.tertiaryText)
+                }
+            }
         }
     }
 
@@ -75,7 +87,7 @@ struct TodayHabitsCardView: View {
             .background(BlooTheme.secondaryText.opacity(0.1))
             .clipShape(Capsule())
         }
-        .disabled(habits.count >= 10)
+        .disabled(isAtHabitLimit)
     }
 
     private func row(for habit: Habit) -> some View {
@@ -100,6 +112,9 @@ struct TodayHabitsCardView: View {
                     }
             }
             .buttonStyle(.plain)
+            .accessibilityLabel(Text(habit.name))
+            .accessibilityValue(completed ? Text("Completed") : Text("Not completed"))
+            .accessibilityAddTraits(.isButton)
 
             Button {
                 onEdit(habit)

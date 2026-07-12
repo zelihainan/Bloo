@@ -10,6 +10,7 @@ import SwiftUI
 struct ChooseBlooView: View {
     let bloos: [Bloo]
     @Binding var selectedSpecies: BlooSpecies?
+    let onBack: () -> Void
     let onContinue: () -> Void
 
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 16), count: 3)
@@ -20,7 +21,9 @@ struct ChooseBlooView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Spacer().frame(height: 60)
+            Spacer().frame(height: 12)
+            OnboardingBackButton(action: onBack)
+            Spacer().frame(height: 20)
 
             Text("Choose your Bloo")
                 .font(.bloo(32, weight: .semibold))

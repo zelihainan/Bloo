@@ -41,7 +41,8 @@ struct ProgressScreenView: View {
                 HabitActivityChartView(activity: weeklyActivity, accentColor: accentColor)
                     .padding(.horizontal, 28)
 
-                if habits.count >= 2, let best = bestHabitRow, let worst = worstHabitRow {
+                let streakRows = habitStreakRows
+                if habits.count >= 2, let best = streakRows.max(by: { $0.streak < $1.streak }), let worst = streakRows.min(by: { $0.streak < $1.streak }) {
                     BestHabitCardsView(
                         bestHabit: best.habit, bestStreak: best.streak,
                         worstHabit: worst.habit, worstStreak: worst.streak
@@ -52,8 +53,8 @@ struct ProgressScreenView: View {
                 HStack(alignment: .top, spacing: 13) {
                     MonthlyOverviewCardView(weeks: CalendarWeek.recentWeeks(4, endingWith: Date()), state: state(for:), accentColor: accentColor)
 
-                    if !habitStreakRows.isEmpty {
-                        HabitStreakCardView(rows: habitStreakRows, accentColor: accentColor)
+                    if !streakRows.isEmpty {
+                        HabitStreakCardView(rows: streakRows, accentColor: accentColor)
                     }
                 }
                 .padding(.horizontal, 28)
@@ -73,6 +74,8 @@ struct ProgressScreenView: View {
                 Text(String(format: NSLocalizedString("See how far %@ has grown!", comment: ""), activeBloo?.displayName ?? "your Bloo"))
                     .font(.bloo(13))
                     .foregroundStyle(BlooTheme.secondaryText)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
             }
             .padding(.leading, 28)
             .padding(.top, 47.5)
@@ -118,13 +121,5 @@ struct ProgressScreenView: View {
         habits
             .map { HabitStreakRow(habit: $0, streak: HabitStreakCalculator.currentStreak(for: $0)) }
             .sorted { $0.streak > $1.streak }
-    }
-
-    private var bestHabitRow: HabitStreakRow? {
-        habitStreakRows.max { $0.streak < $1.streak }
-    }
-
-    private var worstHabitRow: HabitStreakRow? {
-        habitStreakRows.min { $0.streak < $1.streak }
     }
 }

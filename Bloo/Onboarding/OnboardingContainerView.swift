@@ -27,18 +27,18 @@ struct OnboardingContainerView: View {
             case .welcome:
                 OnboardingWelcomeView { step = .chooseBloo }
             case .chooseBloo:
-                ChooseBlooView(bloos: bloos, selectedSpecies: $selectedSpecies) {
+                ChooseBlooView(bloos: bloos, selectedSpecies: $selectedSpecies, onBack: { step = .welcome }) {
                     step = .nameBloo
                 }
             case .nameBloo:
                 if let species = selectedSpecies {
-                    NameBlooView(species: species, name: $blooName) {
+                    NameBlooView(species: species, name: $blooName, onBack: { step = .chooseBloo }) {
                         activateChosenBloo(species: species)
                         step = .addHabits
                     }
                 }
             case .addHabits:
-                OnboardingAddHabitsView {
+                OnboardingAddHabitsView(onBack: { step = .nameBloo }) {
                     hasCompletedOnboarding = true
                 }
             }

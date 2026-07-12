@@ -23,5 +23,7 @@ struct MiniToggle: View {
             .frame(width: 36, height: 20)
         }
         .buttonStyle(.plain)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityValue(isOn ? Text("On") : Text("Off"))
     }
 }

@@ -54,25 +54,43 @@ struct WeekdayPickerView: View {
                         }
                     }
                     .frame(maxWidth: .infinity)
+                    .accessibilityLabel(Text(LocalizedStringKey(day.shortLabel)))
+                    .accessibilityValue(isOn ? Text("Selected") : Text("Not selected"))
+                    .accessibilityAddTraits(.isButton)
                 }
             }
 
             LazyVGrid(columns: presetColumns, spacing: 10) {
                 ForEach(Preset.allCases, id: \.self) { preset in
-                    Button(LocalizedStringKey(preset.rawValue)) { apply(preset) }
-                        .font(.bloo(14, weight: .medium))
-                        .foregroundStyle(.black)
-                        .padding(.vertical, 12)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.gray.opacity(0.08))
-                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                .stroke(activePreset == preset ? accentColor : .clear, lineWidth: 1.5)
-                        )
+                    if preset == .custom {
+                        // Not a button — there's no specific day-set for "Custom" to
+                        // jump to, so this only ever shows the current state, matching
+                        // the other presets' look without being a dead tap target.
+                        presetLabel(for: preset)
+                    } else {
+                        Button {
+                            apply(preset)
+                        } label: {
+                            presetLabel(for: preset)
+                        }
+                    }
                 }
             }
         }
+    }
+
+    private func presetLabel(for preset: Preset) -> some View {
+        Text(LocalizedStringKey(preset.rawValue))
+            .font(.bloo(14, weight: .medium))
+            .foregroundStyle(.black)
+            .padding(.vertical, 12)
+            .frame(maxWidth: .infinity)
+            .background(Color.gray.opacity(0.08))
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .stroke(activePreset == preset ? accentColor : .clear, lineWidth: 1.5)
+            )
     }
 
     private func toggle(_ day: Weekday) {

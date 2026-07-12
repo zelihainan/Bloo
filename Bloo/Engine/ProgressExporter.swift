@@ -29,8 +29,7 @@ enum ProgressExporter {
     }
 
     /// A readable plain-text report for sharing — not a raw CSV dump.
-    static func report(habits: [Habit], dailyLogs: [DailyLog]) -> String {
-        let summary = summary(habits: habits, dailyLogs: dailyLogs)
+    static func report(from summary: ProgressSummary) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
 

@@ -33,6 +33,8 @@ struct GrowthCardView: View {
                 Text(String(format: NSLocalizedString("%@ is growing 🌱", comment: ""), bloo.displayName))
                     .font(.bloo(11, italic: true))
                     .foregroundStyle(BlooTheme.secondaryText)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
                     .frame(width: 260, alignment: .trailing)
             }
         }

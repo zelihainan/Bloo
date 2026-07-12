@@ -16,8 +16,13 @@ struct ExportPreviewView: View {
     @Environment(\.blooAccentColor) private var accentColor
     @State private var showsShareSheet = false
 
-    private var summary: ProgressSummary { ProgressExporter.summary(habits: habits, dailyLogs: dailyLogs) }
-    private var reportText: String { ProgressExporter.report(habits: habits, dailyLogs: dailyLogs) }
+    private let summary: ProgressSummary
+
+    init(habits: [Habit], dailyLogs: [DailyLog]) {
+        self.habits = habits
+        self.dailyLogs = dailyLogs
+        self.summary = ProgressExporter.summary(habits: habits, dailyLogs: dailyLogs)
+    }
 
     var body: some View {
         NavigationStack {
@@ -52,7 +57,7 @@ struct ExportPreviewView: View {
                 }
             }
             .sheet(isPresented: $showsShareSheet) {
-                ShareSheet(activityItems: [reportText])
+                ShareSheet(activityItems: [ProgressExporter.report(from: summary)])
             }
         }
     }

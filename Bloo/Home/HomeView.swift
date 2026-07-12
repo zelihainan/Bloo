@@ -17,8 +17,12 @@ struct HomeView: View {
 
     private var activeBloo: Bloo? { activeBloos.first }
 
+    private var activeHabits: [Habit] {
+        allHabits.filter { !$0.isArchived }
+    }
+
     private var todaysHabits: [Habit] {
-        allHabits.filter { $0.isScheduled(on: Date()) }
+        activeHabits.filter { $0.isScheduled(on: Date()) }
     }
 
     private var dayNumber: Int {
@@ -55,6 +59,7 @@ struct HomeView: View {
 
                     TodayHabitsCardView(
                         habits: todaysHabits,
+                        totalHabitCount: activeHabits.count,
                         isCompleted: isCompletedToday,
                         onToggle: toggle,
                         onEdit: { presentedDestination = .edit($0) },
@@ -74,6 +79,8 @@ struct HomeView: View {
                 case .edit(let habit):
                     AddEditHabitView(mode: .edit(habit)) { draft in update(habit, with: draft) } onDelete: {
                         delete(habit)
+                    } onArchiveToggle: { archived in
+                        setArchived(habit, archived: archived)
                     }
                 }
             }
@@ -108,36 +115,18 @@ struct HomeView: View {
     }
 
     private func save(draft: HabitDraft) {
-        let habit = Habit(
-            name: draft.name,
-            note: draft.note,
-            activeWeekdays: draft.activeWeekdays,
-            isReminderEnabled: draft.isReminderEnabled,
-            reminderTime: draft.reminderTime,
-            sortOrder: allHabits.count
-        )
-        modelContext.insert(habit)
-        try? modelContext.save()
-        rescheduleNotifications()
+        HabitStore.create(draft: draft, sortOrder: allHabits.count, context: modelContext, dailyRemindersEnabled: dailyRemindersEnabled)
     }
 
     private func update(_ habit: Habit, with draft: HabitDraft) {
-        habit.name = draft.name
-        habit.note = draft.note
-        habit.activeWeekdays = draft.activeWeekdays
-        habit.isReminderEnabled = draft.isReminderEnabled
-        habit.reminderTime = draft.reminderTime
-        try? modelContext.save()
-        rescheduleNotifications()
+        HabitStore.update(habit, with: draft, context: modelContext, dailyRemindersEnabled: dailyRemindersEnabled)
+    }
+
+    private func setArchived(_ habit: Habit, archived: Bool) {
+        HabitStore.setArchived(habit, archived: archived, context: modelContext, dailyRemindersEnabled: dailyRemindersEnabled)
     }
 
     private func delete(_ habit: Habit) {
-        modelContext.delete(habit)
-        try? modelContext.save()
-        rescheduleNotifications()
-    }
-
-    private func rescheduleNotifications() {
-        NotificationScheduler.rescheduleAll(context: modelContext, dailyRemindersEnabled: dailyRemindersEnabled)
+        HabitStore.delete(habit, context: modelContext, dailyRemindersEnabled: dailyRemindersEnabled)
     }
 }

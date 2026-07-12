@@ -640,6 +640,23 @@
         }
       }
     },
+    "Days logged": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Days logged"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydedilen gün"
+          }
+        }
+      }
+    },
     "Delete": {
       "localizations": {
         "en": {
@@ -668,6 +685,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Alışkanlığı Sil"
+          }
+        }
+      }
+    },
+    "Delete this habit?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete this habit?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu alışkanlık silinsin mi?"
           }
         }
       }
@@ -737,7 +770,6 @@
         }
       }
     },
-    "English": {},
     "Every day": {
       "extractionState": "stale",
       "localizations": {
@@ -773,7 +805,6 @@
       }
     },
     "Export progress": {
-      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1020,7 +1051,6 @@
       }
     },
     "Language": {
-      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1049,6 +1079,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Birlikte harika alışkanlıklar oluşturalım."
+          }
+        }
+      }
+    },
+    "Longest streak": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Longest streak"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En uzun seri"
           }
         }
       }
@@ -1300,6 +1347,23 @@
         }
       }
     },
+    "Perfect days": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perfect days"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mükemmel günler"
+          }
+        }
+      }
+    },
     "Pick your companion. It'll grow with you.": {
       "localizations": {
         "en": {
@@ -1446,6 +1510,22 @@
         }
       }
     },
+    "Share Report": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share Report"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raporu Paylaş"
+          }
+        }
+      }
+    },
     "Something is hatching...": {
       "localizations": {
         "en": {
@@ -1542,6 +1622,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Paz"
+          }
+        }
+      }
+    },
+    "This can't be undone.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This can't be undone."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu işlem geri alınamaz."
           }
         }
       }
@@ -1643,6 +1739,40 @@
         }
       }
     },
+    "Total XP earned": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total XP earned"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toplam kazanılan XP"
+          }
+        }
+      }
+    },
+    "Tracking since": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tracking since"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takip başlangıcı"
+          }
+        }
+      }
+    },
     "Tue": {
       "extractionState": "stale",
       "localizations": {
@@ -1660,7 +1790,6 @@
         }
       }
     },
-    "Türkçe": {},
     "Turn off to silence every habit's reminder": {
       "extractionState": "stale",
       "localizations": {
@@ -1827,130 +1956,258 @@
         }
       }
     },
-    "Delete this habit?": {
+    "Grown up": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Delete this habit?"
+            "value": "Grown up"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bu alışkanlık silinsin mi?"
+            "value": "Büyüdü"
           }
         }
       }
     },
-    "This can't be undone.": {
+    "You've reached the %d-habit limit": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This can't be undone."
+            "value": "You've reached the %d-habit limit"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bu işlem geri alınamaz."
+            "value": "%d alışkanlık sınırına ulaştın"
           }
         }
       }
     },
-    "Tracking since": {
+    "Recent history": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tracking since"
+            "value": "Recent history"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Takip başlangıcı"
+            "value": "Son geçmiş"
           }
         }
       }
     },
-    "Days logged": {
+    "Not completed": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Days logged"
+            "value": "Not completed"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kaydedilen gün"
+            "value": "Tamamlanmadı"
           }
         }
       }
     },
-    "Total XP earned": {
+    "On": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Total XP earned"
+            "value": "On"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Toplam kazanılan XP"
+            "value": "Açık"
           }
         }
       }
     },
-    "Perfect days": {
+    "Off": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Perfect days"
+            "value": "Off"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mükemmel günler"
+            "value": "Kapalı"
           }
         }
       }
     },
-    "Longest streak": {
+    "Selected": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Longest streak"
+            "value": "Selected"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "En uzun seri"
+            "value": "Seçili"
           }
         }
       }
     },
-    "Share Report": {
+    "Not selected": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Share Report"
+            "value": "Not selected"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Raporu Paylaş"
+            "value": "Seçili değil"
+          }
+        }
+      }
+    },
+    "Locked": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Locked"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilitli"
+          }
+        }
+      }
+    },
+    "Available": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Available"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılabilir"
+          }
+        }
+      }
+    },
+    "Archived": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Archived"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arşivlendi"
+          }
+        }
+      }
+    },
+    "Restore": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri Yükle"
+          }
+        }
+      }
+    },
+    "Archive": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Archive"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arşivle"
+          }
+        }
+      }
+    },
+    "Archive Habit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Archive Habit"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alışkanlığı Arşivle"
+          }
+        }
+      }
+    },
+    "Restore Habit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore Habit"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alışkanlığı Geri Yükle"
+          }
+        }
+      }
+    },
+    "Paused — won't show on Home or send reminders until restored": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paused — won't show on Home or send reminders until restored"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duraklatıldı — geri yüklenene kadar Ana Sayfa'da görünmez ve hatırlatıcı göndermez"
           }
         }
       }

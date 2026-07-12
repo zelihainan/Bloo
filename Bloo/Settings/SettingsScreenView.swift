@@ -56,6 +56,7 @@ struct SettingsScreenView: View {
                     SettingsSectionCard(title: "Notifications") {
                         SettingsRow(icon: "bell", title: "Daily reminders", subtitle: "Turn off to silence every habit's reminder", showsChevron: false, trailing: {
                             MiniToggle(isOn: $dailyRemindersEnabled, tint: accentColor)
+                                .accessibilityLabel(Text("Daily reminders"))
                                 .onChange(of: dailyRemindersEnabled) { _, enabled in
                                     if enabled { NotificationScheduler.requestAuthorizationIfNeeded() }
                                     NotificationScheduler.rescheduleAll(context: modelContext, dailyRemindersEnabled: enabled)
