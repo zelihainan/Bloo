@@ -99,7 +99,7 @@ struct WeekdayPickerView: View {
         case .everyDay: selectedDays = Set(Weekday.allCases)
         case .weekdays: selectedDays = Set(Weekday.weekdays)
         case .weekends: selectedDays = Set(Weekday.weekendDays)
-        case .custom: break
+        case .custom: selectedDays = []
         }
     }
 }

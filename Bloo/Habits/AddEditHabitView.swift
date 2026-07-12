@@ -17,7 +17,6 @@ struct AddEditHabitView: View {
     let mode: Mode
     let onSave: (HabitDraft) -> Void
     var onDelete: (() -> Void)?
-    var onArchiveToggle: ((Bool) -> Void)?
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.blooAccentColor) private var accentColor
@@ -28,7 +27,6 @@ struct AddEditHabitView: View {
     @State private var reminderTime: Date
     @State private var note: String
     @State private var showsDeleteConfirmation = false
-    @State private var showsArchiveInfo = false
 
     private let nameCharacterLimit = 40
     private let noteCharacterLimit = 120
@@ -37,11 +35,10 @@ struct AddEditHabitView: View {
         Calendar.current.date(from: DateComponents(hour: 9, minute: 0)) ?? Date()
     }
 
-    init(mode: Mode, onSave: @escaping (HabitDraft) -> Void, onDelete: (() -> Void)? = nil, onArchiveToggle: ((Bool) -> Void)? = nil) {
+    init(mode: Mode, onSave: @escaping (HabitDraft) -> Void, onDelete: (() -> Void)? = nil) {
         self.mode = mode
         self.onSave = onSave
         self.onDelete = onDelete
-        self.onArchiveToggle = onArchiveToggle
         switch mode {
         case .new:
             _name = State(initialValue: "")
@@ -60,10 +57,6 @@ struct AddEditHabitView: View {
 
     private var isNew: Bool {
         if case .new = mode { true } else { false }
-    }
-
-    private var editingHabit: Habit? {
-        if case .edit(let habit) = mode { habit } else { nil }
     }
 
     private var trimmedName: String { name.trimmingCharacters(in: .whitespacesAndNewlines) }
@@ -136,55 +129,32 @@ struct AddEditHabitView: View {
                     } label: {
                         Text("Save Habit")
                             .font(.bloo(14, weight: .semibold))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(trimmedName.isEmpty || selectedDays.isEmpty ? BlooTheme.tertiaryText : accentColor)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
-                            .background(accentColor.opacity(trimmedName.isEmpty || selectedDays.isEmpty ? 0.35 : 1))
+                            .background(Color.white)
                             .clipShape(RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous)
+                                    .stroke(trimmedName.isEmpty || selectedDays.isEmpty ? BlooTheme.cardBorder : accentColor, lineWidth: 1.5)
+                            )
                     }
                     .disabled(trimmedName.isEmpty || selectedDays.isEmpty)
-
-                    if let editingHabit, let onArchiveToggle {
-                        HStack(spacing: 8) {
-                            Button {
-                                onArchiveToggle(!editingHabit.isArchived)
-                                dismiss()
-                            } label: {
-                                Text(editingHabit.isArchived ? "Restore Habit" : "Archive Habit")
-                                    .font(.bloo(14, weight: .semibold))
-                                    .foregroundStyle(.white)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 12)
-                                    .background(Color.orange)
-                                    .clipShape(RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous))
-                            }
-
-                            if !editingHabit.isArchived {
-                                Button {
-                                    showsArchiveInfo = true
-                                } label: {
-                                    Image(systemName: "info.circle")
-                                        .font(.bloo(16))
-                                        .foregroundStyle(.orange)
-                                        .frame(width: 44, height: 44)
-                                        .background(Color.orange.opacity(0.12))
-                                        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous))
-                                }
-                                .accessibilityLabel(Text("What does archiving do?"))
-                            }
-                        }
-                    }
 
                     if onDelete != nil {
                         Button("Delete Habit") {
                             showsDeleteConfirmation = true
                         }
                         .font(.bloo(14, weight: .semibold))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.red)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
-                        .background(Color.red)
+                        .background(Color.white)
                         .clipShape(RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous)
+                                .stroke(Color.red.opacity(0.5), lineWidth: 1.5)
+                        )
                     }
                 }
                 .padding(.top, 8)
@@ -201,11 +171,6 @@ struct AddEditHabitView: View {
             }
         } message: {
             Text("This can't be undone.")
-        }
-        .alert("Archive Habit", isPresented: $showsArchiveInfo) {
-            Button("OK") {}
-        } message: {
-            Text("Paused — won't show on Home or send reminders until restored")
         }
     }
 

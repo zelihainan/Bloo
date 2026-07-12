@@ -1466,6 +1466,9 @@
         }
       }
     },
+    "OK" : {
+
+    },
     "On" : {
       "localizations" : {
         "en" : {
@@ -1599,6 +1602,7 @@
       }
     },
     "Recent history" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2156,6 +2160,9 @@
           }
         }
       }
+    },
+    "What does archiving do?" : {
+
     },
     "What's your Bloo's name?" : {
       "localizations" : {

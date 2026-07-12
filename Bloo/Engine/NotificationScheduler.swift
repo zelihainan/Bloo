@@ -31,7 +31,7 @@ enum NotificationScheduler {
 
         let habits = (try? context.fetch(FetchDescriptor<Habit>())) ?? []
         var remainingSlots = maxPendingRequests
-        for habit in habits where habit.isReminderEnabled && !habit.isArchived {
+        for habit in habits where habit.isReminderEnabled {
             remainingSlots -= schedule(for: habit, center: center, remainingSlots: remainingSlots)
             if remainingSlots <= 0 { break }
         }

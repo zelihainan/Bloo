@@ -34,7 +34,7 @@ enum HabitCompletionEngine {
         let normalizedDay = calendar.startOfDay(for: day)
 
         let allHabits = (try? context.fetch(FetchDescriptor<Habit>())) ?? []
-        let scheduledHabits = allHabits.filter { !$0.isArchived && $0.isScheduled(on: normalizedDay, calendar: calendar) }
+        let scheduledHabits = allHabits.filter { $0.isScheduled(on: normalizedDay, calendar: calendar) }
         let scheduledCount = scheduledHabits.count
         let completedCount = scheduledHabits.reduce(into: 0) { count, habit in
             if habit.completions.first(where: { calendar.isDate($0.date, inSameDayAs: normalizedDay) })?.isCompleted == true {

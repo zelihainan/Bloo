@@ -43,14 +43,6 @@ enum HabitStore {
         save(context: context, dailyRemindersEnabled: dailyRemindersEnabled)
     }
 
-    /// Pausing (rather than deleting) keeps the habit's completion history —
-    /// it's just excluded from today's schedule, notifications, and Progress
-    /// stats until restored.
-    static func setArchived(_ habit: Habit, archived: Bool, context: ModelContext, dailyRemindersEnabled: Bool) {
-        habit.isArchived = archived
-        save(context: context, dailyRemindersEnabled: dailyRemindersEnabled)
-    }
-
     private static func save(context: ModelContext, dailyRemindersEnabled: Bool) {
         try? context.save()
         HabitCompletionEngine.recomputeDailyLog(for: Date(), context: context)
