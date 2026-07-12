@@ -25,9 +25,10 @@ struct SettingsScreenView: View {
     @AppStorage(AppStorageKey.hasCompletedOnboarding) private var hasCompletedOnboarding = true
 
     @State private var showsManageHabits = false
+    @State private var showsLanguagePicker = false
     @State private var showsAbout = false
     @State private var showsClearDataConfirmation = false
-    @State private var exportedCSV: String?
+    @State private var showsExportPreview = false
 
     private var versionString: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
@@ -46,22 +47,9 @@ struct SettingsScreenView: View {
                         divider
                         SettingsRow(icon: "globe", title: "Language", trailing: {
                             trailingValue(appLanguage == "tr" ? "Türkçe" : "English")
-                        }, menuItems: {
-                            AnyView(
-                                Group {
-                                    Button {
-                                        appLanguage = "en"
-                                    } label: {
-                                        if appLanguage == "en" { Label("English", systemImage: "checkmark") } else { Text("English") }
-                                    }
-                                    Button {
-                                        appLanguage = "tr"
-                                    } label: {
-                                        if appLanguage == "tr" { Label("Türkçe", systemImage: "checkmark") } else { Text("Türkçe") }
-                                    }
-                                }
-                            )
-                        })
+                        }) {
+                            showsLanguagePicker = true
+                        }
                     }
                     .padding(.horizontal, 28)
 
@@ -78,7 +66,7 @@ struct SettingsScreenView: View {
 
                     SettingsSectionCard(title: "Data") {
                         SettingsRow(icon: "square.and.arrow.down", title: "Export progress") {
-                            exportedCSV = ProgressExporter.csv(habits: habits, dailyLogs: dailyLogs)
+                            showsExportPreview = true
                         }
                         divider
                         SettingsRow(icon: "trash", title: "Clear all data") {
@@ -106,13 +94,9 @@ struct SettingsScreenView: View {
             }
             .background(BlooTheme.background)
             .navigationDestination(isPresented: $showsManageHabits) { ManageHabitsView() }
+            .sheet(isPresented: $showsLanguagePicker) { LanguagePickerSheet(selectedLanguage: $appLanguage) }
             .sheet(isPresented: $showsAbout) { AboutView() }
-            .sheet(item: Binding(
-                get: { exportedCSV.map(ShareableText.init) },
-                set: { newValue in exportedCSV = newValue?.text }
-            )) { item in
-                ShareSheet(activityItems: [item.text])
-            }
+            .sheet(isPresented: $showsExportPreview) { ExportPreviewView(habits: habits, dailyLogs: dailyLogs) }
             .alert("Clear all data?", isPresented: $showsClearDataConfirmation) {
                 Button("Cancel", role: .cancel) {}
                 Button("Clear", role: .destructive) { clearAllData() }

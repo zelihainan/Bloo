@@ -24,21 +24,13 @@ struct SettingsRow<Trailing: View>: View {
     var tint: Color? = nil
     @ViewBuilder var trailing: () -> Trailing
     var action: (() -> Void)? = nil
-    var menuItems: (() -> AnyView)? = nil
 
     @Environment(\.blooAccentColor) private var accentColor
 
     private var rowColor: Color { tint ?? accentColor }
 
     var body: some View {
-        if let menuItems {
-            Menu {
-                menuItems()
-            } label: {
-                rowContent
-            }
-            .buttonStyle(.plain)
-        } else if let action {
+        if let action {
             Button(action: action) { rowContent }
                 .buttonStyle(.plain)
         } else {
@@ -50,7 +42,7 @@ struct SettingsRow<Trailing: View>: View {
         HStack(spacing: 12) {
             ZStack {
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(rowColor.mixed(withWhite: 0.78))
+                    .fill(rowColor.mixed(withWhite: 0.65))
                     .frame(width: 38, height: 38)
                 Image(systemName: icon)
                     .font(.system(size: 15))
@@ -87,9 +79,8 @@ extension SettingsRow where Trailing == EmptyView {
         subtitle: String? = nil,
         showsChevron: Bool = true,
         tint: Color? = nil,
-        action: (() -> Void)? = nil,
-        menuItems: (() -> AnyView)? = nil
+        action: (() -> Void)? = nil
     ) {
-        self.init(icon: icon, title: title, subtitle: subtitle, showsChevron: showsChevron, tint: tint, trailing: { EmptyView() }, action: action, menuItems: menuItems)
+        self.init(icon: icon, title: title, subtitle: subtitle, showsChevron: showsChevron, tint: tint, trailing: { EmptyView() }, action: action)
     }
 }

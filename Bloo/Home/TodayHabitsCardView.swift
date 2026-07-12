@@ -104,23 +104,25 @@ struct TodayHabitsCardView: View {
             Button {
                 onEdit(habit)
             } label: {
-                HStack {
+                VStack(alignment: .leading, spacing: 1) {
                     Text(habit.name)
                         .font(.bloo(13))
                         .foregroundStyle(completed ? BlooTheme.secondaryText : BlooTheme.primaryText)
                         .strikethrough(completed)
-                    Spacer()
                     if !habit.note.isEmpty {
-                        Image(systemName: "note.text")
-                            .font(.system(size: 11))
+                        Text(habit.note)
+                            .font(.bloo(10, italic: true))
                             .foregroundStyle(BlooTheme.tertiaryText)
+                            .lineLimit(1)
                     }
                 }
-                .frame(height: 33)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(minHeight: 33)
                 .padding(.horizontal, 16)
+                .padding(.vertical, habit.note.isEmpty ? 0 : 6)
                 .background(Color.white)
-                .clipShape(Capsule())
-                .overlay(Capsule().stroke(BlooTheme.cardBorder, lineWidth: 1))
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).stroke(BlooTheme.cardBorder, lineWidth: 1))
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)

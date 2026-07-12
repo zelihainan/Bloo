@@ -19,7 +19,7 @@ struct HabitActivityChartView: View {
     let activity: [DayActivity]
     let accentColor: Color
 
-    @AppStorage(AppStorageKey.appLanguage) private var appLanguage = "en"
+    @Environment(\.locale) private var locale
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -70,7 +70,7 @@ struct HabitActivityChartView: View {
 
     private func weekdayLabel(for date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: appLanguage)
+        formatter.locale = locale
         formatter.dateFormat = "EEE"
         return formatter.string(from: date)
     }

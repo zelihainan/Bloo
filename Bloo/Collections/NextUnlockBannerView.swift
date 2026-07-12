@@ -38,6 +38,7 @@ struct NextUnlockBannerView: View {
                     .foregroundStyle(BlooTheme.secondaryText)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(13)
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous))

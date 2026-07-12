@@ -5,22 +5,47 @@
 
 import Foundation
 
-/// Builds the CSV text behind Settings > Export progress.
+/// Summary stats behind Settings > Export progress — both the on-screen preview
+/// and the shared report are built from the same numbers.
+struct ProgressSummary {
+    let trackingSince: Date?
+    let daysLogged: Int
+    let totalXP: Int
+    let perfectDays: Int
+    let longestStreak: Int
+    let habitStreaks: [(name: String, streak: Int)]
+}
+
 enum ProgressExporter {
-    static func csv(habits: [Habit], dailyLogs: [DailyLog]) -> String {
+    static func summary(habits: [Habit], dailyLogs: [DailyLog]) -> ProgressSummary {
+        ProgressSummary(
+            trackingSince: dailyLogs.map(\.date).min(),
+            daysLogged: dailyLogs.count,
+            totalXP: dailyLogs.reduce(0) { $0 + $1.xpEarned },
+            perfectDays: dailyLogs.filter(\.isPerfectDay).count,
+            longestStreak: dailyLogs.map(\.streakDayNumber).max() ?? 0,
+            habitStreaks: habits.map { ($0.name, HabitStreakCalculator.currentStreak(for: $0)) }
+        )
+    }
+
+    /// A readable plain-text report for sharing — not a raw CSV dump.
+    static func report(habits: [Habit], dailyLogs: [DailyLog]) -> String {
+        let summary = summary(habits: habits, dailyLogs: dailyLogs)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateStyle = .medium
 
-        var lines = ["Date,Scheduled,Completed,Completion Rate,XP Earned,Streak Day"]
-        for log in dailyLogs.sorted(by: { $0.date < $1.date }) {
-            let ratePercent = Int((log.completionRate * 100).rounded())
-            lines.append("\(dateFormatter.string(from: log.date)),\(log.scheduledHabitCount),\(log.completedHabitCount),\(ratePercent)%,\(log.xpEarned),\(log.streakDayNumber)")
+        var lines = ["🌱 Bloo Progress Report", ""]
+        if let trackingSince = summary.trackingSince {
+            lines.append("Tracking since: \(dateFormatter.string(from: trackingSince))")
         }
-
+        lines.append("Days logged: \(summary.daysLogged)")
+        lines.append("Total XP earned: \(summary.totalXP)")
+        lines.append("Perfect days: \(summary.perfectDays)")
+        lines.append("Longest streak: \(summary.longestStreak) days")
         lines.append("")
-        lines.append("Habit,Current Streak (days)")
-        for habit in habits {
-            lines.append("\(habit.name),\(HabitStreakCalculator.currentStreak(for: habit))")
+        lines.append("Habits")
+        for entry in summary.habitStreaks {
+            lines.append("- \(entry.name): \(entry.streak)-day current streak")
         }
 
         return lines.joined(separator: "\n")

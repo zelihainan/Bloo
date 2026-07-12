@@ -40,8 +40,10 @@ struct MonthlyOverviewCardView: View {
             HStack(spacing: 0) {
                 ForEach(weekdayHeaders.indices, id: \.self) { index in
                     Text(LocalizedStringKey(weekdayHeaders[index]))
-                        .font(.bloo(10, weight: .medium))
+                        .font(.bloo(9, weight: .medium))
                         .foregroundStyle(BlooTheme.tertiaryText)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
                         .frame(maxWidth: .infinity)
                 }
             }

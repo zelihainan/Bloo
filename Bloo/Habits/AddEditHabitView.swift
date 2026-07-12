@@ -26,6 +26,7 @@ struct AddEditHabitView: View {
     @State private var isReminderEnabled: Bool
     @State private var reminderTime: Date
     @State private var note: String
+    @State private var showsDeleteConfirmation = false
 
     private let noteCharacterLimit = 120
 
@@ -121,24 +122,23 @@ struct AddEditHabitView: View {
                         dismiss()
                     } label: {
                         Text("Save Habit")
-                            .font(.bloo(16, weight: .semibold))
+                            .font(.bloo(14, weight: .semibold))
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
+                            .padding(.vertical, 12)
                             .background(accentColor.opacity(trimmedName.isEmpty || selectedDays.isEmpty ? 0.35 : 1))
                             .clipShape(RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous))
                     }
                     .disabled(trimmedName.isEmpty || selectedDays.isEmpty)
 
-                    if let onDelete {
+                    if onDelete != nil {
                         Button("Delete Habit") {
-                            onDelete()
-                            dismiss()
+                            showsDeleteConfirmation = true
                         }
-                        .font(.bloo(16, weight: .semibold))
+                        .font(.bloo(14, weight: .semibold))
                         .foregroundStyle(.red)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
+                        .padding(.vertical, 12)
                         .blooFieldBackground()
                     }
                 }
@@ -148,6 +148,15 @@ struct AddEditHabitView: View {
             .padding(.bottom, 32)
         }
         .background(BlooTheme.background)
+        .alert("Delete this habit?", isPresented: $showsDeleteConfirmation) {
+            Button("Cancel", role: .cancel) {}
+            Button("Delete", role: .destructive) {
+                onDelete?()
+                dismiss()
+            }
+        } message: {
+            Text("This can't be undone.")
+        }
     }
 
     private var reminderSection: some View {
