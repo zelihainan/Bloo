@@ -48,8 +48,11 @@ struct ProgressScreenView: View {
                     if habits.count >= 2, let best = streakRows.max(by: { $0.streak < $1.streak }), let worst = streakRows.min(by: { $0.streak < $1.streak }) {
                         VStack(spacing: 13) {
                             HabitStatCardView(title: "Best habit", habitName: best.habit.name, days: best.streak, valueColor: BlooTheme.successColor)
+                                .frame(maxHeight: .infinity)
                             HabitStatCardView(title: "Needs attention", habitName: worst.habit.name, days: worst.streak, valueColor: BlooTheme.warningColor)
+                                .frame(maxHeight: .infinity)
                         }
+                        .frame(maxHeight: .infinity)
                     }
                 }
                 .padding(.horizontal, 28)

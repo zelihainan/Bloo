@@ -17,21 +17,8 @@ struct WeeklySummaryCardView: View {
     private var daysCompleted: Int { perfectDays.count }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 2) {
-                    HStack(alignment: .firstTextBaseline, spacing: 4) {
-                        Text("\(daysCompleted)")
-                            .font(.bloo(24, weight: .bold))
-                            .foregroundStyle(accentColor)
-                        Text("/ 7 days")
-                            .font(.bloo(13, weight: .bold))
-                            .foregroundStyle(BlooTheme.secondaryText)
-                    }
-                    Text("completed")
-                        .font(.bloo(11))
-                        .foregroundStyle(BlooTheme.secondaryText)
-                }
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
                 Spacer()
                 Text("This week")
                     .font(.bloo(11))
@@ -45,13 +32,15 @@ struct WeeklySummaryCardView: View {
                 }
             }
 
-            HStack(alignment: .firstTextBaseline, spacing: 4) {
-                Text("+\(xpEarnedThisWeek)")
-                    .font(.bloo(24, weight: .bold))
-                    .foregroundStyle(accentColor)
-                Text("XP earned!")
-                    .font(.bloo(11))
-                    .foregroundStyle(BlooTheme.secondaryText)
+            HStack(alignment: .center, spacing: 0) {
+                statBlock(value: "\(daysCompleted)", suffix: "/ 7 days", caption: "completed")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                Divider().frame(height: 40)
+
+                statBlock(value: "+\(xpEarnedThisWeek)", suffix: nil, caption: "XP earned!")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 16)
             }
         }
         .padding(16)
@@ -61,6 +50,24 @@ struct WeeklySummaryCardView: View {
             RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous)
                 .stroke(BlooTheme.cardBorder, lineWidth: 1)
         )
+    }
+
+    private func statBlock(value: String, suffix: String?, caption: String) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                Text(value)
+                    .font(.bloo(24, weight: .bold))
+                    .foregroundStyle(accentColor)
+                if let suffix {
+                    Text(suffix)
+                        .font(.bloo(13, weight: .bold))
+                        .foregroundStyle(BlooTheme.secondaryText)
+                }
+            }
+            Text(caption)
+                .font(.bloo(11))
+                .foregroundStyle(BlooTheme.secondaryText)
+        }
     }
 
     private func dayDot(for date: Date) -> some View {

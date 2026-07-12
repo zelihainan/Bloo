@@ -27,7 +27,7 @@ struct HabitStatCardView: View {
                 .font(.bloo(14, weight: .medium))
                 .foregroundStyle(valueColor)
         }
-        .frame(maxWidth: .infinity, minHeight: 90, alignment: .topLeading)
+        .frame(maxWidth: .infinity, minHeight: 70, alignment: .topLeading)
         .padding(13)
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: BlooTheme.secondaryCardCornerRadius, style: .continuous))
