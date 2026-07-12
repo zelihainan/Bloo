@@ -62,17 +62,10 @@ struct WeekdayPickerView: View {
 
             LazyVGrid(columns: presetColumns, spacing: 10) {
                 ForEach(Preset.allCases, id: \.self) { preset in
-                    if preset == .custom {
-                        // Not a button — there's no specific day-set for "Custom" to
-                        // jump to, so this only ever shows the current state, matching
-                        // the other presets' look without being a dead tap target.
+                    Button {
+                        apply(preset)
+                    } label: {
                         presetLabel(for: preset)
-                    } else {
-                        Button {
-                            apply(preset)
-                        } label: {
-                            presetLabel(for: preset)
-                        }
                     }
                 }
             }

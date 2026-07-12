@@ -29,24 +29,6 @@ enum HabitCompletionEngine {
         return newState
     }
 
-    /// Like `toggleCompletion`, but also recomputes every day between `date` and
-    /// today (inclusive) — needed when backfilling a past day, since correcting
-    /// it can change the streak baseline every later day was already computed
-    /// against, and `recomputeDailyLog` only touches the single day it's given.
-    @discardableResult
-    static func toggleCompletionAndCascade(for habit: Habit, on date: Date, context: ModelContext) -> Bool {
-        let calendar = Calendar.current
-        let result = toggleCompletion(for: habit, on: date, context: context)
-
-        var day = calendar.startOfDay(for: date)
-        let today = calendar.startOfDay(for: Date())
-        while day < today, let next = calendar.date(byAdding: .day, value: 1, to: day) {
-            day = next
-            recomputeDailyLog(for: day, context: context)
-        }
-        return result
-    }
-
     static func recomputeDailyLog(for day: Date, context: ModelContext) {
         let calendar = Calendar.current
         let normalizedDay = calendar.startOfDay(for: day)

@@ -21,7 +21,6 @@ struct AddEditHabitView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.blooAccentColor) private var accentColor
-    @Environment(\.modelContext) private var modelContext
 
     @State private var name: String
     @State private var selectedDays: Set<Weekday>
@@ -29,6 +28,7 @@ struct AddEditHabitView: View {
     @State private var reminderTime: Date
     @State private var note: String
     @State private var showsDeleteConfirmation = false
+    @State private var showsArchiveInfo = false
 
     private let nameCharacterLimit = 40
     private let noteCharacterLimit = 120
@@ -64,13 +64,6 @@ struct AddEditHabitView: View {
 
     private var editingHabit: Habit? {
         if case .edit(let habit) = mode { habit } else { nil }
-    }
-
-    /// Today first, walking backward — matches the reading order of the row.
-    private var recentHistoryDates: [Date] {
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-        return (0..<7).compactMap { calendar.date(byAdding: .day, value: -$0, to: today) }
     }
 
     private var trimmedName: String { name.trimmingCharacters(in: .whitespacesAndNewlines) }
@@ -128,15 +121,6 @@ struct AddEditHabitView: View {
                     .blooFieldBackground()
                 }
 
-                if let editingHabit {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Recent history").font(.bloo(13)).foregroundStyle(.secondary)
-                        recentHistoryRow(for: editingHabit)
-                            .padding(16)
-                            .blooFieldBackground()
-                    }
-                }
-
                 VStack(spacing: 10) {
                     Button {
                         onSave(
@@ -161,22 +145,32 @@ struct AddEditHabitView: View {
                     .disabled(trimmedName.isEmpty || selectedDays.isEmpty)
 
                     if let editingHabit, let onArchiveToggle {
-                        VStack(spacing: 6) {
-                            Button(editingHabit.isArchived ? "Restore Habit" : "Archive Habit") {
+                        HStack(spacing: 8) {
+                            Button {
                                 onArchiveToggle(!editingHabit.isArchived)
                                 dismiss()
+                            } label: {
+                                Text(editingHabit.isArchived ? "Restore Habit" : "Archive Habit")
+                                    .font(.bloo(14, weight: .semibold))
+                                    .foregroundStyle(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 12)
+                                    .background(Color.orange)
+                                    .clipShape(RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous))
                             }
-                            .font(.bloo(14, weight: .semibold))
-                            .foregroundStyle(.orange)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                            .blooFieldBackground()
 
                             if !editingHabit.isArchived {
-                                Text("Paused — won't show on Home or send reminders until restored")
-                                    .font(.bloo(11))
-                                    .foregroundStyle(.secondary)
-                                    .multilineTextAlignment(.center)
+                                Button {
+                                    showsArchiveInfo = true
+                                } label: {
+                                    Image(systemName: "info.circle")
+                                        .font(.bloo(16))
+                                        .foregroundStyle(.orange)
+                                        .frame(width: 44, height: 44)
+                                        .background(Color.orange.opacity(0.12))
+                                        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous))
+                                }
+                                .accessibilityLabel(Text("What does archiving do?"))
                             }
                         }
                     }
@@ -186,10 +180,11 @@ struct AddEditHabitView: View {
                             showsDeleteConfirmation = true
                         }
                         .font(.bloo(14, weight: .semibold))
-                        .foregroundStyle(.red)
+                        .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
-                        .blooFieldBackground()
+                        .background(Color.red)
+                        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous))
                     }
                 }
                 .padding(.top, 8)
@@ -207,48 +202,11 @@ struct AddEditHabitView: View {
         } message: {
             Text("This can't be undone.")
         }
-    }
-
-    /// Missed a day? Tap it here to backfill — the Home checkbox only ever
-    /// operates on "today", so this is the only way to fix a forgotten day.
-    private func recentHistoryRow(for habit: Habit) -> some View {
-        HStack(spacing: 0) {
-            ForEach(recentHistoryDates, id: \.self) { date in
-                let isScheduled = habit.isScheduled(on: date)
-                let isCompleted = habit.completions.first { Calendar.current.isDate($0.date, inSameDayAs: date) }?.isCompleted ?? false
-
-                Button {
-                    HabitCompletionEngine.toggleCompletionAndCascade(for: habit, on: date, context: modelContext)
-                } label: {
-                    VStack(spacing: 4) {
-                        Circle()
-                            .fill(isCompleted ? accentColor : Color.gray.opacity(0.12))
-                            .frame(width: 28, height: 28)
-                            .overlay {
-                                if isCompleted {
-                                    Image(systemName: "checkmark")
-                                        .font(.bloo(11, weight: .bold))
-                                        .foregroundStyle(.white)
-                                }
-                            }
-                        Text(LocalizedStringKey(dayInitial(for: date)))
-                            .font(.bloo(10, weight: .medium))
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .disabled(!isScheduled)
-                .opacity(isScheduled ? 1 : 0.35)
-                .frame(maxWidth: .infinity)
-                .accessibilityLabel(Text(date.formatted(date: .abbreviated, time: .omitted)))
-                .accessibilityValue(isCompleted ? Text("Completed") : Text("Not completed"))
-                .accessibilityAddTraits(.isButton)
-            }
+        .alert("Archive Habit", isPresented: $showsArchiveInfo) {
+            Button("OK") {}
+        } message: {
+            Text("Paused — won't show on Home or send reminders until restored")
         }
-    }
-
-    private func dayInitial(for date: Date) -> String {
-        guard let weekday = Weekday(gregorianCalendarWeekday: Calendar.current.component(.weekday, from: date)) else { return "" }
-        return weekday.shortLabel
     }
 
     private var reminderSection: some View {
