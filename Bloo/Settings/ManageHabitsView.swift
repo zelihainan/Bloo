@@ -110,7 +110,7 @@ struct ManageHabitsView: View {
             .padding(.horizontal, 18)
             .blooFieldBackground()
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.pressable)
         .swipeActions(edge: .trailing) {
             Button(role: .destructive) { delete(habit) } label: {
                 Label("Delete", systemImage: "trash")

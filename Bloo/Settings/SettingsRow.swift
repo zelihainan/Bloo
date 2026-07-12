@@ -32,7 +32,7 @@ struct SettingsRow<Trailing: View>: View {
     var body: some View {
         if let action {
             Button(action: action) { rowContent }
-                .buttonStyle(.plain)
+                .buttonStyle(.pressable)
         } else {
             rowContent
         }

@@ -87,6 +87,7 @@ struct TodayHabitsCardView: View {
             .background(BlooTheme.secondaryText.opacity(0.1))
             .clipShape(Capsule())
         }
+        .buttonStyle(.pressable)
         .disabled(isAtHabitLimit)
     }
 
@@ -108,10 +109,14 @@ struct TodayHabitsCardView: View {
                             Image(systemName: "checkmark")
                                 .font(.bloo(10, weight: .bold))
                                 .foregroundStyle(.white)
+                                .transition(.scale.combined(with: .opacity))
+                                .symbolEffect(.bounce, value: completed)
                         }
                     }
+                    .scaleEffect(completed ? 1.08 : 1)
+                    .animation(.spring(response: 0.3, dampingFraction: 0.55), value: completed)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.pressable)
             .accessibilityLabel(Text(habit.name))
             .accessibilityValue(completed ? Text("Completed") : Text("Not completed"))
             .accessibilityAddTraits(.isButton)
@@ -140,7 +145,7 @@ struct TodayHabitsCardView: View {
                 .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).stroke(BlooTheme.cardBorder, lineWidth: 1))
                 .contentShape(Rectangle())
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.pressable)
         }
         .swipeActions(edge: .trailing) {
             Button(role: .destructive) { onDelete(habit) } label: {

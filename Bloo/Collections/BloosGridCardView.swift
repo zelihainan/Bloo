@@ -82,7 +82,7 @@ struct BloosGridCardView: View {
                         }
                     }
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.pressable)
             .disabled(isLocked)
             .accessibilityLabel(accessibilityLabel(isActive: isActive, isLocked: isLocked, isCompleted: isCompleted))
 

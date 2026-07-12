@@ -63,6 +63,6 @@ struct LanguagePickerSheet: View {
                     .stroke(isSelected ? accentColor : BlooTheme.cardBorder, lineWidth: isSelected ? 1.5 : 1)
             )
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.pressable)
     }
 }

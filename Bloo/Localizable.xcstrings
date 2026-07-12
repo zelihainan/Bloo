@@ -8,6 +8,7 @@
 
     },
     "/ 7 days" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -115,9 +116,6 @@
           }
         }
       }
-    },
-    "+%lld" : {
-
     },
     "✓" : {
       "localizations" : {
@@ -600,6 +598,7 @@
       }
     },
     "completed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2181,6 +2180,7 @@
       }
     },
     "XP earned!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
