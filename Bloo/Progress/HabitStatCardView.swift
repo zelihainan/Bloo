@@ -1,28 +1,20 @@
 //
-//  BestHabitCardsView.swift
+//  HabitStatCardView.swift
 //  Bloo
 //
-//  161x90 cards (Figma node 10:239, Rectangle 63/64) — label 9px, habit name
-//  11px, day count 11px in the semantic success/warning color.
+//  A single "Best habit" / "Needs attention" stat card — stacked vertically
+//  next to Monthly overview, rather than side by side.
 //
 
 import SwiftUI
 
-/// "Best habit" / "Needs attention" cards — the top row of Progress's 2x2 stat grid.
-struct BestHabitCardsView: View {
-    let bestHabit: Habit
-    let bestStreak: Int
-    let worstHabit: Habit
-    let worstStreak: Int
+struct HabitStatCardView: View {
+    let title: String
+    let habitName: String
+    let days: Int
+    let valueColor: Color
 
     var body: some View {
-        HStack(spacing: 13) {
-            card(title: "Best habit", habitName: bestHabit.name, days: bestStreak, valueColor: BlooTheme.successColor)
-            card(title: "Needs attention", habitName: worstHabit.name, days: worstStreak, valueColor: BlooTheme.warningColor)
-        }
-    }
-
-    private func card(title: String, habitName: String, days: Int, valueColor: Color) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(LocalizedStringKey(title))
                 .font(.bloo(12))

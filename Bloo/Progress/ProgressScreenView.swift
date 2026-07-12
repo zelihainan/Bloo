@@ -42,22 +42,22 @@ struct ProgressScreenView: View {
                     .padding(.horizontal, 28)
 
                 let streakRows = habitStreakRows
-                if habits.count >= 2, let best = streakRows.max(by: { $0.streak < $1.streak }), let worst = streakRows.min(by: { $0.streak < $1.streak }) {
-                    BestHabitCardsView(
-                        bestHabit: best.habit, bestStreak: best.streak,
-                        worstHabit: worst.habit, worstStreak: worst.streak
-                    )
-                    .padding(.horizontal, 28)
-                }
-
                 HStack(alignment: .top, spacing: 13) {
                     MonthlyOverviewCardView(weeks: CalendarWeek.recentWeeks(4, endingWith: Date()), state: state(for:), accentColor: accentColor)
 
-                    if !streakRows.isEmpty {
-                        HabitStreakCardView(rows: streakRows, accentColor: accentColor)
+                    if habits.count >= 2, let best = streakRows.max(by: { $0.streak < $1.streak }), let worst = streakRows.min(by: { $0.streak < $1.streak }) {
+                        VStack(spacing: 13) {
+                            HabitStatCardView(title: "Best habit", habitName: best.habit.name, days: best.streak, valueColor: BlooTheme.successColor)
+                            HabitStatCardView(title: "Needs attention", habitName: worst.habit.name, days: worst.streak, valueColor: BlooTheme.warningColor)
+                        }
                     }
                 }
                 .padding(.horizontal, 28)
+
+                if !streakRows.isEmpty {
+                    HabitStreakCardView(rows: streakRows, accentColor: accentColor)
+                        .padding(.horizontal, 28)
+                }
             }
             .padding(.bottom, 24)
         }
