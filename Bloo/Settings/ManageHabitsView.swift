@@ -16,6 +16,8 @@ struct ManageHabitsView: View {
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
 
     @State private var presentedDestination: HabitDestination?
+    @State private var emptyIconAppeared = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         ScrollView {
@@ -26,6 +28,14 @@ struct ManageHabitsView: View {
                         Image(systemName: "list.bullet.clipboard")
                             .font(.system(size: 24))
                             .foregroundStyle(BlooTheme.secondaryText)
+                    }
+                    .scaleEffect(emptyIconAppeared || reduceMotion ? 1 : 0.6)
+                    .opacity(emptyIconAppeared || reduceMotion ? 1 : 0)
+                    .onAppear {
+                        guard !reduceMotion else { return }
+                        withAnimation(.spring(response: 0.5, dampingFraction: 0.6)) {
+                            emptyIconAppeared = true
+                        }
                     }
                     Text("No habits yet.")
                         .font(.bloo(15, weight: .medium))

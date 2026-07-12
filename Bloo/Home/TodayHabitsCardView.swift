@@ -9,6 +9,13 @@
 
 import SwiftUI
 
+/// A one-off "+N XP" popup to float above the habit row that just earned it.
+struct HabitXPPopup: Identifiable, Equatable {
+    let id = UUID()
+    let habitID: UUID
+    let amount: Int
+}
+
 struct TodayHabitsCardView: View {
     let habits: [Habit]
     /// Total habits regardless of today's schedule — the 10-habit cap applies to
@@ -19,6 +26,7 @@ struct TodayHabitsCardView: View {
     let onEdit: (Habit) -> Void
     let onDelete: (Habit) -> Void
     let onAddHabit: () -> Void
+    var xpPopup: HabitXPPopup? = nil
 
     private var isAtHabitLimit: Bool { totalHabitCount >= HabitStore.maxHabitCount }
 
@@ -147,6 +155,13 @@ struct TodayHabitsCardView: View {
             }
             .buttonStyle(.pressable)
         }
+        .overlay(alignment: .topLeading) {
+            if let xpPopup, xpPopup.habitID == habit.id {
+                FloatingXPText(amount: xpPopup.amount, color: accentColor)
+                    .offset(x: 4, y: -6)
+                    .id(xpPopup.id)
+            }
+        }
         .swipeActions(edge: .trailing) {
             Button(role: .destructive) { onDelete(habit) } label: {
                 Label("Delete", systemImage: "trash")
@@ -156,5 +171,27 @@ struct TodayHabitsCardView: View {
             }
             .tint(.gray)
         }
+    }
+}
+
+/// Floats "+N XP" upward and fades out once, then holds its final state —
+/// the parent is responsible for clearing the popup after a short delay.
+private struct FloatingXPText: View {
+    let amount: Int
+    let color: Color
+
+    @State private var hasFloated = false
+
+    var body: some View {
+        Text("+\(amount) XP")
+            .font(.bloo(11, weight: .bold))
+            .foregroundStyle(color)
+            .offset(y: hasFloated ? -22 : 0)
+            .opacity(hasFloated ? 0 : 1)
+            .onAppear {
+                withAnimation(.easeOut(duration: 0.9)) {
+                    hasFloated = true
+                }
+            }
     }
 }

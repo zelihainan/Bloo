@@ -13,6 +13,7 @@ struct HomeView: View {
 
     @State private var presentedDestination: HabitDestination?
     @State private var newCompanionName: String = ""
+    @State private var xpPopup: HabitXPPopup?
     @AppStorage(AppStorageKey.dailyRemindersEnabled) private var dailyRemindersEnabled = true
 
     private var activeBloo: Bloo? { activeBloos.first }
@@ -60,7 +61,8 @@ struct HomeView: View {
                         onToggle: toggle,
                         onEdit: { presentedDestination = .edit($0) },
                         onDelete: delete,
-                        onAddHabit: { presentedDestination = .new }
+                        onAddHabit: { presentedDestination = .new },
+                        xpPopup: xpPopup
                     )
                 }
                 .padding(.horizontal, 20)
@@ -105,7 +107,18 @@ struct HomeView: View {
     }
 
     private func toggle(_ habit: Habit) {
+        let xpBefore = activeBloo?.xp ?? 0
         HabitCompletionEngine.toggleCompletion(for: habit, on: Date(), context: modelContext)
+        let delta = (activeBloo?.xp ?? 0) - xpBefore
+        guard delta > 0 else { return }
+        let popup = HabitXPPopup(habitID: habit.id, amount: delta)
+        xpPopup = popup
+        Task {
+            try? await Task.sleep(for: .seconds(1))
+            if xpPopup?.id == popup.id {
+                xpPopup = nil
+            }
+        }
     }
 
     private func save(draft: HabitDraft) {
