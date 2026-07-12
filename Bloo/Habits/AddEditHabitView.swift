@@ -129,14 +129,14 @@ struct AddEditHabitView: View {
                     } label: {
                         Text("Save Habit")
                             .font(.bloo(14, weight: .semibold))
-                            .foregroundStyle(trimmedName.isEmpty || selectedDays.isEmpty ? BlooTheme.tertiaryText : accentColor)
+                            .foregroundStyle(trimmedName.isEmpty || selectedDays.isEmpty ? BlooTheme.tertiaryText : BlooTheme.primaryText)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
                             .background(Color.white)
                             .clipShape(RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous))
                             .overlay(
                                 RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous)
-                                    .stroke(trimmedName.isEmpty || selectedDays.isEmpty ? BlooTheme.cardBorder : accentColor, lineWidth: 1.5)
+                                    .stroke(trimmedName.isEmpty || selectedDays.isEmpty ? BlooTheme.cardBorder : BlooTheme.primaryText, lineWidth: 1)
                             )
                     }
                     .disabled(trimmedName.isEmpty || selectedDays.isEmpty)
@@ -146,14 +146,14 @@ struct AddEditHabitView: View {
                             showsDeleteConfirmation = true
                         }
                         .font(.bloo(14, weight: .semibold))
-                        .foregroundStyle(.red)
+                        .foregroundStyle(BlooTheme.secondaryText)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
                         .background(Color.white)
                         .clipShape(RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous))
                         .overlay(
                             RoundedRectangle(cornerRadius: BlooTheme.buttonCornerRadius, style: .continuous)
-                                .stroke(Color.red.opacity(0.5), lineWidth: 1.5)
+                                .stroke(BlooTheme.cardBorder, lineWidth: 1)
                         )
                     }
                 }

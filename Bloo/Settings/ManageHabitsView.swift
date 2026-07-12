@@ -20,10 +20,32 @@ struct ManageHabitsView: View {
     var body: some View {
         ScrollView {
             if habits.isEmpty {
-                Text("No habits yet.")
-                    .font(.bloo(15))
-                    .foregroundStyle(.secondary)
-                    .padding(.top, 40)
+                VStack(spacing: 14) {
+                    ZStack {
+                        Circle().fill(BlooTheme.cardBorder).frame(width: 64, height: 64)
+                        Image(systemName: "list.bullet.clipboard")
+                            .font(.system(size: 24))
+                            .foregroundStyle(BlooTheme.secondaryText)
+                    }
+                    Text("No habits yet.")
+                        .font(.bloo(15, weight: .medium))
+                        .foregroundStyle(BlooTheme.secondaryText)
+
+                    Button {
+                        presentedDestination = .new
+                    } label: {
+                        Text("Add a habit")
+                            .font(.bloo(14, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 22)
+                            .padding(.vertical, 11)
+                            .background(BlooTheme.primaryText)
+                            .clipShape(Capsule())
+                    }
+                    .padding(.top, 4)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.top, 100)
             } else {
                 VStack(spacing: 12) {
                     ForEach(habits) { habit in

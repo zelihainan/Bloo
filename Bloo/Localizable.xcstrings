@@ -253,6 +253,7 @@
       }
     },
     "Archive" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -269,6 +270,7 @@
       }
     },
     "Archive Habit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -285,6 +287,7 @@
       }
     },
     "Archived" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1466,9 +1469,6 @@
         }
       }
     },
-    "OK" : {
-
-    },
     "On" : {
       "localizations" : {
         "en" : {
@@ -1503,6 +1503,7 @@
       }
     },
     "Paused — won't show on Home or send reminders until restored" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1651,6 +1652,7 @@
       }
     },
     "Restore" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1667,6 +1669,7 @@
       }
     },
     "Restore Habit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2160,9 +2163,6 @@
           }
         }
       }
-    },
-    "What does archiving do?" : {
-
     },
     "What's your Bloo's name?" : {
       "localizations" : {
