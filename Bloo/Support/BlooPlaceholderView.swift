@@ -55,6 +55,7 @@ struct BlooArtworkView: View {
             Image(resolvedAssetName)
                 .resizable()
                 .scaledToFit()
+                .id(resolvedAssetName)
                 .transition(.opacity)
         }
     }

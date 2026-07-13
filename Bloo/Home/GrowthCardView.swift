@@ -30,22 +30,23 @@ struct GrowthCardView: View {
                         BlooArtworkView(species: bloo.species, showsBackdrop: false, pose: pose)
                             .frame(width: 190, height: 190)
                             .scaleEffect(phase ? 1.02 : 1.0)
-                            .animation(.easeInOut(duration: 0.15), value: pose)
                     } animation: { _ in
                         .easeInOut(duration: 2.5)
                     }
                     .task(id: bloo.species) {
                         // Greet once with a wave, then blink periodically for the rest of the visit.
+                        // Each pose change is wrapped in its own crossfade so the artwork swap
+                        // fades smoothly instead of popping instantly.
                         try? await Task.sleep(for: .seconds(0.6))
-                        pose = .wave
+                        withAnimation(.easeInOut(duration: 0.35)) { pose = .wave }
                         try? await Task.sleep(for: .seconds(1.1))
-                        pose = .idle
+                        withAnimation(.easeInOut(duration: 0.35)) { pose = .idle }
 
                         while !Task.isCancelled {
                             try? await Task.sleep(for: .seconds(.random(in: 3...6)))
-                            pose = .blink
+                            withAnimation(.easeInOut(duration: 0.2)) { pose = .blink }
                             try? await Task.sleep(for: .seconds(0.18))
-                            pose = .idle
+                            withAnimation(.easeInOut(duration: 0.2)) { pose = .idle }
                         }
                     }
                 }
