@@ -1031,6 +1031,22 @@
         }
       }
     },
+    "Grown on" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grown on"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Büyüme tarihi"
+          }
+        }
+      }
+    },
     "Grown up" : {
       "localizations" : {
         "en" : {
@@ -1043,6 +1059,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Büyüdü"
+          }
+        }
+      }
+    },
+    "Fully grown" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fully grown"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamamen büyüdü"
+          }
+        }
+      }
+    },
+    "Time to grow" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time to grow"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Büyüme süresi"
           }
         }
       }

@@ -83,8 +83,6 @@ struct BloosGridCardView: View {
                     .overlay(alignment: .topTrailing) {
                         if isLocked {
                             badge(systemImage: "lock.fill")
-                        } else if isCompleted {
-                            badge(systemImage: "trophy.fill", tint: .white, background: Color(hex: "#FFB020"))
                         }
                     }
             }
@@ -92,7 +90,7 @@ struct BloosGridCardView: View {
             .disabled(isLocked)
             .accessibilityLabel(accessibilityLabel(isActive: isActive, isLocked: isLocked, isCompleted: isCompleted))
 
-            Text(isActive ? LocalizedStringKey("Active companion") : isCompleted ? LocalizedStringKey("Grown up") : LocalizedStringKey(" "))
+            Text(isActive ? LocalizedStringKey("Active companion") : LocalizedStringKey(" "))
                 .font(.bloo(9))
                 .foregroundStyle(BlooTheme.secondaryText)
                 .lineLimit(1)
