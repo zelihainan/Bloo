@@ -5,6 +5,14 @@
 
 import SwiftUI
 
+/// An alternate pose for a Bloo's illustration — only some species currently
+/// have dedicated art for these (checked at runtime), falls back to `.idle`.
+enum BlooPose: String {
+    case idle
+    case blink
+    case wave
+}
+
 /// Renders a Bloo's real illustration (`bloo_1`...`bloo_9` in Assets.xcassets).
 /// When locked, uses the dedicated grayscale `_locked` art if one was provided
 /// (currently species 6-9), otherwise desaturates + dims the color art instead.
@@ -12,10 +20,16 @@ struct BlooArtworkView: View {
     let species: BlooSpecies
     var isLocked: Bool = false
     var showsBackdrop: Bool = true
+    var pose: BlooPose = .idle
 
     private var color: Color { Color(hex: species.colorHex) }
     private var lockedAssetName: String { "\(species.assetName)_locked" }
     private var hasDedicatedLockedArt: Bool { UIImage(named: lockedAssetName) != nil }
+
+    private var poseAssetName: String { "\(species.assetName)_\(pose.rawValue)" }
+    private var resolvedAssetName: String {
+        pose == .idle || UIImage(named: poseAssetName) == nil ? species.assetName : poseAssetName
+    }
 
     var body: some View {
         ZStack {
@@ -38,7 +52,10 @@ struct BlooArtworkView: View {
                 .saturation(0)
                 .opacity(0.5)
         } else {
-            Image(species.assetName).resizable().scaledToFit()
+            Image(resolvedAssetName)
+                .resizable()
+                .scaledToFit()
+                .transition(.opacity)
         }
     }
 }

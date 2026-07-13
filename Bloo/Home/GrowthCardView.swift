@@ -11,6 +11,7 @@ struct GrowthCardView: View {
     let bloo: Bloo
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var pose: BlooPose = .idle
 
     private var accentColor: Color { Color(hex: bloo.species.colorHex) }
     private var backdropColor: Color { Color.pastel(hex: bloo.species.colorHex) }
@@ -26,11 +27,26 @@ struct GrowthCardView: View {
                         .frame(width: 190, height: 190)
                 } else {
                     PhaseAnimator([false, true]) { phase in
-                        BlooArtworkView(species: bloo.species, showsBackdrop: false)
+                        BlooArtworkView(species: bloo.species, showsBackdrop: false, pose: pose)
                             .frame(width: 190, height: 190)
                             .scaleEffect(phase ? 1.02 : 1.0)
+                            .animation(.easeInOut(duration: 0.15), value: pose)
                     } animation: { _ in
                         .easeInOut(duration: 2.5)
+                    }
+                    .task(id: bloo.species) {
+                        // Greet once with a wave, then blink periodically for the rest of the visit.
+                        try? await Task.sleep(for: .seconds(0.6))
+                        pose = .wave
+                        try? await Task.sleep(for: .seconds(1.1))
+                        pose = .idle
+
+                        while !Task.isCancelled {
+                            try? await Task.sleep(for: .seconds(.random(in: 3...6)))
+                            pose = .blink
+                            try? await Task.sleep(for: .seconds(0.18))
+                            pose = .idle
+                        }
                     }
                 }
             }
