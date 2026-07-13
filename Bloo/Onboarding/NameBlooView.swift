@@ -77,7 +77,7 @@ struct NameBlooView: View {
             guard celebratesUnlock, !reduceMotion else { return }
             showConfetti = true
             Task {
-                try? await Task.sleep(for: .seconds(1.8))
+                try? await Task.sleep(for: .seconds(ConfettiView.totalDuration))
                 showConfetti = false
             }
         }

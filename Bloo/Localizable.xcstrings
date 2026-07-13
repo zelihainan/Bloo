@@ -617,6 +617,22 @@
         }
       }
     },
+    "e.g. Drink water" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. Drink water"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Örn: Su iç"
+          }
+        }
+      }
+    },
     "Completed" : {
       "localizations" : {
         "en" : {
@@ -1321,6 +1337,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yeni Alışkanlık"
+          }
+        }
+      }
+    },
+    "New badge unlocked!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New badge unlocked!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni rozet kazandın!"
           }
         }
       }

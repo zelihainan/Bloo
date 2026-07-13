@@ -12,13 +12,15 @@ import SwiftUI
 struct BloosGridCardView: View {
     let bloos: [Bloo]
     let onSelect: (Bloo) -> Void
+    let onViewCompleted: (Bloo) -> Void
 
     private let tileSize: CGFloat = 95
     private let columns: [GridItem]
 
-    init(bloos: [Bloo], onSelect: @escaping (Bloo) -> Void) {
+    init(bloos: [Bloo], onSelect: @escaping (Bloo) -> Void, onViewCompleted: @escaping (Bloo) -> Void) {
         self.bloos = bloos
         self.onSelect = onSelect
+        self.onViewCompleted = onViewCompleted
         self.columns = [
             GridItem(.fixed(95), spacing: 12),
             GridItem(.fixed(95), spacing: 12),
@@ -63,7 +65,11 @@ struct BloosGridCardView: View {
 
         return VStack(spacing: 4) {
             Button {
-                onSelect(bloo)
+                if isCompleted {
+                    onViewCompleted(bloo)
+                } else {
+                    onSelect(bloo)
+                }
             } label: {
                 BlooArtworkView(species: bloo.species, isLocked: isLocked, showsBackdrop: false)
                     .padding(10)

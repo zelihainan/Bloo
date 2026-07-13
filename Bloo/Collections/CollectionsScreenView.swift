@@ -14,6 +14,8 @@ struct CollectionsScreenView: View {
     @Query private var bloos: [Bloo]
     @Query private var badges: [Badge]
 
+    @State private var viewedCompletedBloo: Bloo?
+
     private var activeBloo: Bloo? { bloos.first { $0.state == .active } }
 
     private var nextLockedBloo: Bloo? {
@@ -29,7 +31,7 @@ struct CollectionsScreenView: View {
             VStack(alignment: .leading, spacing: 20) {
                 header
 
-                BloosGridCardView(bloos: bloos, onSelect: selectActive)
+                BloosGridCardView(bloos: bloos, onSelect: selectActive, onViewCompleted: { viewedCompletedBloo = $0 })
                     .padding(.horizontal, 28)
 
                 if let nextLockedBloo {
@@ -43,6 +45,9 @@ struct CollectionsScreenView: View {
             .padding(.bottom, 24)
         }
         .background(BlooTheme.background)
+        .sheet(item: $viewedCompletedBloo) { bloo in
+            CompletedBlooDetailView(bloo: bloo)
+        }
     }
 
     private var header: some View {

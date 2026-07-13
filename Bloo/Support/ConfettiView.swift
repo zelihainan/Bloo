@@ -15,26 +15,34 @@ struct ConfettiView: View {
     private struct Particle {
         let xFraction: CGFloat
         let delay: Double
+        let fallDuration: Double
         let rotationSpeed: Double
         let color: Color
         let size: CGFloat
-        let horizontalDrift: CGFloat
+        let wobbleAmplitude: CGFloat
+        let wobbleFrequency: Double
+        let wobblePhase: Double
     }
 
     private let particles: [Particle]
     private let startDate = Date()
-    private let duration: Double = 1.6
+    /// Longest any single particle can still be visible for — callers should
+    /// keep this view alive at least this long before removing it.
+    static let totalDuration: Double = 3.6
 
-    init(colors: [Color], particleCount: Int = 26) {
+    init(colors: [Color], particleCount: Int = 32) {
         self.colors = colors
         self.particles = (0..<particleCount).map { _ in
             Particle(
                 xFraction: .random(in: 0...1),
-                delay: .random(in: 0...0.3),
-                rotationSpeed: .random(in: 180...540),
+                delay: .random(in: 0...0.5),
+                fallDuration: .random(in: 1.8...3.0),
+                rotationSpeed: .random(in: 140...460),
                 color: colors.randomElement() ?? .pink,
-                size: .random(in: 5...9),
-                horizontalDrift: .random(in: -50...50)
+                size: .random(in: 5...10),
+                wobbleAmplitude: .random(in: 12...36),
+                wobbleFrequency: .random(in: 1.2...2.6),
+                wobblePhase: .random(in: 0...(2 * .pi))
             )
         }
     }
@@ -44,13 +52,15 @@ struct ConfettiView: View {
             Canvas { context, size in
                 let elapsed = timeline.date.timeIntervalSince(startDate)
                 for particle in particles {
-                    let localDuration = duration - particle.delay
-                    let t = (elapsed - particle.delay) / localDuration
+                    let t = (elapsed - particle.delay) / particle.fallDuration
                     guard t > 0, t < 1.05 else { continue }
                     let clampedT = min(t, 1)
-                    let x = particle.xFraction * size.width + particle.horizontalDrift * clampedT
-                    let y = clampedT * (size.height + 40) - 20
-                    let opacity = clampedT > 0.7 ? max(0, (1 - clampedT) / 0.3) : 1
+                    // Ease-in fall (gravity-like acceleration) instead of a uniform linear drop.
+                    let fallT = clampedT * clampedT
+                    let wobble = sin(elapsed * particle.wobbleFrequency + particle.wobblePhase) * particle.wobbleAmplitude
+                    let x = particle.xFraction * size.width + wobble
+                    let y = fallT * (size.height + 40) - 20
+                    let opacity = clampedT > 0.75 ? max(0, (1 - clampedT) / 0.25) : 1
 
                     var ctx = context
                     ctx.opacity = opacity

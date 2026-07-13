@@ -31,9 +31,13 @@ struct OnboardingAddHabitsView: View {
 
                 ScrollView {
                     VStack(spacing: 12) {
-                        ForEach(Array(habits.enumerated()), id: \.element.id) { index, habit in
-                            habitRow(habit)
-                                .staggeredAppear(index: index)
+                        if habits.isEmpty {
+                            exampleHabitPlaceholder
+                        } else {
+                            ForEach(Array(habits.enumerated()), id: \.element.id) { index, habit in
+                                habitRow(habit)
+                                    .staggeredAppear(index: index)
+                            }
                         }
                     }
                     .padding(.top, 24)
@@ -85,20 +89,47 @@ struct OnboardingAddHabitsView: View {
     }
 
     private func habitRow(_ habit: Habit) -> some View {
-        HStack(spacing: 12) {
-            Text(habit.name)
-                .font(.bloo(16))
-            Spacer()
-            Button {
-                presentedDestination = .edit(habit)
-            } label: {
-                Image(systemName: "pencil")
-                    .foregroundStyle(.secondary)
+        Button {
+            presentedDestination = .edit(habit)
+        } label: {
+            VStack(alignment: .leading, spacing: 1) {
+                Text(habit.name)
+                    .font(.bloo(16))
+                    .foregroundStyle(BlooTheme.primaryText)
+                if !habit.note.isEmpty {
+                    Text(habit.note)
+                        .font(.bloo(12, italic: true))
+                        .foregroundStyle(BlooTheme.tertiaryText)
+                        .lineLimit(1)
+                }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.vertical, 14)
+            .padding(.horizontal, 18)
+            .blooFieldBackground()
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.pressable)
+    }
+
+    private var exampleHabitPlaceholder: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "drop.fill")
+                .foregroundStyle(BlooTheme.tertiaryText)
+            Text("e.g. Drink water")
+                .font(.bloo(16))
+                .foregroundStyle(BlooTheme.tertiaryText)
+            Spacer()
         }
         .padding(.vertical, 14)
         .padding(.horizontal, 18)
-        .blooFieldBackground()
+        .background(Color.white.opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: BlooTheme.cardCornerRadius, style: .continuous)
+                .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [4]))
+                .foregroundStyle(BlooTheme.cardBorder)
+        )
     }
 
     private func save(draft: HabitDraft, sortOrder: Int) {

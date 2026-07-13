@@ -14,6 +14,8 @@ struct HomeView: View {
     @State private var presentedDestination: HabitDestination?
     @State private var newCompanionName: String = ""
     @State private var xpPopup: HabitXPPopup?
+    @State private var showsNameSheet = false
+    @State private var newlyEarnedBadge: BadgeType?
     @AppStorage(AppStorageKey.dailyRemindersEnabled) private var dailyRemindersEnabled = true
 
     private var activeBloo: Bloo? { activeBloos.first }
@@ -80,25 +82,35 @@ struct HomeView: View {
                     }
                 }
             }
-            .sheet(isPresented: unnamedCompanionBinding) {
+            .sheet(isPresented: $showsNameSheet) {
                 if let activeBloo {
                     NameBlooView(species: activeBloo.species, name: $newCompanionName, celebratesUnlock: true) {
                         activeBloo.customName = newCompanionName.trimmingCharacters(in: .whitespacesAndNewlines)
                         try? modelContext.save()
+                        showsNameSheet = false
                     }
-                    .interactiveDismissDisabled()
+                }
+            }
+            .overlay(alignment: .top) {
+                if let newlyEarnedBadge {
+                    BadgeUnlockToastView(badge: newlyEarnedBadge)
+                        .padding(.horizontal, 20)
+                        .padding(.top, 8)
+                        .transition(.move(edge: .top).combined(with: .opacity))
                 }
             }
         }
+        .onAppear { updateNameSheetVisibility() }
+        .onChange(of: activeBloo?.id) { _, _ in updateNameSheetVisibility() }
+        .onChange(of: activeBloo?.customName) { _, _ in updateNameSheetVisibility() }
     }
 
-    /// Whether the active Bloo just auto-activated (after the previous one finished
-    /// growing) and still needs a name.
-    private var unnamedCompanionBinding: Binding<Bool> {
-        Binding(
-            get: { activeBloo != nil && (activeBloo?.customName?.isEmpty ?? true) },
-            set: { _ in }
-        )
+    /// Shows the naming sheet only when the active Bloo is a genuinely new,
+    /// still-unnamed companion — re-evaluated on change rather than as a live
+    /// binding so a manual swipe-to-dismiss actually sticks instead of the
+    /// sheet immediately reappearing on the next view update.
+    private func updateNameSheetVisibility() {
+        showsNameSheet = activeBloo != nil && (activeBloo?.customName?.isEmpty ?? true)
     }
 
     private func isCompletedToday(_ habit: Habit) -> Bool {
@@ -108,15 +120,34 @@ struct HomeView: View {
 
     private func toggle(_ habit: Habit) {
         let xpBefore = activeBloo?.xp ?? 0
+        let badgesBefore = Set((try? modelContext.fetch(FetchDescriptor<Badge>()).map(\.type)) ?? [])
+
         HabitCompletionEngine.toggleCompletion(for: habit, on: Date(), context: modelContext)
+
         let delta = (activeBloo?.xp ?? 0) - xpBefore
-        guard delta > 0 else { return }
-        let popup = HabitXPPopup(habitID: habit.id, amount: delta)
-        xpPopup = popup
-        Task {
-            try? await Task.sleep(for: .seconds(1))
-            if xpPopup?.id == popup.id {
-                xpPopup = nil
+        if delta > 0 {
+            let popup = HabitXPPopup(habitID: habit.id, amount: delta)
+            xpPopup = popup
+            Task {
+                try? await Task.sleep(for: .seconds(1))
+                if xpPopup?.id == popup.id {
+                    xpPopup = nil
+                }
+            }
+        }
+
+        let badgesAfter = Set((try? modelContext.fetch(FetchDescriptor<Badge>()).map(\.type)) ?? [])
+        if let newBadge = badgesAfter.subtracting(badgesBefore).first {
+            withAnimation(.spring(response: 0.45, dampingFraction: 0.75)) {
+                newlyEarnedBadge = newBadge
+            }
+            Task {
+                try? await Task.sleep(for: .seconds(2.6))
+                withAnimation(.easeIn(duration: 0.3)) {
+                    if newlyEarnedBadge == newBadge {
+                        newlyEarnedBadge = nil
+                    }
+                }
             }
         }
     }

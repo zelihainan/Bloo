@@ -14,9 +14,10 @@ struct OnboardingBackButton: View {
 
     var body: some View {
         Button(action: action) {
-            Image(systemName: "chevron.left")
-                .font(.bloo(15, weight: .semibold))
-                .foregroundStyle(.secondary)
+            Image(systemName: "chevron.backward")
+                .font(.bloo(17, weight: .semibold))
+                .foregroundStyle(.blue)
         }
+        .buttonStyle(.pressable)
     }
 }

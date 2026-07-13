@@ -128,28 +128,15 @@ struct AddEditHabitView: View {
                         dismiss()
                     } label: {
                         Text("Save Habit")
-                            .font(.bloo(15, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background(BlooTheme.secondaryText.opacity(trimmedName.isEmpty || selectedDays.isEmpty ? 0.4 : 1))
-                            .clipShape(Capsule())
                     }
+                    .buttonStyle(.bloo(isEnabled: !(trimmedName.isEmpty || selectedDays.isEmpty)))
                     .disabled(trimmedName.isEmpty || selectedDays.isEmpty)
 
                     if onDelete != nil {
                         Button("Delete Habit") {
                             showsDeleteConfirmation = true
                         }
-                        .font(.bloo(15))
-                        .foregroundStyle(BlooTheme.secondaryText)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 14)
-                        .background(Color.white)
-                        .clipShape(Capsule())
-                        .overlay(
-                            Capsule().stroke(BlooTheme.secondaryText, lineWidth: 0.5)
-                        )
+                        .buttonStyle(.blooSecondary)
                     }
                 }
                 .padding(.top, 8)
