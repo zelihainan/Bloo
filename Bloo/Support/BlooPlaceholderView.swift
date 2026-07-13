@@ -6,11 +6,10 @@
 import SwiftUI
 
 /// An alternate pose for a Bloo's illustration — only some species currently
-/// have dedicated art for these (checked at runtime), falls back to `.idle`.
+/// have dedicated art for this (checked at runtime), falls back to `.idle`.
 enum BlooPose: String {
     case idle
     case blink
-    case wave
 }
 
 /// Renders a Bloo's real illustration (`bloo_1`...`bloo_9` in Assets.xcassets).
@@ -50,22 +49,20 @@ struct BlooArtworkView: View {
                 .saturation(0)
                 .opacity(0.5)
         } else {
-            // All available poses stay mounted simultaneously and only crossfade via
-            // opacity — swapping an Image's underlying asset isn't itself animatable,
-            // and inserting/removing a fresh Image each time briefly shows nothing
-            // while the (large) replacement PNG decodes, reading as a white flash.
+            // Both poses stay mounted simultaneously and only crossfade via opacity —
+            // swapping an Image's underlying asset isn't itself animatable, and
+            // inserting/removing a fresh Image each time briefly shows nothing while
+            // the (large) replacement PNG decodes, reading as a white flash.
             ZStack {
                 Image(species.assetName)
                     .resizable()
                     .scaledToFit()
                     .opacity(pose == .idle ? 1 : 0)
-                ForEach([BlooPose.blink, .wave], id: \.self) { candidate in
-                    if hasArt(for: candidate) {
-                        Image(assetName(for: candidate))
-                            .resizable()
-                            .scaledToFit()
-                            .opacity(pose == candidate ? 1 : 0)
-                    }
+                if hasArt(for: .blink) {
+                    Image(assetName(for: .blink))
+                        .resizable()
+                        .scaledToFit()
+                        .opacity(pose == .blink ? 1 : 0)
                 }
             }
         }

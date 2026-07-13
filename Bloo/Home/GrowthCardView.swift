@@ -34,21 +34,11 @@ struct GrowthCardView: View {
                         .easeInOut(duration: 2.5)
                     }
                     .task(id: bloo.species) {
-                        // Greet once with a wave, then blink periodically for the rest of the visit.
-                        // Each pose change is wrapped in its own crossfade so the artwork swap
-                        // fades smoothly instead of popping instantly. Cancellation is checked
-                        // explicitly after every sleep — `try?` alone swallows the cancellation
-                        // error and lets a stale, superseded task instance keep mutating `pose`,
-                        // which is what made the greeting look like it double-fired on appear.
+                        // Blink periodically for as long as this Bloo is shown. Cancellation
+                        // is checked explicitly after every sleep — `try?` alone swallows the
+                        // cancellation error and would let a stale, superseded task instance
+                        // keep mutating `pose` after a fresh one has already started.
                         pose = .idle
-
-                        try? await Task.sleep(for: .seconds(0.6))
-                        guard !Task.isCancelled else { return }
-                        withAnimation(.easeInOut(duration: 1.3)) { pose = .wave }
-
-                        try? await Task.sleep(for: .seconds(2.2))
-                        guard !Task.isCancelled else { return }
-                        withAnimation(.easeInOut(duration: 1.0)) { pose = .idle }
 
                         while !Task.isCancelled {
                             try? await Task.sleep(for: .seconds(.random(in: 3...6)))
