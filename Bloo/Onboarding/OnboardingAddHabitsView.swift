@@ -31,8 +31,9 @@ struct OnboardingAddHabitsView: View {
 
                 ScrollView {
                     VStack(spacing: 12) {
-                        ForEach(habits) { habit in
+                        ForEach(Array(habits.enumerated()), id: \.element.id) { index, habit in
                             habitRow(habit)
+                                .staggeredAppear(index: index)
                         }
                     }
                     .padding(.top, 24)

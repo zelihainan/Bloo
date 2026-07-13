@@ -9,9 +9,15 @@ struct NameBlooView: View {
     let species: BlooSpecies
     @Binding var name: String
     var onBack: (() -> Void)? = nil
+    /// True when this naming screen follows a mid-app evolution unlock (not the
+    /// initial onboarding pick) — triggers a one-off confetti celebration.
+    var celebratesUnlock: Bool = false
     let onContinue: () -> Void
 
     private let nameCharacterLimit = 24
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var showConfetti = false
 
     private var trimmedName: String { name.trimmingCharacters(in: .whitespacesAndNewlines) }
 
@@ -62,5 +68,18 @@ struct NameBlooView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(BlooTheme.background)
         .environment(\.blooAccentColor, Color(hex: species.colorHex))
+        .overlay {
+            if showConfetti {
+                ConfettiView(colors: [Color(hex: species.colorHex), .yellow, .pink, .white])
+            }
+        }
+        .onAppear {
+            guard celebratesUnlock, !reduceMotion else { return }
+            showConfetti = true
+            Task {
+                try? await Task.sleep(for: .seconds(1.8))
+                showConfetti = false
+            }
+        }
     }
 }

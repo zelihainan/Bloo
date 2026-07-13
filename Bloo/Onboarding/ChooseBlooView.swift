@@ -32,7 +32,7 @@ struct ChooseBlooView: View {
                 .foregroundStyle(.secondary)
 
             LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(sortedBloos) { bloo in
+                ForEach(Array(sortedBloos.enumerated()), id: \.element.id) { index, bloo in
                     let isUnlocked = bloo.state != .locked
                     let isSelected = selectedSpecies == bloo.species
 
@@ -53,6 +53,7 @@ struct ChooseBlooView: View {
                             )
                     }
                     .disabled(!isUnlocked)
+                    .staggeredAppear(index: index)
                 }
             }
             .padding(.top, 28)

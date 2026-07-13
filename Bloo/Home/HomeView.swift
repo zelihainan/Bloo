@@ -82,7 +82,7 @@ struct HomeView: View {
             }
             .sheet(isPresented: unnamedCompanionBinding) {
                 if let activeBloo {
-                    NameBlooView(species: activeBloo.species, name: $newCompanionName) {
+                    NameBlooView(species: activeBloo.species, name: $newCompanionName, celebratesUnlock: true) {
                         activeBloo.customName = newCompanionName.trimmingCharacters(in: .whitespacesAndNewlines)
                         try? modelContext.save()
                     }
