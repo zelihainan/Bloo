@@ -38,15 +38,15 @@ struct GrowthCardView: View {
                         // Each pose change is wrapped in its own crossfade so the artwork swap
                         // fades smoothly instead of popping instantly.
                         try? await Task.sleep(for: .seconds(0.6))
-                        withAnimation(.easeInOut(duration: 0.35)) { pose = .wave }
-                        try? await Task.sleep(for: .seconds(1.1))
-                        withAnimation(.easeInOut(duration: 0.35)) { pose = .idle }
+                        withAnimation(.easeInOut(duration: 0.5)) { pose = .wave }
+                        try? await Task.sleep(for: .seconds(2.2))
+                        withAnimation(.easeInOut(duration: 0.5)) { pose = .idle }
 
                         while !Task.isCancelled {
                             try? await Task.sleep(for: .seconds(.random(in: 3...6)))
-                            withAnimation(.easeInOut(duration: 0.2)) { pose = .blink }
-                            try? await Task.sleep(for: .seconds(0.18))
-                            withAnimation(.easeInOut(duration: 0.2)) { pose = .idle }
+                            withAnimation(.easeInOut(duration: 0.35)) { pose = .blink }
+                            try? await Task.sleep(for: .seconds(0.5))
+                            withAnimation(.easeInOut(duration: 0.35)) { pose = .idle }
                         }
                     }
                 }

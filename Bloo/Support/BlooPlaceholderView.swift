@@ -26,10 +26,8 @@ struct BlooArtworkView: View {
     private var lockedAssetName: String { "\(species.assetName)_locked" }
     private var hasDedicatedLockedArt: Bool { UIImage(named: lockedAssetName) != nil }
 
-    private var poseAssetName: String { "\(species.assetName)_\(pose.rawValue)" }
-    private var resolvedAssetName: String {
-        pose == .idle || UIImage(named: poseAssetName) == nil ? species.assetName : poseAssetName
-    }
+    private func assetName(for pose: BlooPose) -> String { "\(species.assetName)_\(pose.rawValue)" }
+    private func hasArt(for pose: BlooPose) -> Bool { UIImage(named: assetName(for: pose)) != nil }
 
     var body: some View {
         ZStack {
@@ -52,11 +50,24 @@ struct BlooArtworkView: View {
                 .saturation(0)
                 .opacity(0.5)
         } else {
-            Image(resolvedAssetName)
-                .resizable()
-                .scaledToFit()
-                .id(resolvedAssetName)
-                .transition(.opacity)
+            // All available poses stay mounted simultaneously and only crossfade via
+            // opacity — swapping an Image's underlying asset isn't itself animatable,
+            // and inserting/removing a fresh Image each time briefly shows nothing
+            // while the (large) replacement PNG decodes, reading as a white flash.
+            ZStack {
+                Image(species.assetName)
+                    .resizable()
+                    .scaledToFit()
+                    .opacity(pose == .idle ? 1 : 0)
+                ForEach([BlooPose.blink, .wave], id: \.self) { candidate in
+                    if hasArt(for: candidate) {
+                        Image(assetName(for: candidate))
+                            .resizable()
+                            .scaledToFit()
+                            .opacity(pose == candidate ? 1 : 0)
+                    }
+                }
+            }
         }
     }
 }
