@@ -12,7 +12,6 @@ struct GrowthCardView: View {
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var pose: BlooPose = .idle
-    @State private var waveRotation: Double = 0
 
     private var accentColor: Color { Color(hex: bloo.species.colorHex) }
     private var backdropColor: Color { Color.pastel(hex: bloo.species.colorHex) }
@@ -31,7 +30,6 @@ struct GrowthCardView: View {
                         BlooArtworkView(species: bloo.species, showsBackdrop: false, pose: pose)
                             .frame(width: 190, height: 190)
                             .scaleEffect(phase ? 1.02 : 1.0)
-                            .rotationEffect(.degrees(waveRotation), anchor: .bottom)
                     } animation: { _ in
                         .easeInOut(duration: 2.5)
                     }
@@ -41,14 +39,7 @@ struct GrowthCardView: View {
                         // fades smoothly instead of popping instantly.
                         try? await Task.sleep(for: .seconds(0.6))
                         withAnimation(.easeInOut(duration: 0.5)) { pose = .wave }
-                        // A little side-to-side rock while the paw is up sells the "wave"
-                        // gesture — a single static frame alone reads as a stiff pop.
-                        waveRotation = -4
-                        withAnimation(.easeInOut(duration: 0.22).repeatCount(6, autoreverses: true)) {
-                            waveRotation = 4
-                        }
                         try? await Task.sleep(for: .seconds(2.2))
-                        withAnimation(.easeInOut(duration: 0.3)) { waveRotation = 0 }
                         withAnimation(.easeInOut(duration: 0.5)) { pose = .idle }
 
                         while !Task.isCancelled {
