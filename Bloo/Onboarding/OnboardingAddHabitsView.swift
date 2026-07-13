@@ -114,8 +114,6 @@ struct OnboardingAddHabitsView: View {
 
     private var exampleHabitPlaceholder: some View {
         HStack(spacing: 12) {
-            Image(systemName: "drop.fill")
-                .foregroundStyle(BlooTheme.tertiaryText)
             Text("e.g. Drink water")
                 .font(.bloo(16))
                 .foregroundStyle(BlooTheme.tertiaryText)
