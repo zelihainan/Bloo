@@ -18,7 +18,7 @@ enum DevTools {
         for bloo in (try? context.fetch(FetchDescriptor<Bloo>())) ?? [] { context.delete(bloo) }
         for log in (try? context.fetch(FetchDescriptor<DailyLog>())) ?? [] { context.delete(log) }
         for badge in (try? context.fetch(FetchDescriptor<Badge>())) ?? [] { context.delete(badge) }
-        try? context.save()
+        context.saveAndLogErrors()
         Bloo.bootstrapSpeciesIfNeeded(in: context)
         UserDefaults.standard.set(false, forKey: AppStorageKey.hasCompletedOnboarding)
     }
@@ -40,7 +40,7 @@ enum DevTools {
         nextBloo.activatedAt = Date()
         nextBloo.customName = nil
 
-        try? context.save()
+        context.saveAndLogErrors()
     }
 
     /// Awards every badge type, for previewing the fully-earned Collections board.
@@ -49,13 +49,13 @@ enum DevTools {
         for type in BadgeType.allCases where !earnedTypes.contains(type) {
             context.insert(Badge(type: type))
         }
-        try? context.save()
+        context.saveAndLogErrors()
     }
 
     /// Deletes every badge, back to the all-locked default state.
     static func resetBadges(context: ModelContext) {
         for badge in (try? context.fetch(FetchDescriptor<Badge>())) ?? [] { context.delete(badge) }
-        try? context.save()
+        context.saveAndLogErrors()
     }
 }
 #endif

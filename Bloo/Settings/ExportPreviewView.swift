@@ -90,7 +90,7 @@ struct ExportPreviewView: View {
             Text("Habits")
                 .font(.bloo(13, weight: .medium))
                 .foregroundStyle(BlooTheme.secondaryText)
-            ForEach(summary.habitStreaks, id: \.name) { entry in
+            ForEach(summary.habitStreaks, id: \.id) { entry in
                 HStack {
                     Text(entry.name)
                         .font(.bloo(14))

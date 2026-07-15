@@ -73,13 +73,17 @@ struct NameBlooView: View {
                 ConfettiView(colors: [Color(hex: species.colorHex), .yellow, .pink, .white])
             }
         }
-        .onAppear {
+        .task(id: species) {
+            // `.task(id:)` cancels any prior instance automatically when this
+            // fires again (e.g. re-presented for a different species before
+            // the previous confetti finished) — the explicit `isCancelled`
+            // check after the sleep stops a stale instance from clearing the
+            // new presentation's confetti early.
             guard celebratesUnlock, !reduceMotion else { return }
             showConfetti = true
-            Task {
-                try? await Task.sleep(for: .seconds(ConfettiView.totalDuration))
-                showConfetti = false
-            }
+            try? await Task.sleep(for: .seconds(ConfettiView.totalDuration))
+            guard !Task.isCancelled else { return }
+            showConfetti = false
         }
     }
 }

@@ -13,7 +13,7 @@ struct ProgressSummary {
     let totalXP: Int
     let perfectDays: Int
     let longestStreak: Int
-    let habitStreaks: [(name: String, streak: Int)]
+    let habitStreaks: [(id: UUID, name: String, streak: Int)]
 }
 
 enum ProgressExporter {
@@ -24,7 +24,7 @@ enum ProgressExporter {
             totalXP: dailyLogs.reduce(0) { $0 + $1.xpEarned },
             perfectDays: dailyLogs.filter(\.isPerfectDay).count,
             longestStreak: dailyLogs.map(\.streakDayNumber).max() ?? 0,
-            habitStreaks: habits.map { ($0.name, HabitStreakCalculator.currentStreak(for: $0)) }
+            habitStreaks: habits.map { ($0.id, $0.name, HabitStreakCalculator.currentStreak(for: $0)) }
         )
     }
 

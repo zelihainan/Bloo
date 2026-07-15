@@ -83,7 +83,7 @@ enum HabitCompletionEngine {
         }
         awardBadgesIfNeeded(completionRate: completionRate, streakDayNumber: newStreak, context: context)
 
-        try? context.save()
+        context.saveAndLogErrors()
     }
 
     static func activeBloo(in context: ModelContext) -> Bloo? {

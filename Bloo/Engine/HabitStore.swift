@@ -44,7 +44,7 @@ enum HabitStore {
     }
 
     private static func save(context: ModelContext, dailyRemindersEnabled: Bool) {
-        try? context.save()
+        context.saveAndLogErrors()
         HabitCompletionEngine.recomputeDailyLog(for: Date(), context: context)
         NotificationScheduler.rescheduleAll(context: context, dailyRemindersEnabled: dailyRemindersEnabled)
     }

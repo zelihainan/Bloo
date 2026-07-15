@@ -27,6 +27,7 @@ struct AddEditHabitView: View {
     @State private var reminderTime: Date
     @State private var note: String
     @State private var showsDeleteConfirmation = false
+    @State private var isSaving = false
 
     private let nameCharacterLimit = 40
     private let noteCharacterLimit = 120
@@ -116,6 +117,8 @@ struct AddEditHabitView: View {
 
                 VStack(spacing: 10) {
                     Button {
+                        guard !isSaving else { return }
+                        isSaving = true
                         onSave(
                             HabitDraft(
                                 name: trimmedName,
@@ -129,8 +132,8 @@ struct AddEditHabitView: View {
                     } label: {
                         Text("Save Habit")
                     }
-                    .buttonStyle(.bloo(isEnabled: !(trimmedName.isEmpty || selectedDays.isEmpty)))
-                    .disabled(trimmedName.isEmpty || selectedDays.isEmpty)
+                    .buttonStyle(.bloo(isEnabled: !(trimmedName.isEmpty || selectedDays.isEmpty || isSaving)))
+                    .disabled(trimmedName.isEmpty || selectedDays.isEmpty || isSaving)
 
                     if onDelete != nil {
                         Button("Delete Habit") {

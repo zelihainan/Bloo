@@ -29,6 +29,8 @@ struct SettingsScreenView: View {
     @State private var showsAbout = false
     @State private var showsClearDataConfirmation = false
     @State private var showsExportPreview = false
+    @State private var isSystemAuthorized = true
+    @Environment(\.scenePhase) private var scenePhase
 
     private var versionString: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
@@ -54,14 +56,20 @@ struct SettingsScreenView: View {
                     .padding(.horizontal, 28)
 
                     SettingsSectionCard(title: "Notifications") {
-                        SettingsRow(icon: "bell", title: "Daily reminders", subtitle: "Turn off to silence every habit's reminder", showsChevron: false, trailing: {
-                            MiniToggle(isOn: $dailyRemindersEnabled, tint: accentColor)
-                                .accessibilityLabel(Text("Daily reminders"))
-                                .onChange(of: dailyRemindersEnabled) { _, enabled in
-                                    if enabled { NotificationScheduler.requestAuthorizationIfNeeded() }
-                                    NotificationScheduler.rescheduleAll(context: modelContext, dailyRemindersEnabled: enabled)
-                                }
-                        })
+                        SettingsRow(
+                            icon: "bell",
+                            title: "Daily reminders",
+                            subtitle: isSystemAuthorized ? "Turn off to silence every habit's reminder" : "Notifications are turned off in iOS Settings",
+                            showsChevron: false,
+                            trailing: {
+                                MiniToggle(isOn: $dailyRemindersEnabled, tint: accentColor)
+                                    .accessibilityLabel(Text("Daily reminders"))
+                                    .onChange(of: dailyRemindersEnabled) { _, enabled in
+                                        if enabled { NotificationScheduler.requestAuthorizationIfNeeded() }
+                                        NotificationScheduler.rescheduleAll(context: modelContext, dailyRemindersEnabled: enabled)
+                                    }
+                            }
+                        )
                     }
                     .padding(.horizontal, 28)
 
@@ -125,6 +133,24 @@ struct SettingsScreenView: View {
             } message: {
                 Text("This deletes every habit, Bloo, and badge, and starts the app over from onboarding. This can't be undone.")
             }
+            .task { await refreshNotificationAuthorization() }
+            .onChange(of: scenePhase) { _, newPhase in
+                if newPhase == .active {
+                    Task { await refreshNotificationAuthorization() }
+                }
+            }
+        }
+    }
+
+    /// The in-app toggle is just an `@AppStorage` flag, so it can drift from
+    /// what iOS actually allows (denied at the system prompt, or revoked later
+    /// from Settings) — reflect the real authorization status whenever this
+    /// screen becomes visible instead of letting the toggle silently lie.
+    private func refreshNotificationAuthorization() async {
+        let authorized = await NotificationScheduler.isAuthorized()
+        isSystemAuthorized = authorized
+        if dailyRemindersEnabled && !authorized {
+            dailyRemindersEnabled = false
         }
     }
 
@@ -165,7 +191,7 @@ struct SettingsScreenView: View {
         for bloo in bloos { modelContext.delete(bloo) }
         for log in dailyLogs { modelContext.delete(log) }
         for badge in (try? modelContext.fetch(FetchDescriptor<Badge>())) ?? [] { modelContext.delete(badge) }
-        try? modelContext.save()
+        modelContext.saveAndLogErrors()
 
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         Bloo.bootstrapSpeciesIfNeeded(in: modelContext)

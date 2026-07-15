@@ -18,20 +18,27 @@ struct HomeView: View {
     @State private var newlyEarnedBadge: BadgeType?
     @AppStorage(AppStorageKey.dailyRemindersEnabled) private var dailyRemindersEnabled = true
 
+    // Re-read explicitly (not a bare `Date()` in each computed property) so a
+    // day boundary crossed while the app stays open and foregrounded — no
+    // background/relaunch to force a refresh — still updates "today"'s habits,
+    // day counter, and greeting instead of silently showing yesterday's.
+    @State private var now = Date()
+    @Environment(\.scenePhase) private var scenePhase
+
     private var activeBloo: Bloo? { activeBloos.first }
 
     private var todaysHabits: [Habit] {
-        allHabits.filter { $0.isScheduled(on: Date()) }
+        allHabits.filter { $0.isScheduled(on: now) }
     }
 
     private var dayNumber: Int {
         guard let start = activeBloo?.activatedAt else { return 1 }
-        let days = Calendar.current.dateComponents([.day], from: Calendar.current.startOfDay(for: start), to: Calendar.current.startOfDay(for: Date())).day ?? 0
+        let days = Calendar.current.dateComponents([.day], from: Calendar.current.startOfDay(for: start), to: Calendar.current.startOfDay(for: now)).day ?? 0
         return days + 1
     }
 
     private var greeting: String {
-        switch Calendar.current.component(.hour, from: Date()) {
+        switch Calendar.current.component(.hour, from: now) {
         case 5..<12: "Good morning!"
         case 12..<18: "Good afternoon!"
         default: "Good evening!"
@@ -86,7 +93,7 @@ struct HomeView: View {
                 if let activeBloo {
                     NameBlooView(species: activeBloo.species, name: $newCompanionName, celebratesUnlock: true) {
                         activeBloo.customName = newCompanionName.trimmingCharacters(in: .whitespacesAndNewlines)
-                        try? modelContext.save()
+                        modelContext.saveAndLogErrors()
                         showsNameSheet = false
                     }
                 }
@@ -103,6 +110,12 @@ struct HomeView: View {
         .onAppear { updateNameSheetVisibility() }
         .onChange(of: activeBloo?.id) { _, _ in updateNameSheetVisibility() }
         .onChange(of: activeBloo?.customName) { _, _ in updateNameSheetVisibility() }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active { now = Date() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
+            now = Date()
+        }
     }
 
     /// Shows the naming sheet only when the active Bloo is a genuinely new,
@@ -114,7 +127,7 @@ struct HomeView: View {
     }
 
     private func isCompletedToday(_ habit: Habit) -> Bool {
-        let today = Calendar.current.startOfDay(for: Date())
+        let today = Calendar.current.startOfDay(for: now)
         return habit.completions.first { Calendar.current.isDate($0.date, inSameDayAs: today) }?.isCompleted ?? false
     }
 
@@ -122,7 +135,7 @@ struct HomeView: View {
         let xpBefore = activeBloo?.xp ?? 0
         let badgesBefore = Set((try? modelContext.fetch(FetchDescriptor<Badge>()).map(\.type)) ?? [])
 
-        HabitCompletionEngine.toggleCompletion(for: habit, on: Date(), context: modelContext)
+        HabitCompletionEngine.toggleCompletion(for: habit, on: now, context: modelContext)
 
         let delta = (activeBloo?.xp ?? 0) - xpBefore
         if delta > 0 {

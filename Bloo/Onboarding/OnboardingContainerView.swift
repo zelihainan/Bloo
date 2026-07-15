@@ -50,6 +50,6 @@ struct OnboardingContainerView: View {
         bloo.state = .active
         bloo.activatedAt = Date()
         bloo.customName = blooName.trimmingCharacters(in: .whitespacesAndNewlines)
-        try? modelContext.save()
+        modelContext.saveAndLogErrors()
     }
 }

@@ -75,6 +75,6 @@ struct CollectionsScreenView: View {
         }
         bloo.state = .active
         bloo.activatedAt = Date()
-        try? modelContext.save()
+        modelContext.saveAndLogErrors()
     }
 }

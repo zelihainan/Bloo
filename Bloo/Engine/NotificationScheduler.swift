@@ -19,6 +19,14 @@ enum NotificationScheduler {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
     }
 
+    /// The actual OS-level permission — the app's own `dailyRemindersEnabled`
+    /// toggle is just a stored preference and can't tell on its own whether
+    /// iOS is silently dropping every reminder.
+    static func isAuthorized() async -> Bool {
+        let settings = await UNUserNotificationCenter.current().notificationSettings()
+        return settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional
+    }
+
     /// Clears everything and reschedules from scratch, reading habits fresh from
     /// `context` (rather than a possibly-stale `@Query` snapshot right after a save).
     /// Habits scheduled every day collapse into a single non-weekday-filtered
