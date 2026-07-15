@@ -14,14 +14,11 @@ struct GrowthCardView: View {
     @State private var pose: BlooPose = .idle
 
     private var accentColor: Color { Color(hex: bloo.species.colorHex) }
-    private var backdropColor: Color { Color.pastel(hex: bloo.species.colorHex) }
 
     var body: some View {
         VStack(spacing: 10) {
             ZStack {
-                Circle()
-                    .fill(backdropColor)
-                    .frame(width: 219, height: 219)
+                CharacterHabitatView(speciesHex: bloo.species.colorHex)
                 if reduceMotion {
                     BlooArtworkView(species: bloo.species, showsBackdrop: false)
                         .frame(width: 190, height: 190)

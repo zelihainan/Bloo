@@ -617,22 +617,6 @@
         }
       }
     },
-    "e.g. Drink water" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "e.g. Drink water"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Örn: Su iç"
-          }
-        }
-      }
-    },
     "Completed" : {
       "localizations" : {
         "en" : {
@@ -815,6 +799,22 @@
         }
       }
     },
+    "e.g. Drink water" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "e.g. Drink water"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Örn: Su iç"
+          }
+        }
+      }
+    },
     "Edit" : {
       "localizations" : {
         "en" : {
@@ -948,6 +948,22 @@
         }
       }
     },
+    "Fully grown" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fully grown"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamamen büyüdü"
+          }
+        }
+      }
+    },
     "Get started" : {
       "localizations" : {
         "en" : {
@@ -1032,6 +1048,7 @@
       }
     },
     "Grown on" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1059,38 +1076,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Büyüdü"
-          }
-        }
-      }
-    },
-    "Fully grown" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fully grown"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tamamen büyüdü"
-          }
-        }
-      }
-    },
-    "Time to grow" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Time to grow"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Büyüme süresi"
           }
         }
       }
@@ -1372,6 +1357,22 @@
         }
       }
     },
+    "New badge unlocked!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New badge unlocked!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni rozet kazandın!"
+          }
+        }
+      }
+    },
     "New Habit" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1385,22 +1386,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yeni Alışkanlık"
-          }
-        }
-      }
-    },
-    "New badge unlocked!" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New badge unlocked!"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yeni rozet kazandın!"
           }
         }
       }
@@ -2057,6 +2042,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saat"
+          }
+        }
+      }
+    },
+    "Time to grow" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time to grow"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Büyüme süresi"
           }
         }
       }
