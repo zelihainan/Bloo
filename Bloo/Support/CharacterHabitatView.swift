@@ -2,30 +2,30 @@
 //  CharacterHabitatView.swift
 //  Bloo
 //
-//  A wide, landscape "mini scene" behind a Bloo's portrait: a vivid sky
-//  gradient, layered hills for depth, drifting clouds, a continuous grass
-//  strip spanning the full width (so every species reads as standing on
-//  solid ground regardless of exactly where its feet land in its own
-//  artwork), a soft contact shadow for grounding, and a sprinkle of rocks,
-//  flowers, plants, leaves and sparkles. Purely a decorative backdrop — the
-//  caller layers the character portrait on top, unchanged in position or size.
+//  A landscape "mini scene" behind a Bloo's portrait: a soft pastel sky
+//  gradient, layered hills for depth, a continuous grass strip spanning the
+//  full width (so every species reads as standing on solid ground regardless
+//  of exactly where its feet land in its own artwork), a soft contact shadow
+//  for grounding, and a sprinkle of rocks, flowers, plants, leaves and
+//  sparkles. Fully static and muted by design — no independent motion here,
+//  so it stays calm and doesn't compete with the character's own idle
+//  animation or the crossfade between species. Purely a decorative backdrop —
+//  the caller layers the character portrait on top, unchanged in position or
+//  size.
 //
 
 import SwiftUI
 
 struct CharacterHabitatView: View {
     var speciesHex: String
-    var height: CGFloat = 210
+    var height: CGFloat = 190
 
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var animate = false
-
-    private var skyTop: Color { Color.pastel(hex: "#4FA3F0", fraction: 0.55) }
-    private var skyBottom: Color { Color.pastel(hex: speciesHex, fraction: 0.28) }
-    private var farHillColor: Color { Color.pastel(hex: "#3FA36A", fraction: 0.55) }
-    private var nearHillColor: Color { Color.pastel(hex: "#2F9158", fraction: 0.68) }
-    private var grassTop: Color { Color(hex: "#7ED28C") }
-    private var grassBottom: Color { Color(hex: "#48A25E") }
+    private var skyTop: Color { Color.pastel(hex: "#7FC0F0", fraction: 0.30) }
+    private var skyBottom: Color { Color.pastel(hex: speciesHex, fraction: 0.14) }
+    private var farHillColor: Color { Color.pastel(hex: "#4FA36A", fraction: 0.32) }
+    private var nearHillColor: Color { Color.pastel(hex: "#3F9158", fraction: 0.42) }
+    private var grassTop: Color { Color.pastel(hex: "#6FC080", fraction: 0.55) }
+    private var grassBottom: Color { Color.pastel(hex: "#3F9455", fraction: 0.70) }
 
     var body: some View {
         GeometryReader { proxy in
@@ -43,33 +43,27 @@ struct CharacterHabitatView: View {
                 ground(w: w, h: h)
                 decor(w: w, h: h)
             }
-            .clipShape(RoundedRectangle(cornerRadius: h * 0.24, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: h * 0.22, style: .continuous))
         }
         .frame(height: height)
-        .onAppear {
-            guard !reduceMotion else { return }
-            withAnimation(.easeInOut(duration: 3.5).repeatForever(autoreverses: true)) {
-                animate = true
-            }
-        }
     }
 
     // MARK: - Sky
 
     private func sunGlow(w: CGFloat, h: CGFloat) -> some View {
-        RadialGradient(colors: [Color.white.opacity(0.55), Color.white.opacity(0)], center: .center, startRadius: 0, endRadius: w * 0.22)
-            .frame(width: w * 0.44, height: w * 0.44)
+        RadialGradient(colors: [Color.white.opacity(0.35), Color.white.opacity(0)], center: .center, startRadius: 0, endRadius: w * 0.2)
+            .frame(width: w * 0.4, height: w * 0.4)
             .position(x: w * 0.82, y: h * 0.16)
     }
 
     private func farHills(w: CGFloat, h: CGFloat) -> some View {
-        wave(w: w, baseline: h * 0.60, amplitude: h * 0.05, phase: 0)
-            .fill(farHillColor.opacity(0.45))
+        wave(w: w, baseline: h * 0.58, amplitude: h * 0.05, phase: 0)
+            .fill(farHillColor.opacity(0.5))
     }
 
     private func nearHills(w: CGFloat, h: CGFloat) -> some View {
-        wave(w: w, baseline: h * 0.66, amplitude: h * 0.06, phase: 0.4)
-            .fill(nearHillColor.opacity(0.4))
+        wave(w: w, baseline: h * 0.65, amplitude: h * 0.06, phase: 0.4)
+            .fill(nearHillColor.opacity(0.45))
     }
 
     /// A gentle, organic hill/ground silhouette spanning the full width —
@@ -99,85 +93,85 @@ struct CharacterHabitatView: View {
 
     private func clouds(w: CGFloat, h: CGFloat) -> some View {
         ZStack {
-            cloud(x: w * 0.16, y: h * 0.16, symbolSize: 20, drift: 6)
-            cloud(x: w * 0.80, y: h * 0.30, symbolSize: 13, drift: -5)
+            cloud(x: w * 0.16, y: h * 0.16, symbolSize: 18)
+            cloud(x: w * 0.80, y: h * 0.28, symbolSize: 12)
         }
     }
 
-    private func cloud(x: CGFloat, y: CGFloat, symbolSize: CGFloat, drift: CGFloat) -> some View {
+    private func cloud(x: CGFloat, y: CGFloat, symbolSize: CGFloat) -> some View {
         Image(systemName: "cloud.fill")
             .font(.system(size: symbolSize))
-            .foregroundStyle(Color.white.opacity(0.9))
-            .position(x: x + (animate ? drift : -drift), y: y)
+            .foregroundStyle(Color.white.opacity(0.8))
+            .position(x: x, y: y)
     }
 
     private func sparkles(w: CGFloat, h: CGFloat) -> some View {
         ZStack {
-            sparkle(x: w * 0.90, y: h * 0.42, symbolSize: 9)
-            sparkle(x: w * 0.08, y: h * 0.50, symbolSize: 7)
+            sparkle(x: w * 0.90, y: h * 0.40, symbolSize: 8)
+            sparkle(x: w * 0.08, y: h * 0.48, symbolSize: 6)
         }
     }
 
     private func sparkle(x: CGFloat, y: CGFloat, symbolSize: CGFloat) -> some View {
         Image(systemName: "sparkle")
             .font(.system(size: symbolSize))
-            .foregroundStyle(Color.white.opacity(animate ? 0.9 : 0.35))
+            .foregroundStyle(Color.white.opacity(0.55))
             .position(x: x, y: y)
     }
 
     private func leaves(w: CGFloat, h: CGFloat) -> some View {
         ZStack {
-            leaf(x: w * 0.10, y: h * 0.26, rotation: -20, tint: farHillColor)
-            leaf(x: w * 0.92, y: h * 0.50, rotation: 25, tint: nearHillColor)
+            leaf(x: w * 0.10, y: h * 0.24, rotation: -20, tint: farHillColor)
+            leaf(x: w * 0.92, y: h * 0.48, rotation: 25, tint: nearHillColor)
         }
     }
 
     private func leaf(x: CGFloat, y: CGFloat, rotation: Double, tint: Color) -> some View {
         Image(systemName: "leaf.fill")
-            .font(.system(size: 10))
-            .foregroundStyle(tint.opacity(0.8))
-            .rotationEffect(.degrees(rotation + (animate ? 10 : -10)))
-            .position(x: x, y: y + (animate ? -4 : 4))
+            .font(.system(size: 9))
+            .foregroundStyle(tint.opacity(0.7))
+            .rotationEffect(.degrees(rotation))
+            .position(x: x, y: y)
     }
 
     // MARK: - Ground
 
     private func groundShadow(w: CGFloat, h: CGFloat) -> some View {
         Ellipse()
-            .fill(Color.black.opacity(0.16))
-            .frame(width: w * 0.30, height: h * 0.06)
+            .fill(Color.black.opacity(0.12))
+            .frame(width: w * 0.28, height: h * 0.05)
             .blur(radius: 5)
             .position(x: w * 0.5, y: h * 0.75)
     }
 
     private func ground(w: CGFloat, h: CGFloat) -> some View {
-        wave(w: w, baseline: h * 0.74, amplitude: h * 0.035, phase: 0.2)
+        wave(w: w, baseline: h * 0.73, amplitude: h * 0.035, phase: 0.2)
             .fill(LinearGradient(colors: [grassTop, grassBottom], startPoint: .top, endPoint: .bottom))
     }
 
     private func decor(w: CGFloat, h: CGFloat) -> some View {
         ZStack {
-            rock(x: w * 0.18, y: h * 0.86, diameter: 11)
-            rock(x: w * 0.85, y: h * 0.90, diameter: 8)
+            rock(x: w * 0.18, y: h * 0.85, diameter: 10)
+            rock(x: w * 0.85, y: h * 0.90, diameter: 7)
 
-            flower(x: w * 0.10, y: h * 0.82, tint: .pink)
-            flower(x: w * 0.73, y: h * 0.94, tint: .yellow)
+            flower(x: w * 0.10, y: h * 0.81, tint: Color(hex: "#EDA0BE"))
+            flower(x: w * 0.73, y: h * 0.94, tint: Color(hex: "#F0D482"))
 
-            plant(x: w * 0.90, y: h * 0.80)
+            plant(x: w * 0.90, y: h * 0.79)
             plant(x: w * 0.30, y: h * 0.94)
         }
     }
 
     private func rock(x: CGFloat, y: CGFloat, diameter: CGFloat) -> some View {
         Circle()
-            .fill(Color(hex: "#B7AFA1"))
+            .fill(Color(hex: "#C2BAAD"))
             .frame(width: diameter, height: diameter * 0.8)
             .position(x: x, y: y)
     }
 
     private func plant(x: CGFloat, y: CGFloat) -> some View {
         Image(systemName: "leaf.fill")
-            .font(.system(size: 9))
+            .font(.system(size: 8))
             .foregroundStyle(grassBottom)
             .rotationEffect(.degrees(-20))
             .position(x: x, y: y)
@@ -187,12 +181,12 @@ struct CharacterHabitatView: View {
         ZStack {
             ForEach(0..<5, id: \.self) { i in
                 Circle()
-                    .fill(tint.opacity(0.9))
+                    .fill(tint.opacity(0.85))
                     .frame(width: 4, height: 4)
                     .offset(y: -3.5)
                     .rotationEffect(.degrees(Double(i) * 72))
             }
-            Circle().fill(Color.white).frame(width: 3, height: 3)
+            Circle().fill(Color.white.opacity(0.9)).frame(width: 3, height: 3)
         }
         .position(x: x, y: y)
     }

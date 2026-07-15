@@ -20,6 +20,7 @@ struct GrowthCardView: View {
             ZStack {
                 CharacterHabitatView(speciesHex: bloo.species.colorHex)
                     .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 22)
                 if reduceMotion {
                     BlooArtworkView(species: bloo.species, showsBackdrop: false)
                         .frame(width: 190, height: 190)
