@@ -52,7 +52,10 @@ enum HabitCompletionEngine {
 
         let newXP = XPCalculator.dailyXP(completionRate: completionRate, streakDays: newStreak)
 
-        guard let activeBloo = activeBloo(in: context) else { return }
+        // `activeBloo` is nil once every species has already been collected —
+        // the streak/XP ledger still needs to keep advancing (Progress and
+        // badges depend on it) even though there's no Bloo left to grow.
+        let activeBloo = activeBloo(in: context)
 
         let existingLog = allLogs.first { calendar.isDate($0.date, inSameDayAs: normalizedDay) }
         let previousXPForToday = existingLog?.xpEarned ?? 0
@@ -74,9 +77,10 @@ enum HabitCompletionEngine {
             ))
         }
 
-        activeBloo.xp = max(0, activeBloo.xp + (newXP - previousXPForToday))
-
-        advanceToNextSpeciesIfNeeded(for: activeBloo, context: context)
+        if let activeBloo {
+            activeBloo.xp = max(0, activeBloo.xp + (newXP - previousXPForToday))
+            advanceToNextSpeciesIfNeeded(for: activeBloo, context: context)
+        }
         awardBadgesIfNeeded(completionRate: completionRate, streakDayNumber: newStreak, context: context)
 
         try? context.save()

@@ -14,17 +14,18 @@ struct BloosGridCardView: View {
     let onSelect: (Bloo) -> Void
     let onViewCompleted: (Bloo) -> Void
 
-    private let tileSize: CGFloat = 95
     private let columns: [GridItem]
 
     init(bloos: [Bloo], onSelect: @escaping (Bloo) -> Void, onViewCompleted: @escaping (Bloo) -> Void) {
         self.bloos = bloos
         self.onSelect = onSelect
         self.onViewCompleted = onViewCompleted
+        // Flexible (not `.fixed`) so the grid shrinks to fit on the narrowest
+        // supported iPhone widths instead of overflowing the card.
         self.columns = [
-            GridItem(.fixed(95), spacing: 12),
-            GridItem(.fixed(95), spacing: 12),
-            GridItem(.fixed(95)),
+            GridItem(.flexible(), spacing: 12),
+            GridItem(.flexible(), spacing: 12),
+            GridItem(.flexible()),
         ]
     }
 
@@ -73,7 +74,7 @@ struct BloosGridCardView: View {
             } label: {
                 BlooArtworkView(species: bloo.species, isLocked: isLocked, showsBackdrop: false)
                     .padding(10)
-                    .frame(width: tileSize, height: tileSize)
+                    .aspectRatio(1, contentMode: .fit)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .overlay(
@@ -98,7 +99,6 @@ struct BloosGridCardView: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
         }
-        .frame(width: tileSize)
     }
 
     private func accessibilityLabel(isActive: Bool, isLocked: Bool, isCompleted: Bool) -> Text {
