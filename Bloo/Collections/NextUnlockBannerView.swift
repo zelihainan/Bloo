@@ -31,6 +31,8 @@ struct NextUnlockBannerView: View {
                     .lineLimit(2)
             }
 
+            Spacer(minLength: 8)
+
             ZStack {
                 Circle().fill(BlooTheme.cardBorder).frame(width: 15, height: 15)
                 Image(systemName: "lock.fill")

@@ -83,6 +83,8 @@ struct BloosGridCardView: View {
                     .overlay(alignment: .topTrailing) {
                         if isLocked {
                             badge(systemImage: "lock.fill")
+                        } else if isCompleted {
+                            badge(systemImage: "trophy.fill", tint: .white, background: Color(hex: "#FFB020"))
                         }
                     }
             }
