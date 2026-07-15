@@ -69,15 +69,34 @@ struct BlooArtworkView: View {
     }
 }
 
-/// Stand-in artwork for the onboarding egg — no real illustration yet.
-struct EggPlaceholderView: View {
+/// The onboarding egg, with a periodic hatching-anticipation wobble — a quick
+/// shake every few seconds rather than a constant shimmy, matching the calm,
+/// occasional-not-constant feel of the rest of the app's idle animations.
+struct EggArtworkView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var rotation: Double = 0
+
     var body: some View {
-        let color = Color(hex: "#E8845A")
-        ZStack {
-            Circle().fill(color.opacity(0.15))
-            Image(systemName: "sparkles")
-                .font(.bloo(44, weight: .medium))
-                .foregroundStyle(color)
+        Image("onboarding_egg")
+            .resizable()
+            .scaledToFit()
+            .rotationEffect(.degrees(rotation))
+            .task {
+                guard !reduceMotion else { return }
+                while !Task.isCancelled {
+                    try? await Task.sleep(for: .seconds(.random(in: 2.5...4.5)))
+                    guard !Task.isCancelled else { break }
+                    await wobble()
+                }
+            }
+    }
+
+    private func wobble() async {
+        let steps: [Double] = [-6, 5, -4, 3, -2, 0]
+        for angle in steps {
+            guard !Task.isCancelled else { return }
+            withAnimation(.easeInOut(duration: 0.09)) { rotation = angle }
+            try? await Task.sleep(for: .seconds(0.09))
         }
     }
 }

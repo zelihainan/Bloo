@@ -21,7 +21,7 @@ struct OnboardingWelcomeView: View {
 
             Spacer()
 
-            EggPlaceholderView()
+            EggArtworkView()
                 .frame(width: 220, height: 220)
                 .frame(maxWidth: .infinity)
 
