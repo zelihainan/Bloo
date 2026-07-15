@@ -23,6 +23,9 @@ struct MiniToggle: View {
             .frame(width: 36, height: 20)
         }
         .buttonStyle(.plain)
+        // 36x20 is well under the 44x44 HIG minimum touch target — expand the
+        // tappable area without changing the drawn size.
+        .contentShape(Rectangle().inset(by: -12))
         .accessibilityAddTraits(.isButton)
         .accessibilityValue(isOn ? Text("On") : Text("Off"))
     }

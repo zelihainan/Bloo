@@ -31,6 +31,7 @@ struct TodayHabitsCardView: View {
     private var isAtHabitLimit: Bool { totalHabitCount >= HabitStore.maxHabitCount }
 
     @Environment(\.blooAccentColor) private var accentColor
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         VStack(spacing: 12) {
@@ -122,9 +123,13 @@ struct TodayHabitsCardView: View {
                         }
                     }
                     .scaleEffect(completed ? 1.08 : 1)
-                    .animation(.spring(response: 0.3, dampingFraction: 0.55), value: completed)
+                    .animation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.55), value: completed)
             }
             .buttonStyle(.pressable)
+            // The visible checkbox is 18x18 (matches Figma), but that's well
+            // under the 44x44 HIG minimum touch target — expand the tappable
+            // area without changing the drawn size or surrounding layout.
+            .contentShape(Rectangle().inset(by: -13))
             .accessibilityLabel(Text(habit.name))
             .accessibilityValue(completed ? Text("Completed") : Text("Not completed"))
             .accessibilityAddTraits(.isButton)
@@ -180,6 +185,7 @@ private struct FloatingXPText: View {
     let amount: Int
     let color: Color
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var hasFloated = false
 
     var body: some View {
@@ -189,7 +195,7 @@ private struct FloatingXPText: View {
             .offset(y: hasFloated ? -22 : 0)
             .opacity(hasFloated ? 0 : 1)
             .onAppear {
-                withAnimation(.easeOut(duration: 0.9)) {
+                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.9)) {
                     hasFloated = true
                 }
             }

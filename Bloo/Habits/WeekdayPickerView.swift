@@ -67,6 +67,8 @@ struct WeekdayPickerView: View {
                     } label: {
                         presetLabel(for: preset)
                     }
+                    .accessibilityAddTraits(activePreset == preset ? [.isButton, .isSelected] : .isButton)
+                    .accessibilityValue(activePreset == preset ? Text("Selected") : Text("Not selected"))
                 }
             }
         }

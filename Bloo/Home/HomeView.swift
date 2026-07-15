@@ -24,6 +24,7 @@ struct HomeView: View {
     // day counter, and greeting instead of silently showing yesterday's.
     @State private var now = Date()
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var activeBloo: Bloo? { activeBloos.first }
 
@@ -151,12 +152,12 @@ struct HomeView: View {
 
         let badgesAfter = Set((try? modelContext.fetch(FetchDescriptor<Badge>()).map(\.type)) ?? [])
         if let newBadge = badgesAfter.subtracting(badgesBefore).first {
-            withAnimation(.spring(response: 0.45, dampingFraction: 0.75)) {
+            withAnimation(reduceMotion ? nil : .spring(response: 0.45, dampingFraction: 0.75)) {
                 newlyEarnedBadge = newBadge
             }
             Task {
                 try? await Task.sleep(for: .seconds(2.6))
-                withAnimation(.easeIn(duration: 0.3)) {
+                withAnimation(reduceMotion ? nil : .easeIn(duration: 0.3)) {
                     if newlyEarnedBadge == newBadge {
                         newlyEarnedBadge = nil
                     }
