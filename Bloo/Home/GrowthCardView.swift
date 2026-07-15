@@ -19,6 +19,7 @@ struct GrowthCardView: View {
         VStack(spacing: 10) {
             ZStack {
                 CharacterHabitatView(speciesHex: bloo.species.colorHex)
+                    .frame(maxWidth: .infinity)
                 if reduceMotion {
                     BlooArtworkView(species: bloo.species, showsBackdrop: false)
                         .frame(width: 190, height: 190)
@@ -49,6 +50,7 @@ struct GrowthCardView: View {
                     }
                 }
             }
+            .frame(maxWidth: .infinity)
             .id(bloo.species)
             .transition(.opacity)
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.4), value: bloo.species)
