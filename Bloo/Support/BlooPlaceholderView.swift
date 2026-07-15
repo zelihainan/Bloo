@@ -69,34 +69,62 @@ struct BlooArtworkView: View {
     }
 }
 
-/// The onboarding egg, with a periodic hatching-anticipation wobble — a quick
-/// shake every few seconds rather than a constant shimmy, matching the calm,
-/// occasional-not-constant feel of the rest of the app's idle animations.
+/// The onboarding egg, with a frequent hatching-anticipation wobble and a
+/// burst of gold sparkles each time it shakes — something inside is clearly
+/// trying to get out.
 struct EggArtworkView: View {
+    var size: CGFloat = 220
+
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var rotation: Double = 0
+    @State private var sparkleBurst = false
+
+    private let gold = Color(hex: "#FFB020")
 
     var body: some View {
-        Image("onboarding_egg")
-            .resizable()
-            .scaledToFit()
-            .rotationEffect(.degrees(rotation))
-            .task {
-                guard !reduceMotion else { return }
-                while !Task.isCancelled {
-                    try? await Task.sleep(for: .seconds(.random(in: 2.5...4.5)))
-                    guard !Task.isCancelled else { break }
-                    await wobble()
-                }
+        ZStack {
+            sparkle(dx: -0.36, dy: -0.32, symbolSize: 15, symbol: "sparkle")
+            sparkle(dx: 0.38, dy: -0.20, symbolSize: 11, symbol: "star.fill")
+            sparkle(dx: -0.30, dy: 0.18, symbolSize: 9, symbol: "star.fill")
+            sparkle(dx: 0.34, dy: 0.24, symbolSize: 13, symbol: "sparkle")
+            sparkle(dx: 0.02, dy: -0.44, symbolSize: 10, symbol: "star.fill")
+
+            Image("onboarding_egg")
+                .resizable()
+                .scaledToFit()
+                .rotationEffect(.degrees(rotation))
+        }
+        .frame(width: size, height: size)
+        .task {
+            guard !reduceMotion else { return }
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(.random(in: 1.0...1.8)))
+                guard !Task.isCancelled else { break }
+                await wobble()
             }
+        }
+    }
+
+    private func sparkle(dx: CGFloat, dy: CGFloat, symbolSize: CGFloat, symbol: String) -> some View {
+        Image(systemName: symbol)
+            .font(.system(size: symbolSize))
+            .foregroundStyle(gold)
+            .scaleEffect(sparkleBurst ? 1 : 0.2)
+            .opacity(sparkleBurst ? 0.95 : 0)
+            .offset(x: size * dx, y: size * dy)
     }
 
     private func wobble() async {
-        let steps: [Double] = [-6, 5, -4, 3, -2, 0]
+        withAnimation(.easeOut(duration: 0.16)) { sparkleBurst = true }
+
+        let steps: [Double] = [-7, 6, -5, 4, -3, 2, 0]
         for angle in steps {
             guard !Task.isCancelled else { return }
-            withAnimation(.easeInOut(duration: 0.09)) { rotation = angle }
-            try? await Task.sleep(for: .seconds(0.09))
+            withAnimation(.easeInOut(duration: 0.08)) { rotation = angle }
+            try? await Task.sleep(for: .seconds(0.08))
         }
+
+        guard !Task.isCancelled else { return }
+        withAnimation(.easeIn(duration: 0.45)) { sparkleBurst = false }
     }
 }

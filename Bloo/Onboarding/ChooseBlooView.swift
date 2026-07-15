@@ -51,6 +51,17 @@ struct ChooseBlooView: View {
                                         lineWidth: isSelected ? 2 : 1
                                     )
                             )
+                            .overlay(alignment: .topTrailing) {
+                                if !isUnlocked {
+                                    ZStack {
+                                        Circle().fill(BlooTheme.cardBorder).frame(width: 20, height: 20)
+                                        Image(systemName: "lock.fill")
+                                            .font(.system(size: 9))
+                                            .foregroundStyle(BlooTheme.secondaryText)
+                                    }
+                                    .padding(6)
+                                }
+                            }
                     }
                     .disabled(!isUnlocked)
                     .staggeredAppear(index: index)

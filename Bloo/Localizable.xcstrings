@@ -402,7 +402,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alışkanlıklar oluştur. Büyümesini izle."
+            "value" : "Alışkanlıklar oluştur, birlikte büyüyün."
           }
         }
       }
@@ -1540,6 +1540,7 @@
       }
     },
     "Notifications are turned off in iOS Settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1895,23 +1896,23 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir şey açılıyor..."
+            "value" : "Bir şey doğuyor..."
           }
         }
       }
     },
-    "Start small. Bloo will remind you." : {
+    "Start small. %@ will remind you." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Start small. Bloo will remind you."
+            "value" : "Start small. %@ will remind you."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Küçük başla. Bloo sana hatırlatacak."
+            "value" : "Küçükten başla, %@ sana hatırlatacak."
           }
         }
       }

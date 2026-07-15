@@ -39,9 +39,12 @@ struct NameBlooView: View {
 
             Spacer()
 
-            BlooArtworkView(species: species, showsBackdrop: false)
-                .frame(width: 200, height: 200)
-                .frame(maxWidth: .infinity)
+            ZStack {
+                CharacterHabitatView(speciesHex: species.colorHex)
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 22)
+                AnimatedBlooPortraitView(species: species, size: 190)
+            }
 
             Spacer()
 

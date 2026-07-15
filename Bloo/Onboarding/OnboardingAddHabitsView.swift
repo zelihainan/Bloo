@@ -7,6 +7,7 @@ import SwiftUI
 import SwiftData
 
 struct OnboardingAddHabitsView: View {
+    let blooName: String
     let onBack: () -> Void
     let onContinue: () -> Void
 
@@ -25,7 +26,7 @@ struct OnboardingAddHabitsView: View {
 
                 Text("Your first habits")
                     .font(.bloo(32, weight: .semibold))
-                Text("Start small. Bloo will remind you.")
+                Text(String(format: NSLocalizedString("Start small. %@ will remind you.", comment: ""), blooName.isEmpty ? "Bloo" : blooName))
                     .font(.bloo(17))
                     .foregroundStyle(.secondary)
 

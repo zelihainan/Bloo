@@ -30,7 +30,7 @@ struct AddEditHabitView: View {
     @State private var isSaving = false
 
     private let nameCharacterLimit = 40
-    private let noteCharacterLimit = 120
+    private let noteCharacterLimit = 80
 
     private static func defaultReminderTime() -> Date {
         Calendar.current.date(from: DateComponents(hour: 9, minute: 0)) ?? Date()
@@ -98,7 +98,7 @@ struct AddEditHabitView: View {
                     Text("Note (Optional)").font(.bloo(13)).foregroundStyle(.secondary)
                     ZStack(alignment: .bottomTrailing) {
                         TextEditor(text: $note)
-                            .frame(height: 100)
+                            .frame(height: 70)
                             .padding(10)
                             .padding(.bottom, 16)
                             .onChange(of: note) { _, newValue in

@@ -7,7 +7,8 @@ import SwiftUI
 
 /// The filled capsule button used for every primary action (Get started /
 /// Continue / Save Habit) across the app — same look everywhere: solid
-/// `BlooTheme.secondaryText` (#8A8278) fill, white Poppins SemiBold text.
+/// `BlooTheme.primaryButtonBackground` (near-black) fill, white Poppins
+/// SemiBold text.
 struct PrimaryButtonStyle: ButtonStyle {
     var isEnabled: Bool = true
 
@@ -17,7 +18,7 @@ struct PrimaryButtonStyle: ButtonStyle {
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 14)
-            .background(BlooTheme.secondaryText.opacity(isEnabled ? 1 : 0.4))
+            .background(BlooTheme.primaryButtonBackground.opacity(isEnabled ? 1 : 0.4))
             .clipShape(Capsule())
             .opacity(configuration.isPressed ? 0.85 : 1)
     }
