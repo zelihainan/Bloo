@@ -79,8 +79,10 @@ struct TodayHabitsCardView: View {
                 Text("Add a habit")
                     .font(.bloo(13, weight: .semibold))
                     .foregroundStyle(BlooTheme.primaryText)
+                    .lineLimit(1)
             }
-            .frame(width: 151, height: 43)
+            .padding(.horizontal, 20)
+            .frame(minWidth: 151, minHeight: 43)
             .background(BlooTheme.secondaryText.opacity(0.1))
             .clipShape(Capsule())
         }
