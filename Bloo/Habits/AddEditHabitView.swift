@@ -104,9 +104,11 @@ struct AddEditHabitView: View {
                             .padding(.trailing, 40)
                             .focused($focusedField, equals: .note)
                             .submitLabel(.done)
-                            .onSubmit { focusedField = nil }
                             .onChange(of: note) { _, newValue in
-                                if newValue.count > noteCharacterLimit {
+                                if newValue.contains("\n") {
+                                    note = newValue.replacingOccurrences(of: "\n", with: "")
+                                    focusedField = nil
+                                } else if newValue.count > noteCharacterLimit {
                                     note = String(newValue.prefix(noteCharacterLimit))
                                 }
                             }
