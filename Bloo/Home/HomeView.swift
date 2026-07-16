@@ -15,6 +15,7 @@ struct HomeView: View {
     @AppStorage(AppStorageKey.appLanguage) private var appLanguage = "en"
 
     @State private var now = Date()
+    @State private var hasAppearedOnce = false
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -57,6 +58,9 @@ struct HomeView: View {
                         Spacer().frame(height: 27)
                         GrowthCardView(bloo: activeBloo)
                             .frame(maxWidth: .infinity)
+                            .transaction { transaction in
+                                if !hasAppearedOnce { transaction.animation = nil }
+                            }
                         Spacer().frame(height: 20)
                     }
 
@@ -104,7 +108,10 @@ struct HomeView: View {
                 }
             }
         }
-        .onAppear { updateNameSheetVisibility() }
+        .onAppear {
+            updateNameSheetVisibility()
+            DispatchQueue.main.async { hasAppearedOnce = true }
+        }
         .onChange(of: activeBloo?.id) { _, _ in updateNameSheetVisibility() }
         .onChange(of: activeBloo?.customName) { _, _ in updateNameSheetVisibility() }
         .onChange(of: scenePhase) { _, newPhase in

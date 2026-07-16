@@ -12,8 +12,6 @@ struct BlooArtworkView: View {
     var pose: BlooPose = .idle
 
     private var color: Color { Color(hex: species.colorHex) }
-    private var lockedAssetName: String { "\(species.assetName)_locked" }
-    private var hasDedicatedLockedArt: Bool { UIImage(named: lockedAssetName) != nil }
 
     private func assetName(for pose: BlooPose) -> String { "\(species.assetName)_\(pose.rawValue)" }
     private func hasArt(for pose: BlooPose) -> Bool { UIImage(named: assetName(for: pose)) != nil }
@@ -30,9 +28,7 @@ struct BlooArtworkView: View {
 
     @ViewBuilder
     private var artwork: some View {
-        if isLocked && hasDedicatedLockedArt {
-            Image(lockedAssetName).resizable().scaledToFit()
-        } else if isLocked {
+        if isLocked {
             Image(species.assetName)
                 .resizable()
                 .scaledToFit()
