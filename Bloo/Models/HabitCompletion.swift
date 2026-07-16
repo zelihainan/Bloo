@@ -1,14 +1,6 @@
-//
-//  HabitCompletion.swift
-//  Bloo
-//
-
 import Foundation
 import SwiftData
 
-/// One record per habit per day. This is the source of truth behind streaks,
-/// the monthly calendar heatmap, and the weekly activity chart — it persists
-/// even if the habit's schedule or the active Bloo later changes.
 @Model
 final class HabitCompletion {
     var id: UUID

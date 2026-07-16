@@ -1,8 +1,3 @@
-//
-//  AboutView.swift
-//  Bloo
-//
-
 import SwiftUI
 
 struct AboutView: View {

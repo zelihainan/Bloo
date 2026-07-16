@@ -1,11 +1,3 @@
-//
-//  BadgeUnlockToastView.swift
-//  Bloo
-//
-//  A brief celebratory banner shown on Home the moment a new badge is earned —
-//  badges were previously awarded with zero user-facing feedback.
-//
-
 import SwiftUI
 
 struct BadgeUnlockToastView: View {

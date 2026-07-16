@@ -1,11 +1,3 @@
-//
-//  ProgressScreenView.swift
-//  Bloo
-//
-//  Named "ProgressScreenView" (not "ProgressView") to avoid colliding with
-//  SwiftUI's own ProgressView type.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -28,7 +20,7 @@ struct ProgressScreenView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 header
-                    .frame(height: 117) // 40 (icon top) + 77 (icon height), tallest element in the header block
+                    .frame(height: 117)
 
                 WeeklySummaryCardView(
                     weekDates: thisWeekDates,
@@ -92,8 +84,6 @@ struct ProgressScreenView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
-
-    // MARK: - Derived stats
 
     private func log(for day: Date, calendar: Calendar = .current) -> DailyLog? {
         dailyLogs.first { calendar.isDate($0.date, inSameDayAs: day) }

@@ -1,12 +1,5 @@
-//
-//  HabitDestination.swift
-//  Bloo
-//
-
 import Foundation
 
-/// The New/Edit Habit push destination, shared by Home and Manage Habits so
-/// AddEditHabitView always opens as a full screen (not a sheet).
 enum HabitDestination: Identifiable {
     case new
     case edit(Habit)

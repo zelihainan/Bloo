@@ -1,12 +1,3 @@
-//
-//  AnimatedBlooPortraitView.swift
-//  Bloo
-//
-//  A Bloo's portrait with its idle "alive" animation — a slow breathing scale
-//  plus a periodic blink — shared by Home's growth card and the onboarding
-//  naming screen so a Bloo feels the same everywhere it's shown at full size.
-//
-
 import SwiftUI
 
 struct AnimatedBlooPortraitView: View {
@@ -28,10 +19,6 @@ struct AnimatedBlooPortraitView: View {
                     .easeInOut(duration: 2.5)
                 }
                 .task(id: species) {
-                    // Blink periodically for as long as this Bloo is shown. Cancellation
-                    // is checked explicitly after every sleep — `try?` alone swallows the
-                    // cancellation error and would let a stale, superseded task instance
-                    // keep mutating `pose` after a fresh one has already started.
                     pose = .idle
 
                     while !Task.isCancelled {

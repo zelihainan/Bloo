@@ -1,12 +1,5 @@
-//
-//  GrowthCardView.swift
-//  Bloo
-//
-
 import SwiftUI
 
-/// The Bloo's name, its circle portrait, growth progress bar, and the
-/// "{name} is growing" caption.
 struct GrowthCardView: View {
     let bloo: Bloo
 

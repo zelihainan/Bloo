@@ -1,8 +1,3 @@
-//
-//  Color+Hex.swift
-//  Bloo
-//
-
 import SwiftUI
 import UIKit
 
@@ -18,9 +13,6 @@ extension Color {
         self.init(red: r, green: g, blue: b)
     }
 
-    /// A pastel tint of `hex`, blended toward white — used for the backdrop
-    /// circle behind a Bloo's portrait. Calibrated against Figma's own
-    /// hand-picked pastel for the axolotl (#D4537E -> #FFF0F5 is ~8% mix).
     static func pastel(hex: String, fraction: Double = 0.08) -> Color {
         let hexString = hex.trimmingCharacters(in: .whitespacesAndNewlines)
             .replacingOccurrences(of: "#", with: "")
@@ -33,10 +25,6 @@ extension Color {
         return Color(red: mix(r), green: mix(g), blue: mix(b))
     }
 
-    /// Blends this color toward white/black — used for the completion-rate color
-    /// tiers on Progress (habit activity bars, monthly overview dots), measured
-    /// from Figma: 100% = accent mixed ~30% toward black, partial = accent mixed
-    /// ~55% toward white.
     func mixed(withWhite fraction: Double) -> Color {
         let (r, g, b) = components
         return Color(red: r + (1 - r) * fraction, green: g + (1 - g) * fraction, blue: b + (1 - b) * fraction)

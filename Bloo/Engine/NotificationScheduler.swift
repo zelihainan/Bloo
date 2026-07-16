@@ -1,37 +1,19 @@
-//
-//  NotificationScheduler.swift
-//  Bloo
-//
-
 import Foundation
 import SwiftData
 import UserNotifications
 
-/// Schedules a repeating local notification per (habit, scheduled weekday) — the
-/// simplest way to get "remind me on Mon/Wed/Fri at 9am" with UNCalendarNotificationTrigger.
 enum NotificationScheduler {
-    /// iOS silently drops any pending local notification requests past this count
-    /// (system-wide, per app) — we cap ourselves so scheduling degrades predictably
-    /// instead of relying on whatever order the OS happens to drop the rest in.
     private static let maxPendingRequests = 64
 
     static func requestAuthorizationIfNeeded() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
     }
 
-    /// The actual OS-level permission — the app's own `dailyRemindersEnabled`
-    /// toggle is just a stored preference and can't tell on its own whether
-    /// iOS is silently dropping every reminder.
     static func isAuthorized() async -> Bool {
         let settings = await UNUserNotificationCenter.current().notificationSettings()
         return settings.authorizationStatus == .authorized || settings.authorizationStatus == .provisional
     }
 
-    /// Clears everything and reschedules from scratch, reading habits fresh from
-    /// `context` (rather than a possibly-stale `@Query` snapshot right after a save).
-    /// Habits scheduled every day collapse into a single non-weekday-filtered
-    /// trigger instead of 7 — the common case, since "Every Day" is the default —
-    /// which keeps normal usage well under the 64-request ceiling.
     static func rescheduleAll(context: ModelContext, dailyRemindersEnabled: Bool) {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
@@ -45,7 +27,6 @@ enum NotificationScheduler {
         }
     }
 
-    /// Returns how many requests were actually scheduled, so the caller can track the budget.
     @discardableResult
     private static func schedule(for habit: Habit, center: UNUserNotificationCenter, remainingSlots: Int) -> Int {
         guard remainingSlots > 0 else { return 0 }

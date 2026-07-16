@@ -1,12 +1,3 @@
-//
-//  ConfettiView.swift
-//  Bloo
-//
-//  One-off, non-looping confetti burst for celebratory moments (e.g. a new
-//  Bloo unlocking). The parent is responsible for adding/removing this view
-//  from the hierarchy — it does not loop or restart on its own.
-//
-
 import SwiftUI
 
 struct ConfettiView: View {
@@ -26,8 +17,6 @@ struct ConfettiView: View {
 
     private let particles: [Particle]
     private let startDate = Date()
-    /// Longest any single particle can still be visible for — callers should
-    /// keep this view alive at least this long before removing it.
     static let totalDuration: Double = 3.6
 
     init(colors: [Color], particleCount: Int = 32) {
@@ -55,7 +44,6 @@ struct ConfettiView: View {
                     let t = (elapsed - particle.delay) / particle.fallDuration
                     guard t > 0, t < 1.05 else { continue }
                     let clampedT = min(t, 1)
-                    // Ease-in fall (gravity-like acceleration) instead of a uniform linear drop.
                     let fallT = clampedT * clampedT
                     let wobble = sin(elapsed * particle.wobbleFrequency + particle.wobblePhase) * particle.wobbleAmplitude
                     let x = particle.xFraction * size.width + wobble

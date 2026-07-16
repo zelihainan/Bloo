@@ -1,8 +1,3 @@
-//
-//  HomeView.swift
-//  Bloo
-//
-
 import SwiftUI
 import SwiftData
 
@@ -19,10 +14,6 @@ struct HomeView: View {
     @AppStorage(AppStorageKey.dailyRemindersEnabled) private var dailyRemindersEnabled = true
     @AppStorage(AppStorageKey.appLanguage) private var appLanguage = "en"
 
-    // Re-read explicitly (not a bare `Date()` in each computed property) so a
-    // day boundary crossed while the app stays open and foregrounded — no
-    // background/relaunch to force a refresh — still updates "today"'s habits,
-    // day counter, and greeting instead of silently showing yesterday's.
     @State private var now = Date()
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -124,10 +115,6 @@ struct HomeView: View {
         }
     }
 
-    /// Shows the naming sheet only when the active Bloo is a genuinely new,
-    /// still-unnamed companion — re-evaluated on change rather than as a live
-    /// binding so a manual swipe-to-dismiss actually sticks instead of the
-    /// sheet immediately reappearing on the next view update.
     private func updateNameSheetVisibility() {
         showsNameSheet = activeBloo != nil && (activeBloo?.customName?.isEmpty ?? true)
     }

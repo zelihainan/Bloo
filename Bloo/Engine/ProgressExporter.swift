@@ -1,12 +1,5 @@
-//
-//  ProgressExporter.swift
-//  Bloo
-//
-
 import Foundation
 
-/// Summary stats behind Settings > Export progress — both the on-screen preview
-/// and the shared report are built from the same numbers.
 struct ProgressSummary {
     let trackingSince: Date?
     let daysLogged: Int
@@ -28,7 +21,6 @@ enum ProgressExporter {
         )
     }
 
-    /// A readable plain-text report for sharing — not a raw CSV dump.
     static func report(from summary: ProgressSummary) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium

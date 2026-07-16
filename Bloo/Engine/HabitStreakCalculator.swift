@@ -1,14 +1,6 @@
-//
-//  HabitStreakCalculator.swift
-//  Bloo
-//
-
 import Foundation
 
 enum HabitStreakCalculator {
-    /// Consecutive scheduled days (walking backward from today) the habit was completed.
-    /// If today is scheduled but not completed yet, it's simply skipped rather than
-    /// breaking the streak — the day isn't over yet.
     static func currentStreak(for habit: Habit, calendar: Calendar = .current) -> Int {
         let today = calendar.startOfDay(for: Date())
         let creationDay = calendar.startOfDay(for: habit.createdAt)

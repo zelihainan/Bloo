@@ -1,14 +1,5 @@
-//
-//  SettingsSectionCard.swift
-//  Bloo
-//
-//  Section label is 13px medium #8A8278; card radius14 (Figma node 17:118).
-//
-
 import SwiftUI
 
-/// A titled white card grouping a set of `SettingsRow`s, matching the Habits /
-/// Notifications / Data / About sections on the Settings screen.
 struct SettingsSectionCard<Content: View>: View {
     let title: String
     @ViewBuilder let content: Content

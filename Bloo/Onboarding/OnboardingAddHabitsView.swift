@@ -1,8 +1,3 @@
-//
-//  OnboardingAddHabitsView.swift
-//  Bloo
-//
-
 import SwiftUI
 import SwiftData
 

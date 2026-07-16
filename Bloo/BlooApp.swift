@@ -1,10 +1,3 @@
-//
-//  BlooApp.swift
-//  Bloo
-//
-//  Created by Zeliha İnan on 7.07.2026.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -37,12 +30,6 @@ struct BlooApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
-                // The whole design system (BlooTheme, Color+Hex, every
-                // species/backdrop color) is hand-tuned for a light, pastel
-                // look with no dark-mode counterparts. Pinning the color
-                // scheme makes that a deliberate choice instead of an
-                // accidental half-adaptation where system chrome (alerts,
-                // keyboard) would go dark while the app's own UI stays light.
                 .preferredColorScheme(.light)
         }
         .modelContainer(sharedModelContainer)

@@ -1,8 +1,3 @@
-//
-//  ShareSheet.swift
-//  Bloo
-//
-
 import SwiftUI
 import UIKit
 

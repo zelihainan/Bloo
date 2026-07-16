@@ -1,12 +1,6 @@
-//
-//  OnboardingContainerView.swift
-//  Bloo
-//
-
 import SwiftUI
 import SwiftData
 
-/// Drives the 4-screen onboarding flow: egg intro -> choose Bloo -> name Bloo -> first habits.
 struct OnboardingContainerView: View {
     private enum Step {
         case welcome, chooseBloo, nameBloo, addHabits
@@ -57,12 +51,6 @@ struct OnboardingContainerView: View {
         }
     }
 
-    /// Only one Bloo can ever be `.active` — if onboarding's back button was
-    /// used to pick a different species after an earlier one was already
-    /// activated here, that earlier one needs to stand down first (otherwise
-    /// both end up `.active` and whichever the next `@Query` happens to pick
-    /// first — not necessarily this one — silently wins everywhere else in
-    /// the app, from Home's accent color to the habit form's).
     private func activateChosenBloo(species: BlooSpecies) {
         guard let bloo = bloos.first(where: { $0.species == species }) else { return }
         for other in bloos where other.state == .active && other.id != bloo.id {

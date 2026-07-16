@@ -1,16 +1,9 @@
-//
-//  NameBlooView.swift
-//  Bloo
-//
-
 import SwiftUI
 
 struct NameBlooView: View {
     let species: BlooSpecies
     @Binding var name: String
     var onBack: (() -> Void)? = nil
-    /// True when this naming screen follows a mid-app evolution unlock (not the
-    /// initial onboarding pick) — triggers a one-off confetti celebration.
     var celebratesUnlock: Bool = false
     let onContinue: () -> Void
 
@@ -77,11 +70,6 @@ struct NameBlooView: View {
             }
         }
         .task(id: species) {
-            // `.task(id:)` cancels any prior instance automatically when this
-            // fires again (e.g. re-presented for a different species before
-            // the previous confetti finished) — the explicit `isCancelled`
-            // check after the sleep stops a stale instance from clearing the
-            // new presentation's confetti early.
             guard celebratesUnlock, !reduceMotion else { return }
             showConfetti = true
             try? await Task.sleep(for: .seconds(ConfettiView.totalDuration))

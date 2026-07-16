@@ -1,11 +1,3 @@
-//
-//  ExportPreviewView.swift
-//  Bloo
-//
-//  Settings > Export progress: a summary preview before sharing, so the user
-//  sees what they're about to send instead of blindly generating a CSV.
-//
-
 import SwiftUI
 
 struct ExportPreviewView: View {

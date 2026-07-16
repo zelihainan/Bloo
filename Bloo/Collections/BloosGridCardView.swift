@@ -1,12 +1,3 @@
-//
-//  BloosGridCardView.swift
-//  Bloo
-//
-//  3x3 grid of all 9 species. Active gets an accent border + "Active companion"
-//  label; locked shows grayscale art with a lock badge; unlocked (not active,
-//  not completed) tiles are tappable to become the new active companion.
-//
-
 import SwiftUI
 
 struct BloosGridCardView: View {
@@ -20,8 +11,6 @@ struct BloosGridCardView: View {
         self.bloos = bloos
         self.onSelect = onSelect
         self.onViewCompleted = onViewCompleted
-        // Flexible (not `.fixed`) so the grid shrinks to fit on the narrowest
-        // supported iPhone widths instead of overflowing the card.
         self.columns = [
             GridItem(.flexible(), spacing: 12),
             GridItem(.flexible(), spacing: 12),

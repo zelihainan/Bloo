@@ -1,11 +1,3 @@
-//
-//  PressableButtonStyle.swift
-//  Bloo
-//
-//  Consistent tactile press feedback for the app's custom (non-chrome) buttons —
-//  a drop-in replacement for .buttonStyle(.plain) that adds a subtle scale-down.
-//
-
 import SwiftUI
 
 struct PressableButtonStyle: ButtonStyle {

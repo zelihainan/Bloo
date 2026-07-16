@@ -1,12 +1,3 @@
-//
-//  HomeHeaderView.swift
-//  Bloo
-//
-//  Pixel values from Figma dev-mode (node 5:109): title 22px Medium, subtitle
-//  13px Regular #8A8278, day badge 54x21 pill at accentColor 10% opacity with
-//  10px Medium #B0A898 text.
-//
-
 import SwiftUI
 
 struct HomeHeaderView: View {

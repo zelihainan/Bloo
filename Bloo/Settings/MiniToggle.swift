@@ -1,11 +1,3 @@
-//
-//  MiniToggle.swift
-//  Bloo
-//
-//  A custom-sized toggle matching Figma exactly (36x20 track, 16x16 knob) —
-//  the native SwiftUI Toggle renders at ~51x31 and can't be resized that way.
-//
-
 import SwiftUI
 
 struct MiniToggle: View {
@@ -23,8 +15,6 @@ struct MiniToggle: View {
             .frame(width: 36, height: 20)
         }
         .buttonStyle(.plain)
-        // 36x20 is well under the 44x44 HIG minimum touch target — expand the
-        // tappable area without changing the drawn size.
         .contentShape(Rectangle().inset(by: -12))
         .accessibilityAddTraits(.isButton)
         .accessibilityValue(isOn ? Text("On") : Text("Off"))

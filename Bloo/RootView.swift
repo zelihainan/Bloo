@@ -1,13 +1,6 @@
-//
-//  RootView.swift
-//  Bloo
-//
-
 import SwiftUI
 import SwiftData
 
-/// Routes between onboarding and the main app, and publishes the active Bloo's
-/// color as the app-wide accent (`blooAccentColor`) for the rest of the tree.
 struct RootView: View {
     @AppStorage(AppStorageKey.hasCompletedOnboarding) private var hasCompletedOnboarding = false
     @AppStorage(AppStorageKey.appLanguage) private var appLanguage = "en"
@@ -26,7 +19,7 @@ struct RootView: View {
                 OnboardingContainerView()
             }
         }
-        .id(appLanguage) // forces a full re-render so already-resolved Text views re-localize
+        .id(appLanguage)
         .environment(\.blooAccentColor, accentColor)
         .environment(\.locale, Locale(identifier: appLanguage))
         .onChange(of: appLanguage) { _, newValue in

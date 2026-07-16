@@ -1,12 +1,3 @@
-//
-//  SettingsScreenView.swift
-//  Bloo
-//
-//  Values from the Figma REST API (node 17:118): title 28px regular, subtitle
-//  13px #8A8278; trailing values 6px #B0A898; divider #F8F5F0; toggle is a
-//  custom 36x20 track (MiniToggle), not the native ~51x31 UISwitch size.
-//
-
 import SwiftUI
 import SwiftData
 import StoreKit
@@ -113,10 +104,6 @@ struct SettingsScreenView: View {
         }
     }
 
-    /// The in-app toggle is just an `@AppStorage` flag, so it can drift from
-    /// what iOS actually allows (denied at the system prompt, or revoked later
-    /// from Settings) — reflect the real authorization status whenever this
-    /// screen becomes visible instead of letting the toggle silently lie.
     private func refreshNotificationAuthorization() async {
         let authorized = await NotificationScheduler.isAuthorized()
         isSystemAuthorized = authorized

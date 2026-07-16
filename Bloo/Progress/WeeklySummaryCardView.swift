@@ -1,11 +1,5 @@
-//
-//  WeeklySummaryCardView.swift
-//  Bloo
-//
-
 import SwiftUI
 
-/// "X / 7 days completed" + Mon...Sun dots + XP earned this week.
 struct WeeklySummaryCardView: View {
     let weekDates: [Date]
     let perfectDays: Set<Date>

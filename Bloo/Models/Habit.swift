@@ -1,8 +1,3 @@
-//
-//  Habit.swift
-//  Bloo
-//
-
 import Foundation
 import SwiftData
 

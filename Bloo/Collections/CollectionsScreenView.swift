@@ -1,11 +1,3 @@
-//
-//  CollectionsScreenView.swift
-//  Bloo
-//
-//  Header values from the Figma REST API (node 16:15): title 28px REGULAR
-//  weight (not semibold) at (51.5,47.5), subtitle 13px #8A8278 at (52,90).
-//
-
 import SwiftUI
 import SwiftData
 
@@ -64,10 +56,6 @@ struct CollectionsScreenView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    /// Switching the active companion from Collections: the previous active
-    /// Bloo pauses (keeps its XP, goes back to just "unlocked"), the tapped one
-    /// becomes active — which cascades everywhere else via the `state == "active"`
-    /// query (Home's portrait, the app-wide accent color, etc).
     private func selectActive(_ bloo: Bloo) {
         guard bloo.state == .unlocked else { return }
         if let activeBloo, activeBloo.id != bloo.id {

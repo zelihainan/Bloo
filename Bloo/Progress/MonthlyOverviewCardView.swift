@@ -1,21 +1,9 @@
-//
-//  MonthlyOverviewCardView.swift
-//  Bloo
-//
-//  161x182 card (Figma node 10:239, Rectangle 65/99) — the bottom-left of
-//  Progress's 2x2 stat grid. Dots are 10px, weekday headers 8px Light, legend 5px.
-//
-
 import SwiftUI
 
 enum DayCompletionState {
     case completed, partial, noData
 }
 
-/// Rolling 4-week dot grid (Mon...Sun columns), ending with the current week.
-/// Dot colors are derived from the active Bloo's accent — measured from Figma
-/// (axolotl #D4537E): completed = accent mixed ~30% toward black, partial =
-/// accent mixed ~55% toward white, no data = a fixed neutral (#D9D9D9).
 struct MonthlyOverviewCardView: View {
     let weeks: [[Date]]
     let state: (Date) -> DayCompletionState

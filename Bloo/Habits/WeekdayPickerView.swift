@@ -1,12 +1,5 @@
-//
-//  WeekdayPickerView.swift
-//  Bloo
-//
-
 import SwiftUI
 
-/// The Mon...Sun toggle row plus Every Day / Weekdays / Weekends / Custom presets,
-/// shared by the New/Edit Habit form.
 struct WeekdayPickerView: View {
     @Binding var selectedDays: Set<Weekday>
     @Environment(\.blooAccentColor) private var accentColor

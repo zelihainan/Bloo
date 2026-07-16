@@ -1,8 +1,3 @@
-//
-//  HabitActivityChartView.swift
-//  Bloo
-//
-
 import SwiftUI
 import Charts
 
@@ -14,7 +9,6 @@ struct DayActivity: Identifiable {
     var id: Date { date }
 }
 
-/// "Habit activity" bar chart for the current week.
 struct HabitActivityChartView: View {
     let activity: [DayActivity]
     let accentColor: Color

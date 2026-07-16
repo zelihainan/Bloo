@@ -1,12 +1,6 @@
-//
-//  CalendarWeek.swift
-//  Bloo
-//
-
 import Foundation
 
 enum CalendarWeek {
-    /// The 7 dates (Mon...Sun) of the week containing `date`.
     static func datesInWeek(containing date: Date, calendar: Calendar = .current) -> [Date] {
         let day = calendar.startOfDay(for: date)
         let weekdayValue = Weekday(gregorianCalendarWeekday: calendar.component(.weekday, from: day))?.rawValue ?? 1
@@ -14,7 +8,6 @@ enum CalendarWeek {
         return (0..<7).compactMap { calendar.date(byAdding: .day, value: $0, to: monday) }
     }
 
-    /// `weekCount` weeks of 7 dates each (Mon...Sun), ending with the week containing `date`.
     static func recentWeeks(_ weekCount: Int, endingWith date: Date, calendar: Calendar = .current) -> [[Date]] {
         let thisWeek = datesInWeek(containing: date, calendar: calendar)
         guard let thisMonday = thisWeek.first else { return [] }

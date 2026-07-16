@@ -1,14 +1,6 @@
-//
-//  HabitCompletionEngine.swift
-//  Bloo
-//
-
 import Foundation
 import SwiftData
 
-/// The single place that reacts to a habit being checked/unchecked: recomputes
-/// the day's `DailyLog`, applies the XP delta to the active `Bloo`, advances it
-/// to the next species when it finishes growing, and awards badges.
 enum HabitCompletionEngine {
     @discardableResult
     static func toggleCompletion(for habit: Habit, on date: Date, context: ModelContext) -> Bool {
@@ -52,9 +44,6 @@ enum HabitCompletionEngine {
 
         let newXP = XPCalculator.dailyXP(completionRate: completionRate, streakDays: newStreak)
 
-        // `activeBloo` is nil once every species has already been collected —
-        // the streak/XP ledger still needs to keep advancing (Progress and
-        // badges depend on it) even though there's no Bloo left to grow.
         let activeBloo = activeBloo(in: context)
 
         let existingLog = allLogs.first { calendar.isDate($0.date, inSameDayAs: normalizedDay) }
@@ -91,9 +80,6 @@ enum HabitCompletionEngine {
         return (try? context.fetch(descriptor))?.first
     }
 
-    /// Once the active Bloo reaches the completion threshold it moves to the
-    /// Collection, and the next species in the fixed order unlocks and becomes
-    /// active automatically (see the sequential unlock rule agreed for `BlooSpecies`).
     private static func advanceToNextSpeciesIfNeeded(for bloo: Bloo, context: ModelContext) {
         guard bloo.isCompleted, bloo.state != .completed else { return }
         bloo.state = .completed

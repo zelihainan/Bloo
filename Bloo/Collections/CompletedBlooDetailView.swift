@@ -1,15 +1,3 @@
-//
-//  CompletedBlooDetailView.swift
-//  Bloo
-//
-//  A read-only celebration/detail sheet for a Bloo that's already finished
-//  growing. Tapping a "Grown up" tile in the Collections grid opens this
-//  instead of re-activating it — only one Bloo can be growing (and earning
-//  XP) at a time, so a completed one stays a keepsake rather than becoming
-//  selectable again. The trophy badge and "Grown up" label live only here —
-//  the grid tile itself stays clean until tapped.
-//
-
 import SwiftUI
 
 struct CompletedBlooDetailView: View {

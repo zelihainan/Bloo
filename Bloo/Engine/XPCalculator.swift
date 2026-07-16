@@ -1,17 +1,5 @@
-//
-//  XPCalculator.swift
-//  Bloo
-//
-
 import Foundation
 
-/// Pure XP math, kept separate from the models so the exact rules are easy to audit:
-///
-/// Daily base XP (by day completion rate): 0% → 0, 1-49% → 5, 50-79% → 10, 80-99% → 15, 100% → 20
-/// Streak bonus (by consecutive-day streak): 3d → +2, 7d → +3, 14d → +4, 30d → +5
-/// Daily total is capped at 25 XP.
-///
-/// Evolution thresholds: 0-150 Baby, 151-400 Young, 401-699 Adult, 700+ completed (moves to Collection).
 enum XPCalculator {
     static let completionThreshold = 700
     static let dailyCap = 25

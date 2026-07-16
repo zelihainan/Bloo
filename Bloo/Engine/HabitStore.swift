@@ -1,19 +1,7 @@
-//
-//  HabitStore.swift
-//  Bloo
-//
-//  Single place for habit create/update/delete — previously duplicated across
-//  Home, Manage Habits, and onboarding, which meant a fix to one (like
-//  recomputing today's DailyLog) didn't reach the others.
-//
-
 import Foundation
 import SwiftData
 
 enum HabitStore {
-    /// Habits share the growth economy 1:1 with reminder notifications, both of
-    /// which are bounded — this is the single source of truth other call sites
-    /// should reference instead of hardcoding "10" themselves.
     static let maxHabitCount = 10
 
     static func create(draft: HabitDraft, sortOrder: Int, context: ModelContext, dailyRemindersEnabled: Bool) {

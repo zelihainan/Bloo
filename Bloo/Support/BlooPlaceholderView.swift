@@ -1,20 +1,10 @@
-//
-//  BlooPlaceholderView.swift
-//  Bloo
-//
-
 import SwiftUI
 
-/// An alternate pose for a Bloo's illustration — only some species currently
-/// have dedicated art for this (checked at runtime), falls back to `.idle`.
 enum BlooPose: String {
     case idle
     case blink
 }
 
-/// Renders a Bloo's real illustration (`bloo_1`...`bloo_9` in Assets.xcassets).
-/// When locked, uses the dedicated grayscale `_locked` art if one was provided
-/// (currently species 6-9), otherwise desaturates + dims the color art instead.
 struct BlooArtworkView: View {
     let species: BlooSpecies
     var isLocked: Bool = false
@@ -49,10 +39,6 @@ struct BlooArtworkView: View {
                 .saturation(0)
                 .opacity(0.5)
         } else {
-            // Both poses stay mounted simultaneously and only crossfade via opacity —
-            // swapping an Image's underlying asset isn't itself animatable, and
-            // inserting/removing a fresh Image each time briefly shows nothing while
-            // the (large) replacement PNG decodes, reading as a white flash.
             ZStack {
                 Image(species.assetName)
                     .resizable()
@@ -69,9 +55,6 @@ struct BlooArtworkView: View {
     }
 }
 
-/// The onboarding egg, with a frequent hatching-anticipation wobble and gold
-/// sparkles/stars that twinkle continuously and independently around it —
-/// something inside is clearly trying to get out, non-stop.
 struct EggArtworkView: View {
     var size: CGFloat = 220
 
@@ -135,8 +118,6 @@ struct EggArtworkView: View {
     }
 }
 
-/// A single gold spark that twinkles on its own continuous, staggered loop —
-/// never fully pausing, independent of the egg's wobble.
 private struct TwinklingSparkle: View {
     let dx: CGFloat
     let dy: CGFloat

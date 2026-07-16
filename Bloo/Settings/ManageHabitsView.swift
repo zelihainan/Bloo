@@ -1,15 +1,6 @@
-//
-//  ManageHabitsView.swift
-//  Bloo
-//
-//  Pushed full-screen from Settings (not presented as a sheet) — relies on the
-//  caller providing a NavigationStack.
-//
-
 import SwiftUI
 import SwiftData
 
-/// Settings > Manage habits: full list with tap-to-edit and swipe-to-delete.
 struct ManageHabitsView: View {
     @Environment(\.modelContext) private var modelContext
     @AppStorage(AppStorageKey.dailyRemindersEnabled) private var dailyRemindersEnabled = true

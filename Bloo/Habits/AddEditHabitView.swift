@@ -1,13 +1,5 @@
-//
-//  AddEditHabitView.swift
-//  Bloo
-//
-
 import SwiftUI
 
-/// The "New Habit" / "Edit Habit" form (habit name, repeat days, reminder, optional
-/// note). Presented as a full-screen push (not a sheet) from Home, onboarding's
-/// "Your first habits" step, and Settings > Manage habits.
 struct AddEditHabitView: View {
     enum Mode {
         case new

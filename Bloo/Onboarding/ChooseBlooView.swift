@@ -1,12 +1,5 @@
-//
-//  ChooseBlooView.swift
-//  Bloo
-//
-
 import SwiftUI
 
-/// 3x3 grid of all 9 species. Only the 3 starters (`Bloo.state != .locked`) are
-/// selectable at this point in onboarding — the rest show locked.
 struct ChooseBlooView: View {
     let bloos: [Bloo]
     @Binding var selectedSpecies: BlooSpecies?

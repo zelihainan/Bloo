@@ -1,14 +1,5 @@
-//
-//  PrimaryButtonStyle.swift
-//  Bloo
-//
-
 import SwiftUI
 
-/// The filled capsule button used for every primary action (Get started /
-/// Continue / Save Habit) across the app — same look everywhere: solid
-/// `BlooTheme.primaryButtonBackground` (near-black) fill, white Poppins
-/// SemiBold text.
 struct PrimaryButtonStyle: ButtonStyle {
     var isEnabled: Bool = true
 
@@ -28,9 +19,6 @@ extension ButtonStyle where Self == PrimaryButtonStyle {
     static func bloo(isEnabled: Bool = true) -> PrimaryButtonStyle { PrimaryButtonStyle(isEnabled: isEnabled) }
 }
 
-/// The white, bordered capsule button for secondary/destructive actions
-/// (Delete Habit) — same treatment everywhere: white fill, `secondaryText`
-/// stroke and label.
 struct SecondaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -49,7 +37,6 @@ extension ButtonStyle where Self == SecondaryButtonStyle {
     static var blooSecondary: SecondaryButtonStyle { SecondaryButtonStyle() }
 }
 
-/// The white, bordered, rounded field/card look shared by text fields, note boxes, and rows.
 struct BlooFieldBackground: ViewModifier {
     func body(content: Content) -> some View {
         content

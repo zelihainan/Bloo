@@ -1,18 +1,6 @@
-//
-//  Bloo.swift
-//  Bloo
-//
-
 import Foundation
 import SwiftData
 
-/// Where a given species currently sits in its lifecycle.
-///
-/// Progression is purely sequential: the first 3 species start `.unlocked` (the
-/// player picks one to make `.active` during onboarding), the rest start `.locked`.
-/// When the `.active` Bloo reaches the completion threshold it becomes `.completed`
-/// and moves to the Collection, and the next species in `BlooSpecies` order is
-/// unlocked and auto-activated.
 enum BlooLifecycleState: String, Codable {
     case locked
     case unlocked
@@ -20,7 +8,6 @@ enum BlooLifecycleState: String, Codable {
     case completed
 }
 
-/// Growth stage while a Bloo is still active, derived from its XP.
 enum EvolutionStage: String, Codable, CaseIterable {
     case baby, young, adult
 
@@ -64,7 +51,6 @@ final class Bloo {
         set { stateRawValue = newValue.rawValue }
     }
 
-    /// `nil` once the Bloo has reached the completion threshold and left the growth cycle.
     var evolutionStage: EvolutionStage? {
         isCompleted ? nil : EvolutionStage(xp: xp)
     }
@@ -76,7 +62,6 @@ final class Bloo {
         return customName
     }
 
-    /// 0...1 progress within the *current* evolution stage, for the growth bar on Home.
     var stageProgress: Double {
         guard let stage = evolutionStage else { return 1 }
         let (lower, upper): (Int, Int) = switch stage {
@@ -89,7 +74,6 @@ final class Bloo {
 }
 
 extension Bloo {
-    /// Creates the 9 species rows on first launch (3 unlocked starters + 6 locked). No-op afterwards.
     @discardableResult
     static func bootstrapSpeciesIfNeeded(in context: ModelContext) -> Bool {
         let existingCount = (try? context.fetchCount(FetchDescriptor<Bloo>())) ?? 0

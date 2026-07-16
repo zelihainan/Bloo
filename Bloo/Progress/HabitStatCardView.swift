@@ -1,11 +1,3 @@
-//
-//  HabitStatCardView.swift
-//  Bloo
-//
-//  A single "Best habit" / "Needs attention" stat card — stacked vertically
-//  next to Monthly overview, rather than side by side.
-//
-
 import SwiftUI
 
 struct HabitStatCardView: View {

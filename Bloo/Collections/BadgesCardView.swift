@@ -1,13 +1,3 @@
-//
-//  BadgesCardView.swift
-//  Bloo
-//
-//  Values from the Figma REST API (node 16:15): outer card radius14 size(335,204);
-//  4x2 grid of 70x70 tiles (radius20, locked = #F5F5F5 fill instead of white);
-//  30x30 icon circle (radius18) per-badge pastel color with a literal emoji,
-//  title 7px medium #8A8278, 2-line description 5px medium #B0A898.
-//
-
 import SwiftUI
 
 struct BadgesCardView: View {

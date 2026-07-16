@@ -1,14 +1,3 @@
-//
-//  CharacterHabitatView.swift
-//  Bloo
-//
-//  A small pastel "mini scene" behind a Bloo's portrait: soft sky gradient,
-//  distant hills, a couple of drifting clouds, a round grass platform with
-//  rocks/flowers/plants, and a sprinkle of floating leaves + sparkles. Purely
-//  a decorative backdrop — the caller layers the character portrait on top,
-//  unchanged in position or size.
-//
-
 import SwiftUI
 
 struct CharacterHabitatView: View {
@@ -43,8 +32,6 @@ struct CharacterHabitatView: View {
             }
         }
     }
-
-    // MARK: - Sky layer
 
     private var hills: some View {
         ZStack {
@@ -102,8 +89,6 @@ struct CharacterHabitatView: View {
             .offset(y: animate ? -4 : 4)
             .offset(x: x, y: y)
     }
-
-    // MARK: - Platform
 
     private var platform: some View {
         ZStack {

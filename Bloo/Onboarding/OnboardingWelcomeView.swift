@@ -1,8 +1,3 @@
-//
-//  OnboardingWelcomeView.swift
-//  Bloo
-//
-
 import SwiftUI
 
 struct OnboardingWelcomeView: View {

@@ -1,15 +1,5 @@
-//
-//  TodayHabitsCardView.swift
-//  Bloo
-//
-//  Pixel values from Figma dev-mode (node 5:109): card padding, 33pt-tall
-//  habit pills with 16pt gaps, 18x18 checkboxes (radius 5, 1.5pt border), and
-//  the 151x43 "Add a habit" pill below the card.
-//
-
 import SwiftUI
 
-/// A one-off "+N XP" popup to float above the habit row that just earned it.
 struct HabitXPPopup: Identifiable, Equatable {
     let id = UUID()
     let habitID: UUID
@@ -18,8 +8,6 @@ struct HabitXPPopup: Identifiable, Equatable {
 
 struct TodayHabitsCardView: View {
     let habits: [Habit]
-    /// Total habits regardless of today's schedule — the 10-habit cap applies to
-    /// this, not to `habits.count` (which is just today's scheduled subset).
     let totalHabitCount: Int
     let isCompleted: (Habit) -> Bool
     let onToggle: (Habit) -> Void
@@ -126,9 +114,6 @@ struct TodayHabitsCardView: View {
                     .animation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.55), value: completed)
             }
             .buttonStyle(.pressable)
-            // The visible checkbox is 18x18 (matches Figma), but that's well
-            // under the 44x44 HIG minimum touch target — expand the tappable
-            // area without changing the drawn size or surrounding layout.
             .contentShape(Rectangle().inset(by: -13))
             .accessibilityLabel(Text(habit.name))
             .accessibilityValue(completed ? Text("Completed") : Text("Not completed"))
@@ -179,8 +164,6 @@ struct TodayHabitsCardView: View {
     }
 }
 
-/// Floats "+N XP" upward and fades out once, then holds its final state —
-/// the parent is responsible for clearing the popup after a short delay.
 private struct FloatingXPText: View {
     let amount: Int
     let color: Color

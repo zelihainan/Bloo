@@ -1,11 +1,5 @@
-//
-//  LanguagePickerSheet.swift
-//  Bloo
-//
-
 import SwiftUI
 
-/// A compact sheet with app-styled rows (not a bare system List, not a context menu).
 struct LanguagePickerSheet: View {
     @Binding var selectedLanguage: String
     @Environment(\.dismiss) private var dismiss

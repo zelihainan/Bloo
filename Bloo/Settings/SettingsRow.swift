@@ -1,21 +1,5 @@
-//
-//  SettingsRow.swift
-//  Bloo
-//
-//  Values from the Figma REST API (node 17:118): icon circle 30x30 radius8
-//  (a rounded square, not a circle) filled with the dynamic accent pastel;
-//  icon 15x15; title 10px medium — in the SECONDARY color, not primary;
-//  subtitle/trailing value 6px #B0A898; chevron '›' 13px #C8BFB4.
-//
-
 import SwiftUI
 
-/// One row inside a `SettingsSectionCard`: icon, title, optional subtitle, optional
-/// trailing content (a toggle, a value label, ...), optional chevron, optional tap action.
-///
-/// When `action` is nil the row isn't wrapped in a Button at all — nesting an
-/// interactive `trailing` control (like a toggle) inside a disabled Button
-/// would disable that control too.
 struct SettingsRow<Trailing: View>: View {
     let icon: String
     let title: String

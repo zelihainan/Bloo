@@ -1,12 +1,3 @@
-//
-//  HabitStreakCardView.swift
-//  Bloo
-//
-//  161x182 card (Figma node 10:239, Rectangle 66/99) — the bottom-right of
-//  Progress's 2x2 stat grid. Habit name 8px, day count 7px in the accent's
-//  darkened ("completed") tier, not plain accent; bar itself IS plain accent.
-//
-
 import SwiftUI
 
 struct HabitStreakRow: Identifiable {
@@ -15,7 +6,6 @@ struct HabitStreakRow: Identifiable {
     var id: UUID { habit.id }
 }
 
-/// "Habit streak" card: each habit's current streak with a bar scaled to the longest streak.
 struct HabitStreakCardView: View {
     let rows: [HabitStreakRow]
     let accentColor: Color

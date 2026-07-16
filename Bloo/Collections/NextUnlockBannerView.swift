@@ -1,17 +1,5 @@
-//
-//  NextUnlockBannerView.swift
-//  Bloo
-//
-//  Values from the Figma REST API (node 16:15): card radius14 size(335,64),
-//  55x55 portrait, title 13px semibold, subtitle 9px SEMIBOLD (not regular)
-//  #B0A898, progress bar height4 filled BLACK (not accent), 15x15 lock badge.
-//
-
 import SwiftUI
 
-/// "Next unlock!" banner: the next locked species, with progress toward it
-/// driven by how close the active Bloo is to finishing its growth (since
-/// unlocking is purely sequential — see BlooSpecies.next).
 struct NextUnlockBannerView: View {
     let nextLockedBloo: Bloo
     let activeBloo: Bloo?

@@ -1,10 +1,3 @@
-//
-//  MainTabView.swift
-//  Bloo
-//
-//  Native TabView — renders iOS 26's default Liquid Glass tab bar automatically.
-//
-
 import SwiftUI
 
 struct MainTabView: View {
