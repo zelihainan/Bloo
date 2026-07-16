@@ -11,6 +11,7 @@ struct NameBlooView: View {
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showConfetti = false
+    @FocusState private var isNameFieldFocused: Bool
 
     private var trimmedName: String { name.trimmingCharacters(in: .whitespacesAndNewlines) }
 
@@ -46,6 +47,9 @@ struct NameBlooView: View {
                 .padding(.vertical, 16)
                 .padding(.horizontal, 20)
                 .blooFieldBackground()
+                .focused($isNameFieldFocused)
+                .submitLabel(.done)
+                .onSubmit { isNameFieldFocused = false }
                 .onChange(of: name) { _, newValue in
                     if newValue.count > nameCharacterLimit {
                         name = String(newValue.prefix(nameCharacterLimit))

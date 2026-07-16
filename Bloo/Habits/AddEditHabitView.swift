@@ -21,6 +21,12 @@ struct AddEditHabitView: View {
     @State private var showsDeleteConfirmation = false
     @State private var isSaving = false
 
+    private enum Field: Hashable {
+        case name
+        case note
+    }
+    @FocusState private var focusedField: Field?
+
     private let nameCharacterLimit = 40
     private let noteCharacterLimit = 80
 
@@ -67,6 +73,9 @@ struct AddEditHabitView: View {
                         .padding(.vertical, 14)
                         .padding(.horizontal, 18)
                         .blooFieldBackground()
+                        .focused($focusedField, equals: .name)
+                        .submitLabel(.done)
+                        .onSubmit { focusedField = nil }
                         .onChange(of: name) { _, newValue in
                             if newValue.count > nameCharacterLimit {
                                 name = String(newValue.prefix(nameCharacterLimit))
@@ -93,6 +102,7 @@ struct AddEditHabitView: View {
                             .frame(height: 70)
                             .padding(10)
                             .padding(.bottom, 16)
+                            .focused($focusedField, equals: .note)
                             .onChange(of: note) { _, newValue in
                                 if newValue.count > noteCharacterLimit {
                                     note = String(newValue.prefix(noteCharacterLimit))
@@ -140,6 +150,13 @@ struct AddEditHabitView: View {
             .padding(.bottom, 32)
         }
         .background(BlooTheme.background)
+        .scrollDismissesKeyboard(.interactively)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("Done") { focusedField = nil }
+            }
+        }
         .alert("Delete this habit?", isPresented: $showsDeleteConfirmation) {
             Button("Cancel", role: .cancel) {}
             Button("Delete", role: .destructive) {
