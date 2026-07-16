@@ -69,25 +69,45 @@ struct BlooArtworkView: View {
     }
 }
 
-/// The onboarding egg, with a frequent hatching-anticipation wobble and a
-/// burst of gold sparkles each time it shakes — something inside is clearly
-/// trying to get out.
+/// The onboarding egg, with a frequent hatching-anticipation wobble and gold
+/// sparkles/stars that twinkle continuously and independently around it —
+/// something inside is clearly trying to get out, non-stop.
 struct EggArtworkView: View {
     var size: CGFloat = 220
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var rotation: Double = 0
-    @State private var sparkleBurst = false
 
-    private let gold = Color(hex: "#FFB020")
+    private struct SparkleSpec {
+        let dx: CGFloat
+        let dy: CGFloat
+        let symbolSize: CGFloat
+        let symbol: String
+        let duration: Double
+        let delay: Double
+    }
+
+    private let sparkles: [SparkleSpec] = [
+        .init(dx: -0.40, dy: -0.34, symbolSize: 14, symbol: "sparkle", duration: 0.7, delay: 0.0),
+        .init(dx: 0.40, dy: -0.22, symbolSize: 11, symbol: "star.fill", duration: 0.9, delay: 0.15),
+        .init(dx: -0.32, dy: 0.18, symbolSize: 9, symbol: "star.fill", duration: 0.65, delay: 0.35),
+        .init(dx: 0.36, dy: 0.26, symbolSize: 13, symbol: "sparkle", duration: 0.85, delay: 0.05),
+        .init(dx: 0.04, dy: -0.46, symbolSize: 10, symbol: "star.fill", duration: 0.75, delay: 0.25),
+        .init(dx: -0.10, dy: 0.42, symbolSize: 8, symbol: "sparkle", duration: 0.8, delay: 0.45),
+        .init(dx: -0.44, dy: 0.02, symbolSize: 9, symbol: "star.fill", duration: 0.7, delay: 0.55),
+    ]
 
     var body: some View {
         ZStack {
-            sparkle(dx: -0.36, dy: -0.32, symbolSize: 15, symbol: "sparkle")
-            sparkle(dx: 0.38, dy: -0.20, symbolSize: 11, symbol: "star.fill")
-            sparkle(dx: -0.30, dy: 0.18, symbolSize: 9, symbol: "star.fill")
-            sparkle(dx: 0.34, dy: 0.24, symbolSize: 13, symbol: "sparkle")
-            sparkle(dx: 0.02, dy: -0.44, symbolSize: 10, symbol: "star.fill")
+            ForEach(Array(sparkles.enumerated()), id: \.offset) { _, spec in
+                TwinklingSparkle(
+                    dx: spec.dx, dy: spec.dy,
+                    symbolSize: spec.symbolSize, symbol: spec.symbol,
+                    containerSize: size,
+                    duration: spec.duration, delay: spec.delay,
+                    reduceMotion: reduceMotion
+                )
+            }
 
             Image("onboarding_egg")
                 .resizable()
@@ -98,33 +118,49 @@ struct EggArtworkView: View {
         .task {
             guard !reduceMotion else { return }
             while !Task.isCancelled {
-                try? await Task.sleep(for: .seconds(.random(in: 1.0...1.8)))
+                try? await Task.sleep(for: .seconds(.random(in: 0.5...0.9)))
                 guard !Task.isCancelled else { break }
                 await wobble()
             }
         }
     }
 
-    private func sparkle(dx: CGFloat, dy: CGFloat, symbolSize: CGFloat, symbol: String) -> some View {
-        Image(systemName: symbol)
-            .font(.system(size: symbolSize))
-            .foregroundStyle(gold)
-            .scaleEffect(sparkleBurst ? 1 : 0.2)
-            .opacity(sparkleBurst ? 0.95 : 0)
-            .offset(x: size * dx, y: size * dy)
-    }
-
     private func wobble() async {
-        withAnimation(.easeOut(duration: 0.16)) { sparkleBurst = true }
-
         let steps: [Double] = [-7, 6, -5, 4, -3, 2, 0]
         for angle in steps {
             guard !Task.isCancelled else { return }
-            withAnimation(.easeInOut(duration: 0.08)) { rotation = angle }
-            try? await Task.sleep(for: .seconds(0.08))
+            withAnimation(.easeInOut(duration: 0.07)) { rotation = angle }
+            try? await Task.sleep(for: .seconds(0.07))
         }
+    }
+}
 
-        guard !Task.isCancelled else { return }
-        withAnimation(.easeIn(duration: 0.45)) { sparkleBurst = false }
+/// A single gold spark that twinkles on its own continuous, staggered loop —
+/// never fully pausing, independent of the egg's wobble.
+private struct TwinklingSparkle: View {
+    let dx: CGFloat
+    let dy: CGFloat
+    let symbolSize: CGFloat
+    let symbol: String
+    let containerSize: CGFloat
+    let duration: Double
+    let delay: Double
+    let reduceMotion: Bool
+
+    @State private var twinkle = false
+
+    var body: some View {
+        Image(systemName: symbol)
+            .font(.system(size: symbolSize))
+            .foregroundStyle(Color(hex: "#FFB020"))
+            .scaleEffect(twinkle ? 1 : 0.35)
+            .opacity(twinkle ? 1 : 0.25)
+            .offset(x: containerSize * dx, y: containerSize * dy)
+            .onAppear {
+                guard !reduceMotion else { return }
+                withAnimation(.easeInOut(duration: duration).repeatForever(autoreverses: true).delay(delay)) {
+                    twinkle = true
+                }
+            }
     }
 }

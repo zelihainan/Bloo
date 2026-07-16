@@ -17,6 +17,7 @@ struct HomeView: View {
     @State private var showsNameSheet = false
     @State private var newlyEarnedBadge: BadgeType?
     @AppStorage(AppStorageKey.dailyRemindersEnabled) private var dailyRemindersEnabled = true
+    @AppStorage(AppStorageKey.appLanguage) private var appLanguage = "en"
 
     // Re-read explicitly (not a bare `Date()` in each computed property) so a
     // day boundary crossed while the app stays open and foregrounded — no
@@ -51,11 +52,15 @@ struct HomeView: View {
         return Color(hex: activeBloo.species.colorHex)
     }
 
+    private var motivationalSubtitle: String {
+        DailyMotivation.quote(for: now, languageCode: appLanguage)
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    HomeHeaderView(greeting: greeting, subtitle: "Let's build great habits together.", dayNumber: dayNumber, accentColor: accentColor)
+                    HomeHeaderView(greeting: greeting, subtitle: motivationalSubtitle, dayNumber: dayNumber, accentColor: accentColor)
 
                     if let activeBloo {
                         Spacer().frame(height: 27)

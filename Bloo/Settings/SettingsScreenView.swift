@@ -32,10 +32,6 @@ struct SettingsScreenView: View {
     @State private var isSystemAuthorized = true
     @Environment(\.scenePhase) private var scenePhase
 
-    private var versionString: String {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
-    }
-
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -92,33 +88,8 @@ struct SettingsScreenView: View {
                         SettingsRow(icon: "info.circle", title: "About") {
                             showsAbout = true
                         }
-                        divider
-                        SettingsRow(icon: "number", title: "Version", showsChevron: false, trailing: {
-                            trailingValue(versionString)
-                        })
                     }
                     .padding(.horizontal, 28)
-
-                    #if DEBUG
-                    SettingsSectionCard(title: "Developer Tools") {
-                        SettingsRow(icon: "arrow.counterclockwise", title: "Reset onboarding", showsChevron: false) {
-                            DevTools.resetOnboarding(context: modelContext)
-                        }
-                        divider
-                        SettingsRow(icon: "wand.and.stars", title: "Force-evolve active Bloo", showsChevron: false) {
-                            DevTools.forceEvolveActiveBloo(context: modelContext)
-                        }
-                        divider
-                        SettingsRow(icon: "rosette", title: "Unlock all badges", showsChevron: false) {
-                            DevTools.unlockAllBadges(context: modelContext)
-                        }
-                        divider
-                        SettingsRow(icon: "rosette", title: "Reset badges", showsChevron: false) {
-                            DevTools.resetBadges(context: modelContext)
-                        }
-                    }
-                    .padding(.horizontal, 28)
-                    #endif
                 }
                 .padding(.bottom, 24)
             }

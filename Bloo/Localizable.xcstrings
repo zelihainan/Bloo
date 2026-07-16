@@ -221,7 +221,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktif dost"
+            "value" : "Aktif Bloo"
           }
         }
       }
@@ -402,7 +402,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alışkanlıklar oluştur, birlikte büyüyün."
+            "value" : "Alışkanlıklar oluştur. Büyümesini izle."
           }
         }
       }
@@ -2110,7 +2110,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bugünün alışkanlıkları"
+            "value" : "Günün alışkanlıkları"
           }
         }
       }
