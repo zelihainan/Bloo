@@ -98,11 +98,13 @@ struct AddEditHabitView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Note (Optional)").font(.bloo(13)).foregroundStyle(.secondary)
                     ZStack(alignment: .bottomTrailing) {
-                        TextEditor(text: $note)
-                            .frame(height: 70)
+                        TextField("", text: $note, axis: .vertical)
+                            .lineLimit(3...6)
                             .padding(10)
-                            .padding(.bottom, 16)
+                            .padding(.trailing, 40)
                             .focused($focusedField, equals: .note)
+                            .submitLabel(.done)
+                            .onSubmit { focusedField = nil }
                             .onChange(of: note) { _, newValue in
                                 if newValue.count > noteCharacterLimit {
                                     note = String(newValue.prefix(noteCharacterLimit))
@@ -151,12 +153,6 @@ struct AddEditHabitView: View {
         }
         .background(BlooTheme.background)
         .scrollDismissesKeyboard(.interactively)
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button("Done") { focusedField = nil }
-            }
-        }
         .alert("Delete this habit?", isPresented: $showsDeleteConfirmation) {
             Button("Cancel", role: .cancel) {}
             Button("Delete", role: .destructive) {

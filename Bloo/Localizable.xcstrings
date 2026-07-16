@@ -8,7 +8,6 @@
 
     },
     "/ 7 days" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -607,7 +606,6 @@
       }
     },
     "completed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2301,7 +2299,6 @@
       }
     },
     "XP earned!" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2313,22 +2310,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "XP kazanıldı!"
-          }
-        }
-      }
-    },
-    "your Bloo" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "your Bloo"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloo'n"
           }
         }
       }
@@ -2345,6 +2326,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d alışkanlık sınırına ulaştın"
+          }
+        }
+      }
+    },
+    "your Bloo" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "your Bloo"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloo'n"
           }
         }
       }
