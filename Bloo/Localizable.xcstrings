@@ -2317,6 +2317,22 @@
         }
       }
     },
+    "your Bloo" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "your Bloo"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloo'n"
+          }
+        }
+      }
+    },
     "You've reached the %d-habit limit" : {
       "localizations" : {
         "en" : {

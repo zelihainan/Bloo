@@ -25,6 +25,7 @@ struct TodayHabitsCardView: View {
         VStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 0) {
                 Text("Today's habits")
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .font(.bloo(18, weight: .semibold))
                     .foregroundStyle(BlooTheme.primaryText)
                     .padding(.horizontal, 20)

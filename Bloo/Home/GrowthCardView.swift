@@ -4,18 +4,32 @@ struct GrowthCardView: View {
     let bloo: Bloo
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var displayedSpecies: BlooSpecies
 
     private var accentColor: Color { Color(hex: bloo.species.colorHex) }
+
+    init(bloo: Bloo) {
+        self.bloo = bloo
+        _displayedSpecies = State(initialValue: bloo.species)
+    }
 
     var body: some View {
         VStack(spacing: 10) {
             ZStack {
-                CharacterHabitatView(speciesHex: bloo.species.colorHex)
-                AnimatedBlooPortraitView(species: bloo.species)
+                CharacterHabitatView(speciesHex: displayedSpecies.colorHex)
+                AnimatedBlooPortraitView(species: displayedSpecies)
             }
-            .id(bloo.species)
+            .id(displayedSpecies)
             .transition(.opacity)
-            .animation(reduceMotion ? nil : .easeInOut(duration: 0.4), value: bloo.species)
+            .onChange(of: bloo.species) { _, newValue in
+                if reduceMotion {
+                    displayedSpecies = newValue
+                } else {
+                    withAnimation(.easeInOut(duration: 0.4)) {
+                        displayedSpecies = newValue
+                    }
+                }
+            }
 
             VStack(spacing: 6) {
                 ZStack(alignment: .leading) {

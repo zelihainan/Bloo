@@ -66,7 +66,7 @@ struct ProgressScreenView: View {
                     .font(.bloo(28))
                     .foregroundStyle(BlooTheme.primaryText)
                 Spacer().frame(height: 86 - 47.5 - 28)
-                Text(String(format: NSLocalizedString("See how far %@ has grown!", comment: ""), activeBloo?.displayName ?? "your Bloo"))
+                Text(String(format: NSLocalizedString("See how far %@ has grown!", comment: ""), activeBloo?.displayName ?? NSLocalizedString("your Bloo", comment: "")))
                     .font(.bloo(13))
                     .foregroundStyle(BlooTheme.secondaryText)
                     .lineLimit(1)

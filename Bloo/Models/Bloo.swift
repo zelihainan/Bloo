@@ -58,7 +58,7 @@ final class Bloo {
     var isCompleted: Bool { xp >= XPCalculator.completionThreshold }
 
     var displayName: String {
-        guard let customName, !customName.isEmpty else { return "your Bloo" }
+        guard let customName, !customName.isEmpty else { return NSLocalizedString("your Bloo", comment: "") }
         return customName
     }
 

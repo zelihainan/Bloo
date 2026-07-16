@@ -46,7 +46,7 @@ struct WeeklySummaryCardView: View {
         )
     }
 
-    private func statBlock(value: String, suffix: String?, caption: String) -> some View {
+    private func statBlock(value: String, suffix: LocalizedStringKey?, caption: LocalizedStringKey) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack(alignment: .firstTextBaseline, spacing: 4) {
                 Text(value)

@@ -39,6 +39,7 @@ struct NameBlooView: View {
                     .padding(.horizontal, 22)
                 AnimatedBlooPortraitView(species: species, size: 190)
             }
+            .transaction { $0.animation = nil }
 
             Spacer()
 

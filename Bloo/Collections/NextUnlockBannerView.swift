@@ -13,7 +13,7 @@ struct NextUnlockBannerView: View {
                 Text("Next unlock!")
                     .font(.bloo(15, weight: .semibold))
                     .foregroundStyle(BlooTheme.primaryText)
-                Text(String(format: NSLocalizedString("Help %@ finish growing to unlock", comment: ""), activeBloo?.displayName ?? "your Bloo"))
+                Text(String(format: NSLocalizedString("Help %@ finish growing to unlock", comment: ""), activeBloo?.displayName ?? NSLocalizedString("your Bloo", comment: "")))
                     .font(.bloo(11, weight: .medium))
                     .foregroundStyle(BlooTheme.tertiaryText)
                     .lineLimit(2)
